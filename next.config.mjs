@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+
 const nextConfig = {
   eslint: {
     ignoreDuringBuilds: true,
@@ -9,6 +10,8 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-}
+  output: "standalone",
+  transpilePackages: ["@t3-oss/env-nextjs", "@t3-oss/env-core"],
+};
 
-export default nextConfig
+export default nextConfig;
