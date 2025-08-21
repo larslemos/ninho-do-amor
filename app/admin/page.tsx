@@ -1,3 +1,5 @@
+// app/admin/page.tsx
+
 "use client"
 
 import PlatformHeader from "@/components/PlatformHeader"
@@ -33,11 +35,10 @@ export default function AdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 py-4 px-6 text-center font-medium transition-colors border-b-2 ${
-                  activeTab === tab.id
+                className={`flex-1 py-4 px-6 text-center font-medium transition-colors border-b-2 ${activeTab === tab.id
                     ? "text-rose-600 border-rose-600 bg-rose-50"
                     : "text-gray-500 border-transparent hover:text-gray-700 hover:bg-gray-50"
-                }`}
+                  }`}
               >
                 <tab.icon className="w-5 h-5 inline mr-2" />
                 {tab.label}

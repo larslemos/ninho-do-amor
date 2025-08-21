@@ -1,19 +1,22 @@
+//ninho-do-amor/components/admin/GuestManagement.tsx
+
 "use client"
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { Plus, Upload, Download, Search, Edit, Trash2, Users, CheckCircle, XCircle, Clock, Mail, MessageSquare, Copy, ExternalLink, AlertTriangle, Info } from 'lucide-react'
+import { Plus, Upload, Download, Search, Edit, Trash2, Users, CheckCircle, XCircle, Clock, Mail, MessageSquare, Copy, ExternalLink, AlertTriangle, Info, MessageCircle } from 'lucide-react'
 import { useToast } from "@/hooks/use-toast"
 import EmailTemplateSelector from "./EmailTemplateSelector"
 import type { EmailTemplateType } from "@/lib/email-templates"
 import { TrendingUp, BarChart3, PieChart } from 'lucide-react'
+import { env } from "@/env"
 
 interface Guest {
   id: string
   nome: string
   telefone?: string
-  phone?: string // fallback field name
-  telephone?: string // another fallback
+  phone?: string
+  telephone?: string
   email?: string
   status: "pending" | "confirmed" | "rejected"
   mesa?: string
@@ -40,7 +43,6 @@ export default function GuestManagement() {
 
   useEffect(() => {
     fetchGuests()
-    // Show email domain info
     setEmailInfo("Emails são enviados usando o domínio padrão do Resend (onboarding@resend.dev)")
   }, [])
 
@@ -177,37 +179,29 @@ export default function GuestManagement() {
       if (response.ok) {
         toast({
           variant: "success",
-          title: "Email Enviado! 💌",
-          description: `${data.template_used === "wedding-invitation" ? "Convite" : "Email"} enviado com sucesso!`,
+          title: "Enviado! 💌",
+          description: `${data.template_used === "wedding-invitation" ? "Convite" : "Mensagem"} enviado com sucesso!`,
         })
         await fetchGuests()
         setShowTemplateSelector(false)
         setSelectedGuestForEmail(null)
       } else {
-        let errorMessage = data.error || "Erro ao enviar email"
+        let errorMessage = data.error || "Erro ao enviar notificação"
         if (data.details) {
           errorMessage += ` (${data.details})`
         }
-
         toast({
           variant: "destructive",
           title: "Erro ao Enviar",
           description: errorMessage,
         })
-
-        if (data.error?.includes("autorização")) {
-          toast({
-            title: "Informação sobre Email",
-            description: "Emails são enviados usando o domínio padrão do Resend. Verifique se o API key está correto.",
-          })
-        }
       }
     } catch (error) {
       console.error("Error sending invitation:", error)
       toast({
         variant: "destructive",
         title: "Erro",
-        description: "Erro ao enviar email",
+        description: "Erro ao enviar notificação",
       })
     } finally {
       setSendingInvitation(null)
@@ -215,7 +209,7 @@ export default function GuestManagement() {
   }
 
   const copyGuestUrl = async (guest: Guest) => {
-    const baseUrl = "https://v0-ninho-do-amor.vercel.app"
+    const baseUrl = env.NEXT_PUBLIC_BASE_URL || "https://pingdigital.online"
     const guestUrl = `${baseUrl}/assaeluterio/convidados/${guest.unique_url || guest.token}`
 
     try {
@@ -236,9 +230,83 @@ export default function GuestManagement() {
   }
 
   const openGuestPage = (guest: Guest) => {
-    const baseUrl = "https://v0-ninho-do-amor.vercel.app"
+    const baseUrl = env.NEXT_PUBLIC_BASE_URL || "https://pingdigital.online"
     const guestUrl = `${baseUrl}/assaeluterio/convidados/${guest.unique_url || guest.token}`
     window.open(guestUrl, "_blank")
+  }
+
+  const handleSendWhatsApp = (guest: Guest) => {
+    const phoneNumber = getPhoneNumber(guest)
+    if (!phoneNumber) {
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Número de telefone não disponível para este convidado",
+      })
+      return
+    }
+
+    // Format phone number: remove spaces, dashes, and ensure + prefix
+    const formattedPhone = phoneNumber.replace(/[\s()-]/g, "").replace(/^(\+?)/, "+")
+
+    // Validate phone number (basic check for digits and +)
+    if (!/^\+\d{9,15}$/.test(formattedPhone)) {
+      toast({
+        variant: "destructive",
+        title: "Erro",
+        description: "Número de telefone inválido. Verifique o formato (ex: +258841234567)",
+      })
+      return
+    }
+
+    const baseUrl = env.NEXT_PUBLIC_BASE_URL || "https://pingdigital.online"
+
+    // const message = `Olá ${guest.nome}! 😊\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. 👰💍🤵\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`
+
+    const emojis = {
+      smile: "\u{1F60A}", // 😊
+      bride: "\u{1F470}", // 👰
+      ring: "\u{1F48D}", // 💍
+      groom: "\u{1F935}", // 🤵
+    }
+
+    // Construct message with Unicode emojis
+    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`
+
+    // Encode message, ensuring UTF-8 compatibility
+    let encodedMessage
+    try {
+      encodedMessage = encodeURIComponent(message)
+      console.log("Encoded message:", encodedMessage)
+    } catch (error) {
+      console.error("Error encoding message:", error)
+      // Fallback: Replace emojis with text
+      const fallbackMessage = `Olá ${guest.nome}! :)\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`
+      encodedMessage = encodeURIComponent(fallbackMessage)
+      console.log("Fallback encoded message:", encodedMessage)
+      toast({
+        variant: "destructive",
+        title: "Aviso",
+        description: "Emojis não suportados. Usando texto alternativo.",
+      })
+    }
+
+    // Construct WhatsApp URL
+    const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`
+
+    // Log final URL for debugging
+    console.log("WhatsApp URL:", whatsappUrl)
+
+
+    // const encodedMessage = encodeURIComponent(message)
+    // const whatsappUrl = `https://wa.me/${formattedPhone}?text=${encodedMessage}`
+
+    window.open(whatsappUrl, "_blank")
+    toast({
+      variant: "success",
+      title: "WhatsApp Aberto! 📱",
+      description: "Mensagem de convite preparada no WhatsApp",
+    })
   }
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -445,20 +513,20 @@ export default function GuestManagement() {
               Ver Relatório Completo
             </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="text-center p-4 bg-blue-50 rounded-lg">
               <TrendingUp className="w-8 h-8 text-blue-600 mx-auto mb-2" />
               <div className="text-2xl font-bold text-blue-900">{Math.round((stats.confirmed / stats.total) * 100)}%</div>
               <div className="text-sm text-blue-700">Taxa de Confirmação</div>
             </div>
-            
+
             <div className="text-center p-4 bg-green-50 rounded-lg">
               <PieChart className="w-8 h-8 text-green-600 mx-auto mb-2" />
               <div className="text-2xl font-bold text-green-900">3.2</div>
               <div className="text-sm text-green-700">Dias Médios de Resposta</div>
             </div>
-            
+
             <div className="text-center p-4 bg-purple-50 rounded-lg">
               <BarChart3 className="w-8 h-8 text-purple-600 mx-auto mb-2" />
               <div className="text-2xl font-bold text-purple-900">{Math.round((stats.invitationsSent / stats.total) * 100)}%</div>
@@ -478,7 +546,7 @@ export default function GuestManagement() {
               placeholder="Buscar convidados..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+              className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 font-quicksand"
             />
           </div>
         </div>
@@ -487,7 +555,7 @@ export default function GuestManagement() {
           <button
             onClick={() => setShowAddModal(true)}
             disabled={!!schemaError}
-            className="flex items-center gap-2 bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors font-josefin"
           >
             <Plus className="w-4 h-4" />
             Adicionar
@@ -503,7 +571,7 @@ export default function GuestManagement() {
           <button
             onClick={() => fileInputRef.current?.click()}
             disabled={!!schemaError}
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 text-white px-4 py-2 rounded-lg transition-colors font-josefin"
           >
             <Upload className="w-4 h-4" />
             Upload Excel
@@ -511,7 +579,7 @@ export default function GuestManagement() {
 
           <button
             onClick={exportToCSV}
-            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors font-josefin"
           >
             <Download className="w-4 h-4" />
             Exportar
@@ -525,20 +593,22 @@ export default function GuestManagement() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
                   Convidado
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
                   Contato
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
                   Status
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Mesa</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
+                  Mesa
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
                   Convite
                 </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider font-josefin">
                   Ações
                 </th>
               </tr>
@@ -550,27 +620,27 @@ export default function GuestManagement() {
                   <tr key={guest.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div>
-                        <div className="text-sm font-medium text-gray-900">{guest.nome}</div>
-                        <div className="text-sm text-gray-500">ID: {guest.unique_url || guest.token}</div>
+                        <div className="text-sm font-medium text-gray-900 font-quicksand">{guest.nome}</div>
+                        <div className="text-sm text-gray-500 font-quicksand">ID: {guest.unique_url || guest.token}</div>
                       </div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm text-gray-900">{phoneNumber}</div>
-                      {guest.email && <div className="text-sm text-gray-500">{guest.email}</div>}
+                      <div className="text-sm text-gray-900 font-quicksand">{phoneNumber}</div>
+                      {guest.email && <div className="text-sm text-gray-500 font-quicksand">{guest.email}</div>}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         {getStatusIcon(guest.status)}
-                        <span className="text-sm text-gray-900">{getStatusText(guest.status)}</span>
+                        <span className="text-sm text-gray-900 font-quicksand">{getStatusText(guest.status)}</span>
                       </div>
                     </td>
-                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{guest.mesa || "-"}</td>
+                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-quicksand">{guest.mesa || "-"}</td>
                     <td className="px-6 py-4 whitespace-nowrap">
                       <div className="flex items-center gap-2">
                         {guest.invitation_sent_at ? (
-                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full">Enviado</span>
+                          <span className="text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full font-quicksand">Enviado</span>
                         ) : (
-                          <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full">Não enviado</span>
+                          <span className="text-xs bg-gray-100 text-gray-800 px-2 py-1 rounded-full font-quicksand">Não enviado</span>
                         )}
                       </div>
                     </td>
@@ -578,14 +648,14 @@ export default function GuestManagement() {
                       <div className="flex gap-1">
                         <button
                           onClick={() => copyGuestUrl(guest)}
-                          className="text-blue-600 hover:text-blue-900 p-1"
+                          className="text-blue-600 hover:text-blue-900 p-1 animate-in slide-in-from-right duration-300"
                           title="Copiar link do convite"
                         >
                           <Copy className="w-4 h-4" />
                         </button>
                         <button
                           onClick={() => openGuestPage(guest)}
-                          className="text-green-600 hover:text-green-900 p-1"
+                          className="text-green-600 hover:text-green-900 p-1 animate-in slide-in-from-right duration-300"
                           title="Abrir página do convidado"
                         >
                           <ExternalLink className="w-4 h-4" />
@@ -597,7 +667,7 @@ export default function GuestManagement() {
                               setShowTemplateSelector(true)
                             }}
                             disabled={sendingInvitation === guest.id}
-                            className="text-purple-600 hover:text-purple-900 p-1 disabled:opacity-50"
+                            className="text-purple-600 hover:text-purple-900 p-1 disabled:opacity-50 animate-in slide-in-from-right duration-300"
                             title="Enviar email"
                           >
                             {sendingInvitation === guest.id ? (
@@ -609,18 +679,29 @@ export default function GuestManagement() {
                         )}
                         {phoneNumber && (
                           <button
+                            onClick={() => handleSendWhatsApp(guest)}
+                            disabled={sendingInvitation === guest.id}
+                            className="text-whatsapp-600 hover:text-whatsapp-900 p-1 disabled:opacity-50 animate-in slide-in-from-right duration-300"
+                            title="Enviar por WhatsApp"
+                            aria-label={`Enviar convite por WhatsApp para ${guest.nome}`}
+                          >
+                            <img src="/icons/whatsapp_icon.svg" alt="WhatsApp" className="w-6 h-6" />
+                          </button>
+                        )}
+                        {phoneNumber && (
+                          <button
                             onClick={() => handleSendInvitation(guest.id, "sms")}
                             disabled={sendingInvitation === guest.id}
-                            className="text-orange-600 hover:text-orange-900 p-1 disabled:opacity-50"
+                            className="text-orange-600 hover:text-orange-900 p-1 disabled:opacity-50 animate-in slide-in-from-right duration-300"
                             title="Enviar por SMS"
                           >
                             <MessageSquare className="w-4 h-4" />
                           </button>
                         )}
-                        <button className="text-blue-600 hover:text-blue-900 p-1" title="Editar">
+                        <button className="text-blue-600 hover:text-blue-900 p-1 animate-in slide-in-from-right duration-300" title="Editar">
                           <Edit className="w-4 h-4" />
                         </button>
-                        <button className="text-red-600 hover:text-red-900 p-1" title="Excluir">
+                        <button className="text-red-600 hover:text-red-900 p-1 animate-in slide-in-from-right duration-300" title="Excluir">
                           <Trash2 className="w-4 h-4" />
                         </button>
                       </div>
@@ -638,38 +719,38 @@ export default function GuestManagement() {
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
           <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
             <div className="p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Adicionar Novo Convidado</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4 font-josefin">Adicionar Novo Convidado</h3>
 
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nome Completo</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 font-quicksand">Nome Completo</label>
                   <input
                     type="text"
                     value={newGuest.nome}
                     onChange={(e) => setNewGuest({ ...newGuest, nome: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 font-quicksand"
                     placeholder="Ex: João Silva"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Telefone</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 font-quicksand">Telefone</label>
                   <input
                     type="tel"
                     value={newGuest.telefone}
                     onChange={(e) => setNewGuest({ ...newGuest, telefone: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 font-quicksand"
                     placeholder="Ex: +258 84 123 4567"
                   />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Email (opcional)</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1 font-quicksand">Email (opcional)</label>
                   <input
                     type="email"
                     value={newGuest.email}
                     onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500 font-quicksand"
                     placeholder="Ex: joao@example.com"
                   />
                 </div>
@@ -678,13 +759,13 @@ export default function GuestManagement() {
               <div className="flex gap-3 mt-6">
                 <button
                   onClick={handleAddGuest}
-                  className="flex-1 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  className="flex-1 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg transition-colors font-josefin"
                 >
                   Adicionar
                 </button>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg transition-colors"
+                  className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg transition-colors font-josefin"
                 >
                   Cancelar
                 </button>
@@ -693,6 +774,7 @@ export default function GuestManagement() {
           </div>
         </div>
       )}
+
       {/* Email Template Selector Modal */}
       {showTemplateSelector && selectedGuestForEmail && (
         <EmailTemplateSelector
