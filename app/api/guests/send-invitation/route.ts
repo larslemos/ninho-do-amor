@@ -7,7 +7,8 @@ import {
   type EmailTemplateType,
 } from "@/lib/email-templates";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = new Resend("re_2PmdSzyn_ADsepjenqoiJo4bxkQ8CJsxs");
 
 export async function POST(request: NextRequest) {
   try {
