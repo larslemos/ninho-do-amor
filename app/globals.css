@@ -3,6 +3,49 @@
 
 @custom-variant dark (&:is(.dark *));
 
+
+.font-josefin {
+  font-family: 'Josefin Sans', sans-serif;
+}
+
+.font-quicksand {
+  font-family: 'Quicksand', sans-serif;
+}
+.spinner {
+  border: 4px solid rgba(233, 190, 93, 0.2);
+  border-top: 4px solid #E9BE5D;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.floral-bg {
+  background-image: url('/images/floral-pattern.svg');
+  background-size: 80px;
+  background-position: top right;
+  background-repeat: no-repeat;
+  opacity: 0.1;
+}
+
+:root {
+  --whatsapp-600: #25D366;
+  --whatsapp-900: #1DA851;
+}
+.dark {
+  --whatsapp-600: #2BE76C;
+  --whatsapp-900: #24C25F;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -160,4 +203,12 @@
 
 .pulse-ring {
   animation: pulse-ring 2s infinite;
+}
+
+.place-card {
+  animation: fadeIn 0.5s ease-in;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }

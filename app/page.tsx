@@ -1,3 +1,5 @@
+// app/page.tsx
+
 "use client"
 
 import WeddingHero from "@/components/WeddingHero"
@@ -97,7 +99,7 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
-      <div className="flex flex-col items-center justify-center py-8 px-4">
+      <div className="flex flex-col items-center justify-center py-9 px-6">
         {/* Audio Control */}
         <AudioControl />
 

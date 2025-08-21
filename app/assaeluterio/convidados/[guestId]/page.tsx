@@ -1,9 +1,12 @@
+// app/assaeluterio/convidados/[guestId]/page.tsx
+
 "use client"
 
 import { useEffect, useState } from "react"
 import { useParams, useRouter } from "next/navigation"
 import Link from "next/link"
 import { Mail, Calendar, MapPin, Heart, ArrowRight, Copy, CheckCircle } from "lucide-react"
+import { env } from "@/env"
 
 interface GuestData {
   id: string
@@ -12,7 +15,7 @@ interface GuestData {
   status: string
   mesa?: string
   unique_url: string
-  token: string // Make sure we have the token field
+  token: string
   rsvp_deadline?: string
 }
 
@@ -24,11 +27,15 @@ export default function GuestInvitationPage() {
   const [guest, setGuest] = useState<GuestData | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [warning, setWarning] = useState<string | null>(null)
   const [copied, setCopied] = useState(false)
 
   useEffect(() => {
     if (guestId) {
       fetchGuestData(guestId)
+    } else {
+      setError("Link de convite inválido")
+      setIsLoading(false)
     }
   }, [guestId])
 
@@ -39,6 +46,9 @@ export default function GuestInvitationPage() {
 
       if (response.ok) {
         setGuest(data.guest)
+        if (data.warning) {
+          setWarning(data.warning)
+        }
       } else {
         setError(data.error || "Convidado não encontrado")
       }
@@ -51,21 +61,27 @@ export default function GuestInvitationPage() {
   }
 
   const handleViewInvitation = () => {
-    // Navigate to the main invitation with the guest's TOKEN, not ID
-    if (guest) {
+    if (guest?.token) {
       router.push(`/?token=${guest.token}`)
+    } else {
+      setError("Token de convidado não disponível")
     }
   }
 
   const copyInvitationLink = async () => {
-    // Use the guest's TOKEN for the invitation URL, not ID
-    const invitationUrl = `https://v0-ninho-do-amor.vercel.app/?token=${guest?.token}`
+    if (!guest?.token) {
+      setError("Link de convite não disponível")
+      return
+    }
+    const baseUrl = env.NEXT_PUBLIC_BASE_URL || "https://pingdigital.online"
+    const invitationUrl = `${baseUrl}/?token=${guest.token}`
     try {
       await navigator.clipboard.writeText(invitationUrl)
       setCopied(true)
       setTimeout(() => setCopied(false), 2000)
     } catch (err) {
       console.error("Failed to copy:", err)
+      setError("Erro ao copiar o link")
     }
   }
 
@@ -86,7 +102,7 @@ export default function GuestInvitationPage() {
         <div className="bg-white rounded-2xl shadow-xl p-8 text-center max-w-md w-full">
           <div className="text-4xl mb-4">⚠️</div>
           <h2 className="text-xl font-semibold text-rose-700 mb-4">Convite Não Encontrado</h2>
-          <p className="text-rose-600 mb-6">{error}</p>
+          <p className="text-rose-600 mb-6">{error || "Convidado não encontrado"}</p>
           <Link
             href="/"
             className="inline-flex items-center gap-2 bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg transition-colors"
@@ -101,9 +117,7 @@ export default function GuestInvitationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 flex items-center justify-center p-4">
       <div className="w-full max-w-2xl mx-auto">
-        {/* Main card container */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 md:p-12 relative overflow-hidden">
-          {/* Decorative elements */}
           <div className="absolute top-0 right-0 w-32 h-32 opacity-10">
             <svg viewBox="0 0 100 100" className="w-full h-full text-rose-400">
               <circle cx="20" cy="20" r="8" fill="currentColor" />
@@ -112,7 +126,6 @@ export default function GuestInvitationPage() {
             </svg>
           </div>
 
-          {/* Logo/Monogram */}
           <div className="flex justify-center mb-8">
             <div className="relative">
               <div className="w-24 h-24 md:w-32 md:h-32 rounded-full border-2 border-rose-200 bg-rose-50 flex items-center justify-center">
@@ -125,22 +138,17 @@ export default function GuestInvitationPage() {
             </div>
           </div>
 
-          {/* Envelope icon */}
           <div className="flex justify-center mb-6">
             <div className="w-16 h-16 text-rose-400">
               <Mail className="w-full h-full" />
             </div>
           </div>
 
-          {/* Welcome text */}
           <div className="text-center mb-8">
             <h2 className="text-lg md:text-xl text-rose-600 font-light mb-4">Bem-vindo(a)</h2>
-
-            {/* Guest name */}
             <h1 className="text-2xl md:text-4xl font-light text-rose-800 tracking-wide mb-6">
               {guest.nome.toUpperCase()}
             </h1>
-
             <div className="flex items-center justify-center gap-2 text-rose-500 mb-6">
               <Heart className="w-4 h-4" />
               <span className="text-sm">Você está convidado(a) para nosso casamento</span>
@@ -148,7 +156,6 @@ export default function GuestInvitationPage() {
             </div>
           </div>
 
-          {/* Guest Info */}
           <div className="bg-rose-50 rounded-xl p-6 mb-8">
             <div className="grid md:grid-cols-2 gap-4 text-sm">
               <div className="flex items-center gap-2">
@@ -174,17 +181,6 @@ export default function GuestInvitationPage() {
             </div>
           </div>
 
-          {/* Debug info - remove this in production */}
-          <div className="bg-blue-50 rounded-lg p-4 mb-6 text-xs">
-            <p className="text-blue-700">
-              <strong>Debug Info:</strong>
-            </p>
-            <p className="text-blue-600">Guest ID: {guest.id}</p>
-            <p className="text-blue-600">Guest Token: {guest.token}</p>
-            <p className="text-blue-600">Unique URL: {guest.unique_url}</p>
-          </div>
-
-          {/* Action buttons */}
           <div className="space-y-4">
             <button
               onClick={handleViewInvitation}
@@ -212,7 +208,6 @@ export default function GuestInvitationPage() {
             </button>
           </div>
 
-          {/* RSVP Deadline */}
           {guest.rsvp_deadline && (
             <div className="mt-6 text-center">
               <p className="text-sm text-rose-500">
@@ -223,7 +218,6 @@ export default function GuestInvitationPage() {
           )}
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-rose-400 text-sm">© 2025 PingDigital - Plataforma de Gestão de Casamentos</p>
         </div>
