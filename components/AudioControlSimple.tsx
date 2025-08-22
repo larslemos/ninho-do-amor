@@ -1,16 +1,16 @@
-"use client"
+'use client';
 
-import { Music } from "lucide-react"
+import { Music } from 'lucide-react';
 
 export default function AudioControlSimple() {
   return (
-    <div className="fixed top-4 right-4 z-50 bg-white/90 backdrop-blur-sm rounded-full shadow-lg border border-rose-200 p-2">
+    <div className="fixed right-4 top-4 z-50 rounded-full border border-rose-200 bg-white/90 p-2 shadow-lg backdrop-blur-sm">
       <div className="flex items-center gap-2">
-        <div className="w-10 h-10 bg-rose-100 rounded-full flex items-center justify-center">
-          <Music className="w-4 h-4 text-rose-600" />
+        <div className="flex h-10 w-10 items-center justify-center rounded-full bg-rose-100">
+          <Music className="h-4 w-4 text-rose-600" />
         </div>
-        <span className="text-xs text-rose-600 pr-2">Música em breve</span>
+        <span className="pr-2 text-xs text-rose-600">Música em breve</span>
       </div>
     </div>
-  )
+  );
 }

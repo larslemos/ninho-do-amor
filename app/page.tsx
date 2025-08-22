@@ -1,114 +1,127 @@
 // app/page.tsx
 
-"use client"
+'use client';
 
-import WeddingHero from "@/components/WeddingHero"
-import AudioControl from "@/components/AudioControl"
-import ConfirmationSection from "@/components/ConfirmationSection"
-import FelicitationForm from "@/components/FelicitationForm"
-import FelicitationList from "@/components/FelicitationList"
-import GiftSection from "@/components/GiftSection"
-import CountdownSection from "@/components/CountdownSection"
-import FooterNavComponent from "@/components/FooterNavComponent"
-import { useEffect, useState } from "react"
-import type { Guest, WeddingData } from "@/types/wedding"
+import WeddingHero from '@/components/WeddingHero';
+import AudioControl from '@/components/AudioControl';
+import ConfirmationSection from '@/components/ConfirmationSection';
+import FelicitationForm from '@/components/FelicitationForm';
+import FelicitationList from '@/components/FelicitationList';
+import GiftSection from '@/components/GiftSection';
+import CountdownSection from '@/components/CountdownSection';
+import FooterNavComponent from '@/components/FooterNavComponent';
+import { useEffect, useState } from 'react';
+import type { Guest, WeddingData } from '@/types/wedding';
 
 export default function Home() {
-  const [guest, setGuest] = useState<Guest | null>(null)
-  const [error, setError] = useState<string | null>(null)
-  const [weddingData, setWeddingData] = useState<WeddingData | null>(null)
-  const [token, setToken] = useState<string | null>(null)
-  const [isLoadingGuest, setIsLoadingGuest] = useState(false)
+  const [guest, setGuest] = useState<Guest | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [weddingData, setWeddingData] = useState<WeddingData | null>(null);
+  const [token, setToken] = useState<string | null>(null);
+  const [isLoadingGuest, setIsLoadingGuest] = useState(false);
 
   useEffect(() => {
-    const urlToken = new URLSearchParams(window.location.search).get("token")
-    setToken(urlToken)
+    const urlToken = new URLSearchParams(window.location.search).get('token');
+    setToken(urlToken);
 
     // Always load wedding data
-    fetchWeddingData()
+    fetchWeddingData();
 
     // Only try to fetch guest data if token is provided
     if (urlToken) {
-      setIsLoadingGuest(true)
-      fetchGuestData(urlToken)
+      setIsLoadingGuest(true);
+      fetchGuestData(urlToken);
     }
-  }, [])
+  }, []);
 
   const fetchGuestData = async (token: string) => {
     try {
-      const response = await fetch(`/api/guests/verify/${token}`)
-      const data = await response.json()
+      const response = await fetch(`/api/guests/verify/${token}`);
+      const data = await response.json();
 
       if (response.ok) {
-        setGuest(data.convidado || null)
+        setGuest(data.convidado || null);
       } else {
-        console.warn("Guest not found for token:", data.error)
+        console.warn('Guest not found for token:', data.error);
       }
     } catch (err) {
-      console.error("Erro ao buscar dados do convidado:", err)
+      console.error('Erro ao buscar dados do convidado:', err);
     } finally {
-      setIsLoadingGuest(false)
+      setIsLoadingGuest(false);
     }
-  }
+  };
 
   const fetchWeddingData = async () => {
     try {
-      const response = await fetch("/api/wedding-data")
-      const data = await response.json()
+      const response = await fetch('/api/wedding-data');
+      const data = await response.json();
 
       if (response.ok) {
-        setWeddingData(data)
+        setWeddingData(data);
       } else {
-        setError(data.error || "Erro ao carregar dados do casamento")
+        setError(data.error || 'Erro ao carregar dados do casamento');
       }
     } catch (err) {
-      console.error("Erro ao buscar dados do casamento:", err)
-      setError("Erro ao carregar dados do casamento")
+      console.error('Erro ao buscar dados do casamento:', err);
+      setError('Erro ao carregar dados do casamento');
     }
-  }
+  };
 
   if (error) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-rose-50 to-pink-100 font-serif">
-        <div className="w-[400px] p-6 bg-white rounded-xl text-center shadow-lg border border-rose-200">
-          <div className="text-4xl mb-4">⚠️</div>
-          <h2 className="text-xl font-semibold text-rose-700 mb-4">Erro ao Carregar</h2>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-rose-50 to-pink-100 font-serif">
+        <div className="w-[400px] rounded-xl border border-rose-200 bg-white p-6 text-center shadow-lg">
+          <div className="mb-4 text-4xl">⚠️</div>
+          <h2 className="mb-4 text-xl font-semibold text-rose-700">
+            Erro ao Carregar
+          </h2>
           <p className="text-rose-600">{error}</p>
           <button
             onClick={() => window.location.reload()}
-            className="mt-4 bg-rose-600 hover:bg-rose-700 text-white px-4 py-2 rounded-lg transition-colors"
+            className="mt-4 rounded-lg bg-rose-600 px-4 py-2 text-white transition-colors hover:bg-rose-700"
           >
             Tentar Novamente
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   if (!weddingData) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
-        <div className="w-[400px] p-6 bg-white rounded-xl text-center shadow-lg">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-rose-600 mx-auto mb-4"></div>
-          <h2 className="text-xl font-semibold text-rose-700 mb-4">Preparando o convite...</h2>
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
+        <div className="w-[400px] rounded-xl bg-white p-6 text-center shadow-lg">
+          <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-rose-600"></div>
+          <h2 className="mb-4 text-xl font-semibold text-rose-700">
+            Preparando o convite...
+          </h2>
           <p className="text-rose-500">Aguarde um momento</p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
-      <div className="flex flex-col items-center justify-center py-9 px-6">
+      <div className="flex flex-col items-center justify-center px-6 py-9">
         {/* Audio Control */}
         <AudioControl />
 
         {/* Main Wedding Hero */}
-        <WeddingHero guest={guest} weddingData={weddingData} isLoadingGuest={isLoadingGuest} />
+        <WeddingHero
+          guest={guest}
+          weddingData={weddingData}
+          isLoadingGuest={isLoadingGuest}
+        />
 
         {/* Confirmation Section - Only show if we have a token */}
         {token && (
-          <ConfirmationSection guest={guest} token={token} weddingData={weddingData} isLoadingGuest={isLoadingGuest} />
+          <ConfirmationSection
+            guest={guest}
+            token={token}
+            weddingData={weddingData}
+            isLoadingGuest={isLoadingGuest}
+          />
         )}
 
         {/* Countdown Section */}
@@ -125,13 +138,16 @@ export default function Home() {
 
         {/* Guest Access Info - Show if no token */}
         {!token && (
-          <div className="w-[400px] p-6 mt-6 bg-rose-100 rounded-xl text-center shadow-lg border border-rose-200">
-            <div className="text-3xl mb-3">💌</div>
-            <h3 className="text-lg font-semibold text-rose-700 mb-2">Acesso Personalizado</h3>
-            <p className="text-rose-600 text-sm mb-4">
-              Convidados com link personalizado podem confirmar presença e deixar felicitações.
+          <div className="mt-6 w-[400px] rounded-xl border border-rose-200 bg-rose-100 p-6 text-center shadow-lg">
+            <div className="mb-3 text-3xl">💌</div>
+            <h3 className="mb-2 text-lg font-semibold text-rose-700">
+              Acesso Personalizado
+            </h3>
+            <p className="mb-4 text-sm text-rose-600">
+              Convidados com link personalizado podem confirmar presença e
+              deixar felicitações.
             </p>
-            <div className="text-rose-500 text-xs space-y-1">
+            <div className="space-y-1 text-xs text-rose-500">
               <p>• ✅ Confirmação de presença</p>
               <p>• 💌 Mensagens de felicitação</p>
               <p>• 🪑 Informações da mesa</p>
@@ -143,5 +159,5 @@ export default function Home() {
         <FooterNavComponent />
       </div>
     </div>
-  )
+  );
 }

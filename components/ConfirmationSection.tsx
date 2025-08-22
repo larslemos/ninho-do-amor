@@ -1,16 +1,17 @@
 // components/ConfirmationSection.tsx
-"use client"
+// components/ConfirmationSection.tsx
+'use client';
 
-import { useState, useEffect } from "react"
-import { useToast } from "@/hooks/use-toast"
-import type { Guest, WeddingData } from "@/types/wedding"
-import { CheckCircle, XCircle, Table } from "lucide-react"
+import { useState, useEffect } from 'react';
+import { useToast } from '@/hooks/use-toast';
+import type { Guest, WeddingData } from '@/types/wedding';
+import { CheckCircle, XCircle, Table, Heart, Waves, Sun } from 'lucide-react';
 
 interface ConfirmationSectionProps {
-  guest: Guest | null
-  token: string
-  weddingData: WeddingData
-  isLoadingGuest?: boolean
+  guest: Guest | null;
+  token: string;
+  weddingData: WeddingData;
+  isLoadingGuest?: boolean;
 }
 
 export default function ConfirmationSection({
@@ -19,235 +20,289 @@ export default function ConfirmationSection({
   weddingData,
   isLoadingGuest = false,
 }: ConfirmationSectionProps) {
-  const [confirmation, setConfirmation] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const { toast } = useToast()
+  const [confirmation, setConfirmation] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [animateStatus, setAnimateStatus] = useState(false);
+  const { toast } = useToast();
 
   useEffect(() => {
     if (guest?.status) {
-      setConfirmation(guest.status.toLowerCase())
+      setConfirmation(guest.status.toLowerCase());
     }
-  }, [guest])
+  }, [guest]);
 
   const fetchGuestData = async () => {
     try {
-      const response = await fetch(`/api/guests/verify/${token}`)
-      const data = await response.json()
+      const response = await fetch(`/api/guests/verify/${token}`);
+      const data = await response.json();
 
       if (response.ok) {
-        setConfirmation(data.convidado.status.toLowerCase())
+        setConfirmation(data.convidado.status.toLowerCase());
+        setAnimateStatus(true);
+        setTimeout(() => setAnimateStatus(false), 600);
       } else {
-        setError(data.error || "Erro ao atualizar dados do convidado")
+        setError(data.error || 'Erro ao atualizar dados do convidado');
       }
     } catch (err) {
-      console.error("Erro ao buscar dados do convidado:", err)
-      setError("Erro ao atualizar dados do convidado")
+      console.error('Erro ao buscar dados do convidado:', err);
+      setError('Erro ao atualizar dados do convidado');
     }
-  }
+  };
 
-  const handleConfirm = async (status: "confirmed" | "rejected") => {
-    if (!token || loading) return
+  const handleConfirm = async (status: 'confirmed' | 'rejected') => {
+    if (!token || loading) return;
 
     // Check if RSVP deadline has passed (allow if deadline is null)
     if (guest?.rsvp_deadline && new Date(guest.rsvp_deadline) < new Date()) {
       setError(
-        "O prazo para confirmação de presença expirou. Entre em contato com os noivos em assa.e.eleuterio@pingdigital.online."
-      )
-      return
+        'O prazo para confirmação de presença expirou. Entre em contato com os noivos em assa.e.eleuterio@pingdigital.online.'
+      );
+      return;
     }
 
-    setLoading(true)
-    setError(null)
+    setLoading(true);
+    setError(null);
     try {
-      const response = await fetch("/api/guests/confirm", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const response = await fetch('/api/guests/confirm', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ token, status }),
-      })
+      });
 
-      const data = await response.json()
+      const data = await response.json();
 
       if (response.ok) {
-        setConfirmation(status)
+        setConfirmation(status);
         toast({
-          title: "Confirmação enviada",
-          description: `Você ${status === "confirmed" ? "confirmou sua presença" : "indicou que não pode comparecer"
-            } com sucesso!`,
-        })
-        await fetchGuestData()
+          title: 'Confirmação enviada',
+          description: `Você ${
+            status === 'confirmed'
+              ? 'confirmou sua presença'
+              : 'indicou que não pode comparecer'
+          } com sucesso!`,
+        });
+        await fetchGuestData();
       } else {
-        throw new Error(data.error || "Erro ao processar a confirmação")
+        throw new Error(data.error || 'Erro ao processar a confirmação');
       }
     } catch (err) {
-      console.error("Erro ao confirmar presença:", err)
+      console.error('Erro ao confirmar presença:', err);
       setError(
-        err instanceof Error ? err.message : "Erro ao confirmar presença. Tente novamente."
-      )
+        err instanceof Error
+          ? err.message
+          : 'Erro ao confirmar presença. Tente novamente.'
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const isRsvpExpired = guest?.rsvp_deadline
     ? new Date(guest.rsvp_deadline) < new Date()
-    : false
+    : false;
 
   return (
-    <div className="relative w-full max-w-md mx-auto p-4 sm:p-6 mt-4 sm:mt-6 bg-gradient-to-br from-rose-50 to-pink-100 rounded-xl text-center shadow-lg border border-rose-200 place-card font-josefin">
-      {/* Subtle floral background */}
-      <div className="absolute top-0 right-0 w-20 h-20 opacity-10 sm:w-24 sm:h-24">
-        <svg viewBox="0 0 100 100" className="w-full h-full text-rose-400">
-          <circle cx="20" cy="20" r="8" fill="currentColor" />
-          <circle cx="35" cy="15" r="6" fill="currentColor" opacity="0.8" />
-          <circle cx="25" cy="35" r="5" fill="currentColor" opacity="0.6" />
-          <path d="M15 25 Q20 20 25 25 Q30 30 25 35 Q20 30 15 25" fill="currentColor" opacity="0.4" />
-        </svg>
+    <div className="confirmation-section place-card font-poppins relative mx-auto mt-4 w-full max-w-md rounded-xl p-6 text-center shadow-lg sm:mt-6">
+      {/* Decorative Beach Elements */}
+      <div className="absolute right-0 top-0 h-20 w-20 opacity-10 sm:h-24 sm:w-24">
+        <Waves className="h-full w-full text-sky-400" />
       </div>
 
-      <h2 className="text-lg sm:text-xl font-semibold text-rose-700 mb-3 sm:mb-4 font-josefin">
-        Confirmação de Presença
-      </h2>
-      <p className="text-sm sm:text-base text-rose-500 mb-4 leading-relaxed font-quicksand">
-        Confirme sua presença para o casamento de{" "}
-        <span className="font-semibold">{weddingData.wedding_details.bride}</span> &{" "}
-        <span className="font-semibold">{weddingData.wedding_details.groom}</span>
-      </p>
+      <div className="absolute bottom-4 left-4 h-16 w-16 opacity-10">
+        <Sun className="h-full w-full text-orange-400" />
+      </div>
 
-      {isLoadingGuest ? (
-        <div className="p-4 bg-rose-50 rounded-lg shadow-inner">
-          <div className="flex items-center justify-center animate-in slide-in-from-right duration-300">
-            <div className="spinner"></div>
-            <p className="text-rose-600 text-sm font-quicksand">Verificando convite...</p>
-          </div>
-        </div>
-      ) : guest ? (
-        <>
-          {error && (
-            <div className="p-3 sm:p-4 bg-destructive/10 text-destructive rounded-lg mb-4 text-sm leading-relaxed font-quicksand animate-in slide-in-from-right duration-300">
-              <p>{error}</p>
-            </div>
-          )}
+      <div className="relative z-10">
+        <h2 className="section-title mb-4 flex items-center justify-center gap-2">
+          <Heart className="h-6 w-6 text-sky-500" />
+          Confirmação de Presença
+        </h2>
 
-          {/* Place Card */}
-          <div className="relative p-4 mb-4 bg-white/90 rounded-lg shadow-md border border-rose-200 place-card">
-            <div className="absolute top-0 right-0 w-16 h-16 opacity-15">
-              <svg viewBox="0 0 100 100" className="w-full h-full text-rose-400">
-                <circle cx="70" cy="70" r="12" fill="currentColor" />
-                <circle cx="55" cy="75" r="8" fill="currentColor" opacity="0.8" />
-                <circle cx="75" cy="55" r="6" fill="currentColor" opacity="0.6" />
-                <path d="M60 60 Q70 50 80 60 Q90 70 80 80 Q70 70 60 60" fill="currentColor" opacity="0.4" />
-              </svg>
-            </div>
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Table className="w-4 h-4 sm:w-5 sm:h-5 text-rose-600 flex-shrink-0" />
-              <p className="text-rose-700 font-semibold text-sm sm:text-base font-josefin">
-                {guest.mesa ? `Mesa: ${guest.mesa}` : "Mesa a ser atribuída"}
+        <p className="mb-6 font-quicksand text-sm leading-relaxed text-slate-600 sm:text-base">
+          Confirme sua presença para celebrar o amor de{' '}
+          <span className="font-dancing text-lg font-semibold text-sky-700">
+            {weddingData.wedding_details.bride}
+          </span>{' '}
+          &{' '}
+          <span className="font-dancing text-lg font-semibold text-sky-700">
+            {weddingData.wedding_details.groom}
+          </span>
+        </p>
+
+        {isLoadingGuest ? (
+          <div className="place-card-enhanced rounded-lg p-6 shadow-inner">
+            <div className="flex items-center justify-center duration-300 animate-in slide-in-from-right">
+              <div className="beach-spinner"></div>
+              <p className="font-poppins text-sm text-sky-600">
+                Verificando convite...
               </p>
             </div>
-            <p className="text-rose-500 text-xs sm:text-sm leading-relaxed font-quicksand">
-              {guest.mesa
-                ? "Sua mesa será confirmada no dia do evento."
-                : "Aguarde a atribuição da sua mesa pelos noivos."}
-            </p>
           </div>
+        ) : guest ? (
+          <>
+            {error && (
+              <div className="font-poppins mb-6 rounded-lg border border-red-200 bg-red-50 p-4 text-sm leading-relaxed text-red-700 duration-300 animate-in slide-in-from-right">
+                <p>{error}</p>
+              </div>
+            )}
 
-          {/* RSVP Status */}
-          <div
-            className={`p-3 sm:p-4 rounded-lg mb-4 shadow-inner border border-rose-200 animate-in slide-in-from-right duration-300 ${confirmation === "confirmed"
-                ? "bg-green-100/80 text-green-700"
-                : confirmation === "rejected"
-                  ? "bg-destructive/10 text-destructive"
-                  : "bg-muted/50 text-muted-foreground"
-              }`}
-          >
-            <p className="font-semibold text-sm sm:text-base font-josefin">
-              Status:{" "}
-              {confirmation === "confirmed"
-                ? "Confirmado ✓"
-                : confirmation === "rejected"
-                  ? "Não Confirmado ✗"
-                  : "Pendente"}
-            </p>
-          </div>
-
-          {/* Action Buttons */}
-          <div className="space-y-3">
-            <button
-              onClick={() => handleConfirm("confirmed")}
-              disabled={loading || isRsvpExpired}
-              className={`w-full px-4 py-3 sm:py-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base min-h-[48px] animate-in slide-in-from-right duration-300 ${confirmation === "confirmed"
-                  ? "bg-green-700 text-primary-foreground"
-                  : "bg-green-600 hover:bg-green-700 active:bg-green-800 text-primary-foreground disabled:bg-gray-400 disabled:cursor-not-allowed"
-                } font-josefin`}
-            >
-              {loading && confirmation !== "rejected" ? (
-                <>
-                  <div className="spinner"></div>
-                  <span>Confirmando...</span>
-                </>
-              ) : (
-                <>
-                  <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                  <span>Confirmar Presença</span>
-                </>
-              )}
-            </button>
-
-            <button
-              onClick={() => handleConfirm("rejected")}
-              disabled={loading || isRsvpExpired}
-              className={`w-full px-4 py-3 sm:py-4 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 text-sm sm:text-base min-h-[48px] animate-in slide-in-from-right duration-300 ${confirmation === "rejected"
-                  ? "bg-destructive text-destructive-foreground"
-                  : "bg-destructive/80 hover:bg-destructive active:bg-destructive/90 text-destructive-foreground disabled:bg-gray-400 disabled:cursor-not-allowed"
-                } font-josefin`}
-            >
-              {loading && confirmation !== "confirmed" ? (
-                <>
-                  <div className="spinner"></div>
-                  <span>Atualizando...</span>
-                </>
-              ) : (
-                <>
-                  <XCircle className="w-4 h-4 sm:w-5 sm:h-5 flex-shrink-0" />
-                  <span>Não Posso Ir</span>
-                </>
-              )}
-            </button>
-          </div>
-
-          {isRsvpExpired && (
-            <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg shadow-inner animate-in slide-in-from-right duration-300">
-              <p className="text-yellow-700 text-xs sm:text-sm leading-relaxed font-quicksand">
-                <span className="font-semibold">Prazo expirado?</span>
-                <br />
-                Entre em contato:{" "}
-                <a
-                  href="mailto:assa.e.eleuterio@pingdigital.online"
-                  className="underline hover:text-yellow-800 transition-colors"
-                >
-                  assa.e.eleuterio@pingdigital.online
-                </a>
-              </p>
+            {/* Enhanced Place Card */}
+            <div className="place-card-enhanced relative mb-6 overflow-hidden p-5">
+              <div className="absolute right-0 top-0 h-12 w-12 opacity-15">
+                <Table className="h-full w-full text-sky-500" />
+              </div>
+              <div className="relative z-10">
+                <div className="mb-3 flex items-center justify-center gap-3">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-sky-400 to-cyan-500 text-white shadow-lg">
+                    <Table className="h-5 w-5" />
+                  </div>
+                  <p className="font-poppins text-lg font-semibold text-slate-700">
+                    {guest.mesa ? `Mesa ${guest.mesa}` : 'Mesa a ser atribuída'}
+                  </p>
+                </div>
+                <p className="font-quicksand text-sm leading-relaxed text-slate-500">
+                  {guest.mesa
+                    ? 'Sua mesa está reservada para o grande dia!'
+                    : 'Aguarde a atribuição da sua mesa pelos noivos.'}
+                </p>
+              </div>
             </div>
-          )}
-        </>
-      ) : (
-        <div className="p-4 bg-yellow-50 text-yellow-700 rounded-lg shadow-inner border border-yellow-200 animate-in slide-in-from-right duration-300">
-          <p className="text-sm leading-relaxed mb-3 font-quicksand">
-            Convite não encontrado para este link.
-          </p>
-          <p className="text-xs font-quicksand">
-            Verifique o link ou entre em contato com os noivos em{" "}
-            <a
-              href="mailto:assa.e.eleuterio@pingdigital.online"
-              className="underline hover:text-yellow-800 transition-colors font-medium"
+
+            {/* Enhanced RSVP Status */}
+            <div
+              className={`status-badge mb-6 ${
+                confirmation === 'confirmed'
+                  ? 'status-confirmed'
+                  : confirmation === 'rejected'
+                    ? 'status-rejected'
+                    : 'status-pending'
+              } ${animateStatus ? 'status-change-animation' : ''}`}
             >
-              assa.e.eleuterio@pingdigital.online
-            </a>
-          </p>
-        </div>
-      )}
+              <div className="flex items-center justify-center gap-2">
+                {confirmation === 'confirmed' ? (
+                  <CheckCircle className="h-5 w-5" />
+                ) : confirmation === 'rejected' ? (
+                  <XCircle className="h-5 w-5" />
+                ) : (
+                  <div className="h-5 w-5 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                )}
+                <span className="font-medium">
+                  Status:{' '}
+                  {confirmation === 'confirmed'
+                    ? 'Presença Confirmada ✨'
+                    : confirmation === 'rejected'
+                      ? 'Não Confirmado 💙'
+                      : 'Aguardando Confirmação'}
+                </span>
+              </div>
+            </div>
+
+            {/* Enhanced Action Buttons */}
+            <div className="space-y-4">
+              <button
+                onClick={() => handleConfirm('confirmed')}
+                disabled={loading || isRsvpExpired}
+                className={`rsvp-button w-full ${
+                  confirmation === 'confirmed'
+                    ? 'rsvp-confirmed'
+                    : loading && confirmation !== 'rejected'
+                      ? 'rsvp-loading'
+                      : 'rsvp-confirm'
+                } transition-all duration-300 ease-out`}
+                aria-label="Confirmar presença no casamento"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  {loading && confirmation !== 'rejected' ? (
+                    <>
+                      <div className="beach-spinner"></div>
+                      <span>Confirmando sua presença...</span>
+                    </>
+                  ) : (
+                    <>
+                      <CheckCircle className="icon h-5 w-5 flex-shrink-0" />
+                      <span className="font-medium">
+                        {confirmation === 'confirmed'
+                          ? '✨ Presença Confirmada'
+                          : 'Sim, estarei presente!'}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </button>
+
+              <button
+                onClick={() => handleConfirm('rejected')}
+                disabled={loading || isRsvpExpired}
+                className={`rsvp-button w-full ${
+                  confirmation === 'rejected'
+                    ? 'rsvp-rejected'
+                    : loading && confirmation !== 'confirmed'
+                      ? 'rsvp-loading'
+                      : 'rsvp-decline'
+                } transition-all duration-300 ease-out`}
+                aria-label="Informar que não pode comparecer"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  {loading && confirmation !== 'confirmed' ? (
+                    <>
+                      <div className="beach-spinner"></div>
+                      <span>Atualizando resposta...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Heart className="icon h-5 w-5 flex-shrink-0" />
+                      <span className="font-medium">
+                        {confirmation === 'rejected'
+                          ? '💙 Resposta registrada'
+                          : 'Não posso comparecer'}
+                      </span>
+                    </>
+                  )}
+                </div>
+              </button>
+            </div>
+
+            {isRsvpExpired && (
+              <div className="mt-6 rounded-lg border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-4 shadow-inner duration-300 animate-in slide-in-from-right">
+                <p className="font-poppins text-sm leading-relaxed text-amber-800">
+                  <span className="font-semibold">
+                    📅 Prazo para RSVP expirado
+                  </span>
+                  <br />
+                  Entre em contato diretamente:{' '}
+                  <a
+                    href="mailto:assa.e.eleuterio@pingdigital.online"
+                    className="font-medium underline transition-colors hover:text-amber-900"
+                  >
+                    assa.e.eleuterio@pingdigital.online
+                  </a>
+                </p>
+              </div>
+            )}
+          </>
+        ) : (
+          <div className="rounded-lg border border-orange-200 bg-gradient-to-br from-orange-50 to-red-50 p-6 text-orange-700 shadow-inner duration-300 animate-in slide-in-from-right">
+            <div className="mb-4 flex justify-center">
+              <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-orange-400 to-red-500 text-white">
+                <Heart className="h-6 w-6" />
+              </div>
+            </div>
+            <p className="font-poppins mb-3 text-base font-medium leading-relaxed">
+              Convite não encontrado para este link.
+            </p>
+            <p className="font-quicksand text-sm">
+              Verifique o link ou entre em contato com os noivos:{' '}
+              <a
+                href="mailto:assa.e.eleuterio@pingdigital.online"
+                className="font-medium underline transition-colors hover:text-orange-800"
+              >
+                assa.e.eleuterio@pingdigital.online
+              </a>
+            </p>
+          </div>
+        )}
+      </div>
     </div>
-  )
+  );
 }

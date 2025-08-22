@@ -1,19 +1,19 @@
 interface EmailTemplate {
-  subject: string
-  html: string
+  subject: string;
+  html: string;
 }
 
 interface TemplateData {
-  guestName: string
-  brideName: string
-  groomName: string
-  weddingDate: string
-  weddingTime: string
-  venue: string
-  invitationUrl: string
-  mesa?: string
-  rsvpDeadline?: string
-  customMessage?: string
+  guestName: string;
+  brideName: string;
+  groomName: string;
+  weddingDate: string;
+  weddingTime: string;
+  venue: string;
+  invitationUrl: string;
+  mesa?: string;
+  rsvpDeadline?: string;
+  customMessage?: string;
 }
 
 export class EmailTemplateService {
@@ -128,7 +128,7 @@ export class EmailTemplateService {
           margin: 20px 0;
         }
       </style>
-    `
+    `;
   }
 
   private static getHeader(data: TemplateData): string {
@@ -137,7 +137,7 @@ export class EmailTemplateService {
         <h1>${data.brideName} & ${data.groomName}</h1>
         <p>Estão se casando!</p>
       </div>
-    `
+    `;
   }
 
   private static getFooter(data: TemplateData): string {
@@ -149,10 +149,13 @@ export class EmailTemplateService {
           © 2025 PingDigital - Plataforma de Gestão de Casamentos
         </p>
       </div>
-    `
+    `;
   }
 
-  private static getWeddingDetails(data: TemplateData, showMesa = true): string {
+  private static getWeddingDetails(
+    data: TemplateData,
+    showMesa = true
+  ): string {
     return `
       <div class="details">
         <h3>📅 Detalhes do Casamento</h3>
@@ -176,10 +179,10 @@ export class EmailTemplateService {
           <span><strong>Mesa:</strong> ${data.mesa}</span>
         </div>
         `
-            : ""
+            : ''
         }
       </div>
-    `
+    `;
   }
 
   // 1. Initial Wedding Invitation
@@ -234,7 +237,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 2. RSVP Reminder
@@ -263,7 +266,7 @@ export class EmailTemplateService {
                 <h3 style="color: #F59E0B; margin-top: 0;">⏰ Lembrete Importante</h3>
                 <p style="color: #92400E; margin-bottom: 0;">
                   Ainda não recebemos a confirmação da sua presença para o nosso casamento.
-                  ${data.rsvpDeadline ? `Por favor, confirme até <strong>${data.rsvpDeadline}</strong>.` : ""}
+                  ${data.rsvpDeadline ? `Por favor, confirme até <strong>${data.rsvpDeadline}</strong>.` : ''}
                 </p>
               </div>
               
@@ -291,7 +294,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 3. RSVP Confirmation Thank You
@@ -337,7 +340,7 @@ export class EmailTemplateService {
                   <li>Guarde esta data na sua agenda</li>
                   <li>Prepare-se para uma celebração inesquecível</li>
                   <li>Traga muito amor e alegria</li>
-                  ${data.mesa ? `<li>Você estará na <strong>${data.mesa}</strong></li>` : ""}
+                  ${data.mesa ? `<li>Você estará na <strong>${data.mesa}</strong></li>` : ''}
                 </ul>
               </div>
               
@@ -353,7 +356,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 4. Wedding Day Reminder
@@ -402,7 +405,7 @@ export class EmailTemplateService {
                   <li>Traga um documento de identificação</li>
                   <li>Vista-se adequadamente para a ocasião</li>
                   <li>Prepare-se para muita alegria e emoção!</li>
-                  ${data.mesa ? `<li>Você estará na <strong>${data.mesa}</strong></li>` : ""}
+                  ${data.mesa ? `<li>Você estará na <strong>${data.mesa}</strong></li>` : ''}
                 </ul>
               </div>
               
@@ -418,7 +421,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 5. Thank You After Wedding
@@ -467,7 +470,7 @@ export class EmailTemplateService {
               </div>
               
               <div class="message">
-                ${data.customMessage || "Agora, como marido e mulher, levamos conosco as bênçãos e o carinho de pessoas especiais como você. Que nossa amizade continue crescendo ao longo dos anos!"}
+                ${data.customMessage || 'Agora, como marido e mulher, levamos conosco as bênçãos e o carinho de pessoas especiais como você. Que nossa amizade continue crescendo ao longo dos anos!'}
               </div>
               
               <div style="background: #EBF8FF; border-radius: 10px; padding: 20px; margin: 20px 0;">
@@ -496,7 +499,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 6. Save the Date
@@ -569,7 +572,7 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 
   // 7. Last Minute Changes
@@ -606,7 +609,7 @@ export class EmailTemplateService {
               </div>
               
               <div class="message">
-                ${data.customMessage || "Devido a circunstâncias imprevistas, precisamos fazer alguns ajustes nos detalhes do nosso casamento. Pedimos desculpas por qualquer inconveniente e agradecemos sua compreensão."}
+                ${data.customMessage || 'Devido a circunstâncias imprevistas, precisamos fazer alguns ajustes nos detalhes do nosso casamento. Pedimos desculpas por qualquer inconveniente e agradecemos sua compreensão.'}
               </div>
               
               ${this.getWeddingDetails(data)}
@@ -636,36 +639,39 @@ export class EmailTemplateService {
         </body>
         </html>
       `,
-    }
+    };
   }
 }
 
 export type EmailTemplateType =
-  | "wedding-invitation"
-  | "rsvp-reminder"
-  | "rsvp-confirmation"
-  | "wedding-day-reminder"
-  | "post-wedding-thank-you"
-  | "save-the-date"
-  | "last-minute-update"
+  | 'wedding-invitation'
+  | 'rsvp-reminder'
+  | 'rsvp-confirmation'
+  | 'wedding-day-reminder'
+  | 'post-wedding-thank-you'
+  | 'save-the-date'
+  | 'last-minute-update';
 
-export function getEmailTemplate(type: EmailTemplateType, data: TemplateData): EmailTemplate {
+export function getEmailTemplate(
+  type: EmailTemplateType,
+  data: TemplateData
+): EmailTemplate {
   switch (type) {
-    case "wedding-invitation":
-      return EmailTemplateService.getWeddingInvitation(data)
-    case "rsvp-reminder":
-      return EmailTemplateService.getRSVPReminder(data)
-    case "rsvp-confirmation":
-      return EmailTemplateService.getRSVPConfirmation(data)
-    case "wedding-day-reminder":
-      return EmailTemplateService.getWeddingDayReminder(data)
-    case "post-wedding-thank-you":
-      return EmailTemplateService.getPostWeddingThankYou(data)
-    case "save-the-date":
-      return EmailTemplateService.getSaveTheDate(data)
-    case "last-minute-update":
-      return EmailTemplateService.getLastMinuteUpdate(data)
+    case 'wedding-invitation':
+      return EmailTemplateService.getWeddingInvitation(data);
+    case 'rsvp-reminder':
+      return EmailTemplateService.getRSVPReminder(data);
+    case 'rsvp-confirmation':
+      return EmailTemplateService.getRSVPConfirmation(data);
+    case 'wedding-day-reminder':
+      return EmailTemplateService.getWeddingDayReminder(data);
+    case 'post-wedding-thank-you':
+      return EmailTemplateService.getPostWeddingThankYou(data);
+    case 'save-the-date':
+      return EmailTemplateService.getSaveTheDate(data);
+    case 'last-minute-update':
+      return EmailTemplateService.getLastMinuteUpdate(data);
     default:
-      return EmailTemplateService.getWeddingInvitation(data)
+      return EmailTemplateService.getWeddingInvitation(data);
   }
 }

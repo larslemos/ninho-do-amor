@@ -1,9 +1,17 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+/* globals.css */
 
-@custom-variant dark (&:is(.dark *));
+/* Import Tailwind CSS directives */
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
+/* Import Google Fonts for Josefin Sans and Quicksand */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Quicksand:wght@400;500;700&display=swap');
 
+/* Import additional Google Fonts for better typography */
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Font families */
 .font-josefin {
   font-family: 'Josefin Sans', sans-serif;
 }
@@ -11,15 +19,18 @@
 .font-quicksand {
   font-family: 'Quicksand', sans-serif;
 }
+
+/* Spinner for loading states */
 .spinner {
   border: 4px solid rgba(233, 190, 93, 0.2);
-  border-top: 4px solid #E9BE5D;
+  border-top: 4px solid #e9be5d;
   border-radius: 50%;
   width: 24px;
   height: 24px;
   animation: spin 1s linear infinite;
   margin: 10px auto;
 }
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);
@@ -29,6 +40,7 @@
   }
 }
 
+/* Floral background for decorative elements */
 .floral-bg {
   background-image: url('/images/floral-pattern.svg');
   background-size: 80px;
@@ -37,135 +49,95 @@
   opacity: 0.1;
 }
 
+/* Custom color variables */
 :root {
-  --whatsapp-600: #25D366;
-  --whatsapp-900: #1DA851;
-}
-.dark {
-  --whatsapp-600: #2BE76C;
-  --whatsapp-900: #24C25F;
-}
-
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --destructive-foreground: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
+  --whatsapp-600: #25d366; /* WhatsApp green */
+  --whatsapp-900: #1da851;
+  --background: oklch(0.98 0.02 60); /* Light cream for better contrast */
+  --foreground: oklch(0.2 0.05 260); /* Darker text for readability */
+  --card: oklch(0.99 0.01 60);
+  --card-foreground: oklch(0.2 0.05 260);
+  --popover: oklch(0.99 0.01 60);
+  --popover-foreground: oklch(0.2 0.05 260);
+  --primary: oklch(0.65 0.15 320); /* Rose for buttons */
+  --primary-foreground: oklch(0.98 0.01 60);
+  --secondary: oklch(0.95 0.03 180); /* Light teal */
+  --secondary-foreground: oklch(0.2 0.05 260);
+  --muted: oklch(0.9 0.02 60);
+  --muted-foreground: oklch(0.5 0.03 260);
+  --accent: oklch(0.95 0.03 180);
+  --accent-foreground: oklch(0.2 0.05 260);
+  --destructive: oklch(0.6 0.2 20); /* Red for errors */
+  --destructive-foreground: oklch(0.98 0.01 60);
+  --border: oklch(0.85 0.02 60);
+  --input: oklch(0.85 0.02 60);
+  --ring: oklch(0.65 0.15 320); /* Rose for focus rings */
+  --chart-1: oklch(0.65 0.22 41); /* Vibrant colors for charts */
+  --chart-2: oklch(0.6 0.12 185);
+  --chart-3: oklch(0.4 0.07 227);
+  --chart-4: oklch(0.83 0.19 84);
+  --chart-5: oklch(0.77 0.19 70);
   --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: oklch(0.99 0.01 60);
+  --sidebar-foreground: oklch(0.2 0.05 260);
+  --sidebar-primary: oklch(0.65 0.15 320);
+  --sidebar-primary-foreground: oklch(0.98 0.01 60);
+  --sidebar-accent: oklch(0.95 0.03 180);
+  --sidebar-accent-foreground: oklch(0.2 0.05 260);
+  --sidebar-border: oklch(0.85 0.02 60);
+  --sidebar-ring: oklch(0.65 0.15 320);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --whatsapp-600: #2be76c; /* Lighter WhatsApp green for dark mode */
+  --whatsapp-900: #24c25f;
+  --background: oklch(0.2 0.05 260); /* Dark blue-gray */
+  --foreground: oklch(0.95 0.02 60);
+  --card: oklch(0.25 0.05 260);
+  --card-foreground: oklch(0.95 0.02 60);
+  --popover: oklch(0.25 0.05 260);
+  --popover-foreground: oklch(0.95 0.02 60);
+  --primary: oklch(0.7 0.15 320); /* Brighter rose */
+  --primary-foreground: oklch(0.2 0.05 260);
+  --secondary: oklch(0.3 0.05 180);
+  --secondary-foreground: oklch(0.95 0.02 60);
+  --muted: oklch(0.3 0.05 260);
+  --muted-foreground: oklch(0.6 0.03 60);
+  --accent: oklch(0.3 0.05 180);
+  --accent-foreground: oklch(0.95 0.02 60);
+  --destructive: oklch(0.5 0.2 20);
+  --destructive-foreground: oklch(0.95 0.02 60);
+  --border: oklch(0.3 0.05 260);
+  --input: oklch(0.3 0.05 260);
+  --ring: oklch(0.7 0.15 320);
+  --chart-1: oklch(0.5 0.24 264);
+  --chart-2: oklch(0.7 0.17 162);
+  --chart-3: oklch(0.77 0.19 70);
+  --chart-4: oklch(0.63 0.27 304);
+  --chart-5: oklch(0.65 0.25 16);
+  --sidebar: oklch(0.25 0.05 260);
+  --sidebar-foreground: oklch(0.95 0.02 60);
+  --sidebar-primary: oklch(0.5 0.24 264);
+  --sidebar-primary-foreground: oklch(0.95 0.02 60);
+  --sidebar-accent: oklch(0.3 0.05 180);
+  --sidebar-accent-foreground: oklch(0.95 0.02 60);
+  --sidebar-border: oklch(0.3 0.05 260);
+  --sidebar-ring: oklch(0.7 0.15 320);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
+/* Base layer for global styles */
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
   body {
     @apply bg-background text-foreground;
+    font-family: 'Quicksand', sans-serif;
   }
 }
 
-/* Audio Control Animations */
+/* Animations for UI elements */
 @keyframes slide-in-from-right {
   from {
     opacity: 0;
@@ -189,7 +161,21 @@
   animation-duration: 300ms;
 }
 
-/* Pulse animation for playing state */
+/* Fade-in animation for place cards */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.place-card {
+  animation: fadeIn 0.5s ease-in;
+}
+
+/* Pulse animation for interactive elements (e.g., audio controls) */
 @keyframes pulse-ring {
   0% {
     transform: scale(1);
@@ -205,10 +191,274 @@
   animation: pulse-ring 2s infinite;
 }
 
-.place-card {
-  animation: fadeIn 0.5s ease-in;
+/* Font family additions */
+.font-dancing {
+  font-family: 'Dancing Script', cursive;
 }
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Enhanced Button Styles - Beach Wedding Theme */
+.rsvp-button {
+  position: relative;
+  overflow: hidden;
+  border-radius: 16px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(10px);
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  letter-spacing: 0.025em;
+  min-height: 56px;
+  border: 2px solid transparent;
+}
+
+.rsvp-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s;
+}
+
+.rsvp-button:hover::before {
+  left: 100%;
+}
+
+/* Confirm Button - Ocean Inspired */
+.rsvp-confirm {
+  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #22d3ee 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rsvp-confirm:hover {
+  background: linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #06b6d4 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.3);
+}
+
+.rsvp-confirm:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
+}
+
+/* Decline Button - Coral/Sunset Inspired */
+.rsvp-decline {
+  background: linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #e11d48 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rsvp-decline:hover {
+  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 50%, #be123c 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.3);
+}
+
+.rsvp-decline:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.2);
+}
+
+/* Confirmed State - Success with Beach Vibes */
+.rsvp-confirmed {
+  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rsvp-confirmed:hover {
+  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
+}
+
+/* Rejected State */
+.rsvp-rejected {
+  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.rsvp-rejected:hover {
+  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%);
+}
+
+/* Button Icon Enhancements */
+.rsvp-button .icon {
+  transition: transform 0.3s ease;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
+}
+
+.rsvp-button:hover .icon {
+  transform: scale(1.1);
+}
+
+/* Loading State with Beach Theme */
+.rsvp-loading {
+  background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
+  color: white;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Custom Spinner for Beach Theme */
+.beach-spinner {
+  border: 3px solid rgba(255, 255, 255, 0.3);
+  border-top: 3px solid #ffffff;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: beach-spin 1.2s ease-in-out infinite;
+  margin-right: 8px;
+}
+
+@keyframes beach-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced Section Background */
+.confirmation-section {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.9) 0%,
+    rgba(254, 242, 242, 0.95) 100%
+  );
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+}
+
+/* Improved Typography for Headers */
+.section-title {
+  font-family: 'Dancing Script', cursive;
+  font-size: 1.75rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, #0891b2 0%, #0ea5e9 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+/* Status Badge Enhancements */
+.status-badge {
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.status-confirmed {
+  background: linear-gradient(
+    135deg,
+    rgba(16, 185, 129, 0.15) 0%,
+    rgba(5, 150, 105, 0.15) 100%
+  );
+  color: #047857;
+  border-color: rgba(16, 185, 129, 0.3);
+}
+
+.status-pending {
+  background: linear-gradient(
+    135deg,
+    rgba(251, 191, 36, 0.15) 0%,
+    rgba(245, 158, 11, 0.15) 100%
+  );
+  color: #92400e;
+  border-color: rgba(251, 191, 36, 0.3);
+}
+
+.status-rejected {
+  background: linear-gradient(
+    135deg,
+    rgba(239, 68, 68, 0.15) 0%,
+    rgba(220, 38, 38, 0.15) 100%
+  );
+  color: #991b1b;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
+/* Place Card Enhancement */
+.place-card-enhanced {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(248, 250, 252, 0.95) 100%
+  );
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Responsive Improvements */
+@media (max-width: 640px) {
+  .rsvp-button {
+    min-height: 52px;
+    font-size: 0.9rem;
+    border-radius: 14px;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+  }
+
+  .beach-spinner {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Disabled State */
+.rsvp-button:disabled {
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+  color: #64748b;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.rsvp-button:disabled::before {
+  display: none;
+}
+
+/* Accessibility Enhancements */
+.rsvp-button:focus-visible {
+  outline: 3px solid rgba(59, 130, 246, 0.5);
+  outline-offset: 2px;
+}
+
+/* Animation for state changes */
+.status-change-animation {
+  animation: statusPulse 0.6s ease-out;
+}
+
+@keyframes statusPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
