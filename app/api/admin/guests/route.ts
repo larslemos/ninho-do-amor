@@ -1,3 +1,5 @@
+//api/admin/guests/route.ts
+
 import { type NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
@@ -91,6 +93,40 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       message: 'Convidado criado com sucesso!',
       guest,
+    });
+  } catch (error) {
+    console.error('Erro interno:', error);
+    return NextResponse.json(
+      { error: 'Erro interno do servidor' },
+      { status: 500 }
+    );
+  }
+}
+
+// DELETE - Delete a guest
+export async function DELETE(request: NextRequest) {
+  try {
+    const { guestId } = await request.json();
+
+    if (!guestId) {
+      return NextResponse.json(
+        { error: 'Guest ID é obrigatório' },
+        { status: 400 }
+      );
+    }
+
+    const { error } = await supabase.from('guests').delete().eq('id', guestId);
+
+    if (error) {
+      console.error('Erro ao excluir convidado:', error);
+      return NextResponse.json(
+        { error: 'Erro ao excluir convidado: ' + error.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: 'Convidado excluído com sucesso!',
     });
   } catch (error) {
     console.error('Erro interno:', error);

@@ -11,6 +11,14 @@ import {
   BarChart3,
 } from 'lucide-react';
 
+/**
+ * A responsive header component for the PingDigital wedding management
+ * platform. It displays the PingDigital logo, navigation menu, and a
+ * mobile menu that appears when the menu button is clicked.
+ *
+ * @returns A `header` element containing the PingDigital logo, navigation
+ * menu, and mobile menu.
+ */
 export default function PlatformHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
