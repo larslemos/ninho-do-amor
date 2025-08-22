@@ -1,8 +1,22 @@
-"use client"
+'use client';
 
-import { useState } from "react"
-import { User, Shield, Eye, Edit, Trash2, Plus, Mic, Palette, Car } from 'lucide-react'
-import type { SystemUser, UserRole, Permission } from "@/types/mozambique-wedding"
+import { useState } from 'react';
+import {
+  User,
+  Shield,
+  Eye,
+  Edit,
+  Trash2,
+  Plus,
+  Mic,
+  Palette,
+  Car,
+} from 'lucide-react';
+import type {
+  SystemUser,
+  UserRole,
+  Permission,
+} from '@/types/mozambique-wedding';
 
 const roleConfigs = {
   mc: {
@@ -16,8 +30,8 @@ const roleConfigs = {
       'view-table-organization',
       'view-timeline',
       'view-emergency-contacts',
-      'view-vip-notes'
-    ] as Permission[]
+      'view-vip-notes',
+    ] as Permission[],
   },
   decoradora: {
     name: 'Decoradora',
@@ -30,8 +44,8 @@ const roleConfigs = {
       'view-themes-colors',
       'view-setup-schedule',
       'contact-couple',
-      'view-reference-photos'
-    ] as Permission[]
+      'view-reference-photos',
+    ] as Permission[],
   },
   motorista: {
     name: 'Motorista/Transporte',
@@ -44,10 +58,10 @@ const roleConfigs = {
       'view-contact-info',
       'view-optimized-routes',
       'view-transport-list',
-      'view-emergency-numbers'
-    ] as Permission[]
-  }
-}
+      'view-emergency-numbers',
+    ] as Permission[],
+  },
+};
 
 const permissionDescriptions: Record<Permission, string> = {
   'view-full-program': 'Visualizar programa completo do evento',
@@ -67,85 +81,97 @@ const permissionDescriptions: Record<Permission, string> = {
   'view-contact-info': 'Contactos dos noivos e padrinhos',
   'view-optimized-routes': 'Rotas optimizadas entre locais',
   'view-transport-list': 'Lista de convidados que precisam transporte',
-  'view-emergency-numbers': 'Números de emergência'
-}
+  'view-emergency-numbers': 'Números de emergência',
+};
 
 export default function UserManagement() {
-  const [users, setUsers] = useState<SystemUser[]>([])
-  const [showAddModal, setShowAddModal] = useState(false)
-  const [editingUser, setEditingUser] = useState<SystemUser | null>(null)
+  const [users, setUsers] = useState<SystemUser[]>([]);
+  const [showAddModal, setShowAddModal] = useState(false);
+  const [editingUser, setEditingUser] = useState<SystemUser | null>(null);
   const [newUser, setNewUser] = useState({
     name: '',
     contact: '',
     role: 'mc' as UserRole,
-    permissions: [] as Permission[]
-  })
+    permissions: [] as Permission[],
+  });
 
   const handleAddUser = () => {
-    const roleConfig = roleConfigs[newUser.role]
+    const roleConfig = roleConfigs[newUser.role];
     const user: SystemUser = {
       id: `user-${Date.now()}`,
       name: newUser.name,
       contact: newUser.contact,
       role: newUser.role,
-      permissions: newUser.permissions.length > 0 ? newUser.permissions : roleConfig.defaultPermissions,
-      weddingId: 'current-wedding'
-    }
-    
-    setUsers(prev => [...prev, user])
-    setNewUser({ name: '', contact: '', role: 'mc', permissions: [] })
-    setShowAddModal(false)
-  }
+      permissions:
+        newUser.permissions.length > 0
+          ? newUser.permissions
+          : roleConfig.defaultPermissions,
+      weddingId: 'current-wedding',
+    };
+
+    setUsers((prev) => [...prev, user]);
+    setNewUser({ name: '', contact: '', role: 'mc', permissions: [] });
+    setShowAddModal(false);
+  };
 
   const handleRoleChange = (role: UserRole) => {
-    const roleConfig = roleConfigs[role]
-    setNewUser(prev => ({
+    const roleConfig = roleConfigs[role];
+    setNewUser((prev) => ({
       ...prev,
       role,
-      permissions: roleConfig.defaultPermissions
-    }))
-  }
+      permissions: roleConfig.defaultPermissions,
+    }));
+  };
 
   const togglePermission = (permission: Permission) => {
-    setNewUser(prev => ({
+    setNewUser((prev) => ({
       ...prev,
       permissions: prev.permissions.includes(permission)
-        ? prev.permissions.filter(p => p !== permission)
-        : [...prev.permissions, permission]
-    }))
-  }
+        ? prev.permissions.filter((p) => p !== permission)
+        : [...prev.permissions, permission],
+    }));
+  };
 
   const deleteUser = (userId: string) => {
-    setUsers(prev => prev.filter(u => u.id !== userId))
-  }
+    setUsers((prev) => prev.filter((u) => u.id !== userId));
+  };
 
   return (
     <div className="p-6">
-      <div className="flex items-center justify-between mb-8">
+      <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">Gestão de Acessos ao Sistema</h1>
-          <p className="text-gray-600">Configure os utilizadores e suas permissões</p>
+          <h1 className="mb-2 text-2xl font-bold text-gray-900">
+            Gestão de Acessos ao Sistema
+          </h1>
+          <p className="text-gray-600">
+            Configure os utilizadores e suas permissões
+          </p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+          className="flex items-center gap-2 rounded-lg bg-rose-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
         >
-          <Plus className="w-5 h-5" />
+          <Plus className="h-5 w-5" />
           Adicionar Utilizador
         </button>
       </div>
 
       {/* Role Overview Cards */}
-      <div className="grid md:grid-cols-3 gap-6 mb-8">
+      <div className="mb-8 grid gap-6 md:grid-cols-3">
         {Object.entries(roleConfigs).map(([roleKey, config]) => {
-          const Icon = config.icon
-          const usersInRole = users.filter(u => u.role === roleKey).length
-          
+          const Icon = config.icon;
+          const usersInRole = users.filter((u) => u.role === roleKey).length;
+
           return (
-            <div key={roleKey} className="bg-white rounded-xl shadow-lg border border-gray-200 p-6">
-              <div className="flex items-center gap-4 mb-4">
-                <div className={`w-12 h-12 ${config.color} rounded-lg flex items-center justify-center`}>
-                  <Icon className="w-6 h-6 text-white" />
+            <div
+              key={roleKey}
+              className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg"
+            >
+              <div className="mb-4 flex items-center gap-4">
+                <div
+                  className={`h-12 w-12 ${config.color} flex items-center justify-center rounded-lg`}
+                >
+                  <Icon className="h-6 w-6 text-white" />
                 </div>
                 <div>
                   <h3 className="font-bold text-gray-900">{config.name}</h3>
@@ -153,28 +179,38 @@ export default function UserManagement() {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900">{usersInRole}</span>
-                <span className="text-sm text-gray-500">utilizador{usersInRole !== 1 ? 'es' : ''}</span>
+                <span className="text-2xl font-bold text-gray-900">
+                  {usersInRole}
+                </span>
+                <span className="text-sm text-gray-500">
+                  utilizador{usersInRole !== 1 ? 'es' : ''}
+                </span>
               </div>
             </div>
-          )
+          );
         })}
       </div>
 
       {/* Users List */}
-      <div className="bg-white rounded-xl shadow-lg border border-gray-200">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-lg font-bold text-gray-900">Utilizadores Registados</h2>
+      <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
+        <div className="border-b border-gray-200 p-6">
+          <h2 className="text-lg font-bold text-gray-900">
+            Utilizadores Registados
+          </h2>
         </div>
-        
+
         {users.length === 0 ? (
           <div className="p-12 text-center">
-            <User className="w-16 h-16 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-semibold text-gray-900 mb-2">Nenhum utilizador registado</h3>
-            <p className="text-gray-600 mb-6">Adicione utilizadores para dar acesso ao sistema</p>
+            <User className="mx-auto mb-4 h-16 w-16 text-gray-300" />
+            <h3 className="mb-2 text-lg font-semibold text-gray-900">
+              Nenhum utilizador registado
+            </h3>
+            <p className="mb-6 text-gray-600">
+              Adicione utilizadores para dar acesso ao sistema
+            </p>
             <button
               onClick={() => setShowAddModal(true)}
-              className="bg-rose-600 hover:bg-rose-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+              className="rounded-lg bg-rose-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
             >
               Adicionar Primeiro Utilizador
             </button>
@@ -184,82 +220,90 @@ export default function UserManagement() {
             <table className="w-full">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     Utilizador
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     Função
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     Contacto
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     Permissões
                   </th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                     Ações
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
+              <tbody className="divide-y divide-gray-200 bg-white">
                 {users.map((user) => {
-                  const roleConfig = roleConfigs[user.role]
-                  const Icon = roleConfig.icon
-                  
+                  const roleConfig = roleConfigs[user.role];
+                  const Icon = roleConfig.icon;
+
                   return (
                     <tr key={user.id} className="hover:bg-gray-50">
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center gap-3">
-                          <div className={`w-10 h-10 ${roleConfig.color} rounded-lg flex items-center justify-center`}>
-                            <Icon className="w-5 h-5 text-white" />
+                          <div
+                            className={`h-10 w-10 ${roleConfig.color} flex items-center justify-center rounded-lg`}
+                          >
+                            <Icon className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium text-gray-900">{user.name}</div>
-                            <div className="text-sm text-gray-500">ID: {user.id}</div>
+                            <div className="text-sm font-medium text-gray-900">
+                              {user.name}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              ID: {user.id}
+                            </div>
                           </div>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                      <td className="whitespace-nowrap px-6 py-4">
+                        <span className="inline-flex items-center rounded-full bg-gray-100 px-2.5 py-0.5 text-xs font-medium text-gray-800">
                           {roleConfig.name}
                         </span>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                         {user.contact}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
+                      <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex items-center gap-2">
-                          <Shield className="w-4 h-4 text-gray-400" />
-                          <span className="text-sm text-gray-600">{user.permissions.length} permissões</span>
+                          <Shield className="h-4 w-4 text-gray-400" />
+                          <span className="text-sm text-gray-600">
+                            {user.permissions.length} permissões
+                          </span>
                         </div>
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                      <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                         <div className="flex gap-2">
                           <button
                             onClick={() => setEditingUser(user)}
-                            className="text-blue-600 hover:text-blue-900 p-1"
+                            className="p-1 text-blue-600 hover:text-blue-900"
                             title="Ver permissões"
                           >
-                            <Eye className="w-4 h-4" />
+                            <Eye className="h-4 w-4" />
                           </button>
                           <button
                             onClick={() => setEditingUser(user)}
-                            className="text-green-600 hover:text-green-900 p-1"
+                            className="p-1 text-green-600 hover:text-green-900"
                             title="Editar"
                           >
-                            <Edit className="w-4 h-4" />
+                            <Edit className="h-4 w-4" />
                           </button>
                           <button
                             onClick={() => deleteUser(user.id)}
-                            className="text-red-600 hover:text-red-900 p-1"
+                            className="p-1 text-red-600 hover:text-red-900"
                             title="Eliminar"
                           >
-                            <Trash2 className="w-4 h-4" />
+                            <Trash2 className="h-4 w-4" />
                           </button>
                         </div>
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -269,36 +313,45 @@ export default function UserManagement() {
 
       {/* Add User Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
-              <h3 className="text-xl font-bold text-gray-900">Adicionar Novo Utilizador</h3>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
+            <div className="border-b border-gray-200 p-6">
+              <h3 className="text-xl font-bold text-gray-900">
+                Adicionar Novo Utilizador
+              </h3>
             </div>
-            
-            <div className="p-6 space-y-6">
+
+            <div className="space-y-6 p-6">
               {/* Basic Info */}
-              <div className="grid md:grid-cols-2 gap-4">
+              <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
                     Nome Completo *
                   </label>
                   <input
                     type="text"
                     value={newUser.name}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, name: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    onChange={(e) =>
+                      setNewUser((prev) => ({ ...prev, name: e.target.value }))
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: João Silva"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <label className="mb-2 block text-sm font-medium text-gray-700">
                     Contacto *
                   </label>
                   <input
                     type="text"
                     value={newUser.contact}
-                    onChange={(e) => setNewUser(prev => ({ ...prev, contact: e.target.value }))}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-rose-500 focus:border-rose-500"
+                    onChange={(e) =>
+                      setNewUser((prev) => ({
+                        ...prev,
+                        contact: e.target.value,
+                      }))
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: +258 84 123 4567"
                   />
                 </div>
@@ -306,47 +359,56 @@ export default function UserManagement() {
 
               {/* Role Selection */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="mb-3 block text-sm font-medium text-gray-700">
                   Função *
                 </label>
-                <div className="grid md:grid-cols-3 gap-4">
+                <div className="grid gap-4 md:grid-cols-3">
                   {Object.entries(roleConfigs).map(([roleKey, config]) => {
-                    const Icon = config.icon
-                    const isSelected = newUser.role === roleKey
-                    
+                    const Icon = config.icon;
+                    const isSelected = newUser.role === roleKey;
+
                     return (
                       <button
                         key={roleKey}
                         type="button"
                         onClick={() => handleRoleChange(roleKey as UserRole)}
-                        className={`p-4 rounded-lg border-2 transition-all text-left ${
-                          isSelected 
-                            ? 'border-rose-500 bg-rose-50' 
+                        className={`rounded-lg border-2 p-4 text-left transition-all ${
+                          isSelected
+                            ? 'border-rose-500 bg-rose-50'
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <div className="flex items-center gap-3 mb-2">
-                          <div className={`w-8 h-8 ${config.color} rounded-lg flex items-center justify-center`}>
-                            <Icon className="w-4 h-4 text-white" />
+                        <div className="mb-2 flex items-center gap-3">
+                          <div
+                            className={`h-8 w-8 ${config.color} flex items-center justify-center rounded-lg`}
+                          >
+                            <Icon className="h-4 w-4 text-white" />
                           </div>
-                          <span className="font-semibold text-gray-900">{config.name}</span>
+                          <span className="font-semibold text-gray-900">
+                            {config.name}
+                          </span>
                         </div>
-                        <p className="text-sm text-gray-600">{config.description}</p>
+                        <p className="text-sm text-gray-600">
+                          {config.description}
+                        </p>
                       </button>
-                    )
+                    );
                   })}
                 </div>
               </div>
 
               {/* Permissions */}
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-3">
+                <label className="mb-3 block text-sm font-medium text-gray-700">
                   Permissões
                 </label>
-                <div className="bg-gray-50 rounded-lg p-4">
-                  <div className="grid md:grid-cols-2 gap-3">
+                <div className="rounded-lg bg-gray-50 p-4">
+                  <div className="grid gap-3 md:grid-cols-2">
                     {newUser.permissions.map((permission) => (
-                      <label key={permission} className="flex items-start gap-3 cursor-pointer">
+                      <label
+                        key={permission}
+                        className="flex cursor-pointer items-start gap-3"
+                      >
                         <input
                           type="checkbox"
                           checked={true}
@@ -354,7 +416,7 @@ export default function UserManagement() {
                           className="mt-1 rounded border-gray-300 text-rose-600 focus:ring-rose-500"
                         />
                         <div>
-                          <span className="text-sm font-medium text-gray-900 block">
+                          <span className="block text-sm font-medium text-gray-900">
                             {permissionDescriptions[permission]}
                           </span>
                         </div>
@@ -365,17 +427,17 @@ export default function UserManagement() {
               </div>
             </div>
 
-            <div className="p-6 border-t border-gray-200 flex gap-3">
+            <div className="flex gap-3 border-t border-gray-200 p-6">
               <button
                 onClick={handleAddUser}
                 disabled={!newUser.name || !newUser.contact}
-                className="flex-1 bg-rose-600 hover:bg-rose-700 disabled:bg-gray-400 text-white px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="flex-1 rounded-lg bg-rose-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-rose-700 disabled:bg-gray-400"
               >
                 Adicionar Utilizador
               </button>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+                className="rounded-lg border border-gray-300 px-6 py-3 text-gray-700 transition-colors hover:bg-gray-50"
               >
                 Cancelar
               </button>
@@ -386,35 +448,48 @@ export default function UserManagement() {
 
       {/* View/Edit User Modal */}
       {editingUser && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
-            <div className="p-6 border-b border-gray-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+          <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
+            <div className="border-b border-gray-200 p-6">
               <div className="flex items-center gap-3">
-                <div className={`w-12 h-12 ${roleConfigs[editingUser.role].color} rounded-lg flex items-center justify-center`}>
+                <div
+                  className={`h-12 w-12 ${roleConfigs[editingUser.role].color} flex items-center justify-center rounded-lg`}
+                >
                   {(() => {
-                    const Icon = roleConfigs[editingUser.role].icon
-                    return <Icon className="w-6 h-6 text-white" />
+                    const Icon = roleConfigs[editingUser.role].icon;
+                    return <Icon className="h-6 w-6 text-white" />;
                   })()}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">{editingUser.name}</h3>
-                  <p className="text-gray-600">{roleConfigs[editingUser.role].name}</p>
+                  <h3 className="text-xl font-bold text-gray-900">
+                    {editingUser.name}
+                  </h3>
+                  <p className="text-gray-600">
+                    {roleConfigs[editingUser.role].name}
+                  </p>
                 </div>
               </div>
             </div>
-            
+
             <div className="p-6">
               <div className="mb-6">
-                <h4 className="font-semibold text-gray-900 mb-3">Informações de Contacto</h4>
+                <h4 className="mb-3 font-semibold text-gray-900">
+                  Informações de Contacto
+                </h4>
                 <p className="text-gray-600">{editingUser.contact}</p>
               </div>
 
               <div>
-                <h4 className="font-semibold text-gray-900 mb-3">Permissões Atribuídas</h4>
+                <h4 className="mb-3 font-semibold text-gray-900">
+                  Permissões Atribuídas
+                </h4>
                 <div className="space-y-3">
                   {editingUser.permissions.map((permission) => (
-                    <div key={permission} className="flex items-center gap-3 p-3 bg-green-50 rounded-lg">
-                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                    <div
+                      key={permission}
+                      className="flex items-center gap-3 rounded-lg bg-green-50 p-3"
+                    >
+                      <div className="h-2 w-2 rounded-full bg-green-500"></div>
                       <span className="text-sm text-gray-900">
                         {permissionDescriptions[permission]}
                       </span>
@@ -424,10 +499,10 @@ export default function UserManagement() {
               </div>
             </div>
 
-            <div className="p-6 border-t border-gray-200 flex gap-3">
+            <div className="flex gap-3 border-t border-gray-200 p-6">
               <button
                 onClick={() => setEditingUser(null)}
-                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 px-6 py-3 rounded-lg font-semibold transition-colors"
+                className="flex-1 rounded-lg bg-gray-300 px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-400"
               >
                 Fechar
               </button>
@@ -436,5 +511,5 @@ export default function UserManagement() {
         </div>
       )}
     </div>
-  )
+  );
 }

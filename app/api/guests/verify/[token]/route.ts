@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from "next/server";
-import { supabase } from "@/lib/supabase";
+import { type NextRequest, NextResponse } from 'next/server';
+import { supabase } from '@/lib/supabase';
 
 export async function GET(
   request: NextRequest,
@@ -10,21 +10,21 @@ export async function GET(
 
     if (!token) {
       return NextResponse.json(
-        { error: "Token é obrigatório" },
+        { error: 'Token é obrigatório' },
         { status: 400 }
       );
     }
 
     const { data: guest, error } = await supabase
-      .from("guests")
-      .select("*")
-      .eq("token", token)
+      .from('guests')
+      .select('*')
+      .eq('token', token)
       .single();
 
     if (error) {
-      console.error("Erro ao buscar convidado:", error);
+      console.error('Erro ao buscar convidado:', error);
       return NextResponse.json(
-        { error: "Convidado não encontrado" },
+        { error: 'Convidado não encontrado' },
         { status: 404 }
       );
     }
@@ -33,7 +33,7 @@ export async function GET(
     if (guest.rsvp_deadline && new Date(guest.rsvp_deadline) < new Date()) {
       return NextResponse.json(
         {
-          error: "Convite expirado",
+          error: 'Convite expirado',
           convidado: {
             id: guest.id,
             nome: guest.nome,
@@ -66,9 +66,9 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error("Erro interno:", error);
+    console.error('Erro interno:', error);
     return NextResponse.json(
-      { error: "Erro interno do servidor" },
+      { error: 'Erro interno do servidor' },
       { status: 500 }
     );
   }

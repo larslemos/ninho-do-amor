@@ -1,36 +1,36 @@
 // Tipos base para o sistema de casamentos moçambicano
 export interface Couple {
-  id: string
+  id: string;
   groom: {
-    fullName: string
-    traditionalName?: string
-    contact: ContactInfo
-    province: MozambiqueProvince
-    preferredLanguages: Language[]
-    religiousTradition: ReligiousTradition
-  }
+    fullName: string;
+    traditionalName?: string;
+    contact: ContactInfo;
+    province: MozambiqueProvince;
+    preferredLanguages: Language[];
+    religiousTradition: ReligiousTradition;
+  };
   bride: {
-    fullName: string
-    maidenName: string
-    traditionalName?: string
-    contact: ContactInfo
-    province: MozambiqueProvince
-    preferredLanguages: Language[]
-    religiousTradition: ReligiousTradition
-  }
-  weddingId: string
-  createdAt: string
-  updatedAt: string
+    fullName: string;
+    maidenName: string;
+    traditionalName?: string;
+    contact: ContactInfo;
+    province: MozambiqueProvince;
+    preferredLanguages: Language[];
+    religiousTradition: ReligiousTradition;
+  };
+  weddingId: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ContactInfo {
-  phone: string
-  whatsapp: string
-  email: string
-  address: string
+  phone: string;
+  whatsapp: string;
+  email: string;
+  address: string;
 }
 
-export type MozambiqueProvince = 
+export type MozambiqueProvince =
   | 'Maputo'
   | 'Gaza'
   | 'Inhambane'
@@ -40,9 +40,9 @@ export type MozambiqueProvince =
   | 'Zambézia'
   | 'Nampula'
   | 'Cabo Delgado'
-  | 'Niassa'
+  | 'Niassa';
 
-export type Language = 
+export type Language =
   | 'Português'
   | 'Changana'
   | 'Sena'
@@ -50,57 +50,53 @@ export type Language =
   | 'Makhuwa'
   | 'Lomwe'
   | 'Tsonga'
-  | 'Nyanja'
+  | 'Nyanja';
 
-export type ReligiousTradition = 
+export type ReligiousTradition =
   | 'Católica'
   | 'Protestante'
   | 'Islâmica'
   | 'Tradicional'
-  | 'Outras'
+  | 'Outras';
 
 export interface WeddingEvent {
-  id: string
-  type: EventType
-  date: string
-  startTime: string
-  endTime?: string
-  location: EventLocation
-  capacity?: number
-  witnesses?: string[]
-  officiant?: string
-  enabled: boolean
+  id: string;
+  type: EventType;
+  date: string;
+  startTime: string;
+  endTime?: string;
+  location: EventLocation;
+  capacity?: number;
+  witnesses?: string[];
+  officiant?: string;
+  enabled: boolean;
 }
 
-export type EventType = 
+export type EventType =
   | 'copo-agua'
   | 'cerimonia-civil'
   | 'cerimonia-religiosa'
-  | 'festa-casamento'
+  | 'festa-casamento';
 
 export interface EventLocation {
-  name: string
-  address: string
-  googleMapsUrl?: string
-  reference?: string
+  name: string;
+  address: string;
+  googleMapsUrl?: string;
+  reference?: string;
 }
 
 export interface SystemUser {
-  id: string
-  name: string
-  contact: string
-  role: UserRole
-  permissions: Permission[]
-  weddingId: string
+  id: string;
+  name: string;
+  contact: string;
+  role: UserRole;
+  permissions: Permission[];
+  weddingId: string;
 }
 
-export type UserRole = 
-  | 'mc'
-  | 'decoradora'
-  | 'motorista'
-  | 'noivos'
+export type UserRole = 'mc' | 'decoradora' | 'motorista' | 'noivos';
 
-export type Permission = 
+export type Permission =
   | 'view-full-program'
   | 'view-guest-list'
   | 'view-table-organization'
@@ -118,112 +114,109 @@ export type Permission =
   | 'view-contact-info'
   | 'view-optimized-routes'
   | 'view-transport-list'
-  | 'view-emergency-numbers'
+  | 'view-emergency-numbers';
 
 export interface Guest {
-  id: string
-  fullName: string
-  relationship: GuestRelationship
-  side: 'noiva' | 'noivo' | 'ambos'
-  priority: GuestPriority
+  id: string;
+  fullName: string;
+  relationship: GuestRelationship;
+  side: 'noiva' | 'noivo' | 'ambos';
+  priority: GuestPriority;
   contact: {
-    phone?: string
-    whatsapp?: string
-    email?: string
-    address?: string
-  }
-  companions: number
-  dietaryRestrictions?: string
-  assignedTable?: string
-  status: RSVPStatus
-  events: EventType[]
-  needsTransport: boolean
-  weddingId: string
+    phone?: string;
+    whatsapp?: string;
+    email?: string;
+    address?: string;
+  };
+  companions: number;
+  dietaryRestrictions?: string;
+  assignedTable?: string;
+  status: RSVPStatus;
+  events: EventType[];
+  needsTransport: boolean;
+  weddingId: string;
 }
 
-export type GuestRelationship = 
+export type GuestRelationship =
   | 'Família'
   | 'Amigo'
   | 'Trabalho'
   | 'Vizinho'
-  | 'Igreja'
+  | 'Igreja';
 
-export type GuestPriority = 
+export type GuestPriority =
   | 'VIP'
   | 'Família Próxima'
   | 'Família Alargada'
-  | 'Amigos'
+  | 'Amigos';
 
-export type RSVPStatus = 
-  | 'confirmado'
-  | 'pendente'
-  | 'recusado'
+export type RSVPStatus = 'confirmado' | 'pendente' | 'recusado';
 
 export interface Table {
-  id: string
-  number: string
-  type: 'redonda' | 'rectangular'
-  capacity: number
-  isVIP: boolean
-  isMainTable: boolean
-  guests: string[] // guest IDs
-  weddingId: string
+  id: string;
+  number: string;
+  type: 'redonda' | 'rectangular';
+  capacity: number;
+  isVIP: boolean;
+  isMainTable: boolean;
+  guests: string[]; // guest IDs
+  weddingId: string;
 }
 
 export interface WeddingDesign {
-  id: string
-  style: DesignStyle
-  background: BackgroundOption
-  fonts: FontSelection
-  colors: ColorScheme
-  customText: string
-  weddingId: string
+  id: string;
+  style: DesignStyle;
+  background: BackgroundOption;
+  fonts: FontSelection;
+  colors: ColorScheme;
+  customText: string;
+  weddingId: string;
 }
 
-export type DesignStyle = 
+export type DesignStyle =
   | 'tradicional-mocambicano'
   | 'moderno-minimalista'
   | 'romantico-classico'
-  | 'cultural-regional'
+  | 'cultural-regional';
 
 export interface BackgroundOption {
-  type: 'image' | 'pattern' | 'solid' | 'gradient'
-  value: string
+  type: 'image' | 'pattern' | 'solid' | 'gradient';
+  value: string;
 }
 
 export interface FontSelection {
-  primary: string
-  secondary: string
-  accent: string
+  primary: string;
+  secondary: string;
+  accent: string;
 }
 
 export interface ColorScheme {
-  primary: string
-  secondary: string
-  accent: string
-  background: string
-  text: string
+  primary: string;
+  secondary: string;
+  accent: string;
+  background: string;
+  text: string;
 }
 
 export interface LandingPageConfig {
-  id: string
-  sections: LandingPageSection[]
+  id: string;
+  sections: LandingPageSection[];
   customization: {
-    colors: ColorScheme
-    backgroundMusic?: string
-    animations: boolean
-  }
-  weddingId: string
+    colors: ColorScheme;
+    backgroundMusic?: string;
+    animations: boolean;
+  };
+  weddingId: string;
 }
 
 export interface LandingPageSection {
-  type: SectionType
-  enabled: boolean
-  order: number
-  content: any
+  type: SectionType;
+  enabled: boolean;
+  order: number;
+  content: any;
 }
 
-export type SectionType = 
+export type SectionType =
   | 'header'
   | 'countdown'
   | 'our-story'
@@ -232,54 +225,54 @@ export type SectionType =
   | 'rsvp'
   | 'location'
   | 'gifts'
-  | 'contacts'
+  | 'contacts';
 
 export interface Beverage {
-  id: string
-  name: string
-  category: BeverageCategory
-  subcategory: string
-  pricePerUnit: number
-  supplier: string
-  quantityNeeded: number
-  weddingId: string
+  id: string;
+  name: string;
+  category: BeverageCategory;
+  subcategory: string;
+  pricePerUnit: number;
+  supplier: string;
+  quantityNeeded: number;
+  weddingId: string;
 }
 
-export type BeverageCategory = 
+export type BeverageCategory =
   | 'alcoholic'
   | 'non-alcoholic'
   | 'traditional'
-  | 'hot-drinks'
+  | 'hot-drinks';
 
 export interface PhotoGallery {
-  id: string
-  eventType: EventType
-  photos: Photo[]
-  qrCode: string
-  moderationEnabled: boolean
-  weddingId: string
+  id: string;
+  eventType: EventType;
+  photos: Photo[];
+  qrCode: string;
+  moderationEnabled: boolean;
+  weddingId: string;
 }
 
 export interface Photo {
-  id: string
-  url: string
-  uploadedBy: string
-  uploadedAt: string
-  approved: boolean
-  tags: string[]
-  likes: number
+  id: string;
+  url: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  approved: boolean;
+  tags: string[];
+  likes: number;
 }
 
 export interface WaitingList {
-  id: string
-  guests: WaitingListGuest[]
-  autoInviteEnabled: boolean
-  weddingId: string
+  id: string;
+  guests: WaitingListGuest[];
+  autoInviteEnabled: boolean;
+  weddingId: string;
 }
 
 export interface WaitingListGuest {
-  guestId: string
-  priority: number
-  addedAt: string
-  notifiedAt?: string
+  guestId: string;
+  priority: number;
+  addedAt: string;
+  notifiedAt?: string;
 }
