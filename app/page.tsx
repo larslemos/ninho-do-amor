@@ -114,6 +114,9 @@ export default function Home() {
           isLoadingGuest={isLoadingGuest}
         />
 
+        {/* Countdown Section */}
+        <CountdownSection weddingData={weddingData} />
+
         {/* Confirmation Section - Only show if we have a token */}
         {token && (
           <ConfirmationSection
@@ -123,10 +126,6 @@ export default function Home() {
             isLoadingGuest={isLoadingGuest}
           />
         )}
-
-        {/* Countdown Section */}
-        <CountdownSection weddingData={weddingData} />
-
         {/* Gift Section */}
         <GiftSection weddingData={weddingData} />
 

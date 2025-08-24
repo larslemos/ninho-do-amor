@@ -5,15 +5,17 @@
 import PlatformHeader from '@/components/PlatformHeader';
 import GuestManagement from '@/components/admin/GuestManagement';
 import { useState } from 'react';
-import { Users, BarChart3, Settings, Gift } from 'lucide-react';
+import { Users, BarChart3, Settings, Gift, Send } from 'lucide-react';
+import InviteManagement from '@/components/admin/InviteManagement';
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<
-    'guests' | 'analytics' | 'settings' | 'gifts'
+    'guests' | 'invitations' | 'analytics' | 'settings' | 'gifts'
   >('guests');
 
   const tabs = [
     { id: 'guests', label: 'Gestão de Convidados', icon: Users },
+    { id: 'invitations', label: 'Gestão de Convites', icon: Send },
     { id: 'analytics', label: 'Relatórios', icon: BarChart3 },
     { id: 'gifts', label: 'Lista de Presentes', icon: Gift },
     { id: 'settings', label: 'Configurações', icon: Settings },
@@ -57,6 +59,7 @@ export default function AdminPage() {
         {/* Tab Content */}
         <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
           {activeTab === 'guests' && <GuestManagement />}
+          {activeTab === 'invitations' && <InviteManagement />}
           {activeTab === 'analytics' && (
             <div className="p-8 text-center">
               <BarChart3 className="mx-auto mb-4 h-16 w-16 text-gray-400" />

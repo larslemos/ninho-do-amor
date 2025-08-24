@@ -21,7 +21,6 @@ import {
   ExternalLink,
   AlertTriangle,
   Info,
-  MessageCircle,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import EmailTemplateSelector from './EmailTemplateSelector';
@@ -49,6 +48,11 @@ export default function GuestManagement() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [guestToDelete, setGuestToDelete] = useState<{
+    id: string;
+    nome: string;
+  } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [newGuest, setNewGuest] = useState({
     nome: '',
@@ -191,6 +195,42 @@ export default function GuestManagement() {
     }
   };
 
+  const handleDeleteGuest = async (guestId: string, guestName: string) => {
+    try {
+      const response = await fetch('/api/admin/guests', {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ guestId }),
+      });
+
+      if (response.ok) {
+        await fetchGuests();
+        toast({
+          variant: 'success',
+          title: 'Sucesso! 🗑️',
+          description: `Convidado ${guestName} excluído com sucesso`,
+        });
+      } else {
+        const data = await response.json();
+        toast({
+          variant: 'destructive',
+          title: 'Erro',
+          description: data.error || 'Erro ao excluir convidado',
+        });
+      }
+    } catch (error) {
+      console.error('Error deleting guest:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Erro',
+        description: 'Erro ao excluir convidado',
+      });
+    } finally {
+      setShowDeleteModal(false);
+      setGuestToDelete(null);
+    }
+  };
+
   const handleSendInvitation = async (
     guestId: string,
     method: 'email' | 'sms',
@@ -277,12 +317,10 @@ export default function GuestManagement() {
       return;
     }
 
-    // Format phone number: remove spaces, dashes, and ensure + prefix
     const formattedPhone = phoneNumber
       .replace(/[\s()-]/g, '')
       .replace(/^(\+?)/, '+');
 
-    // Validate phone number (basic check for digits and +)
     if (!/^\+\d{9,15}$/.test(formattedPhone)) {
       toast({
         variant: 'destructive',
@@ -295,7 +333,6 @@ export default function GuestManagement() {
 
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
 
-    // Correct Unicode for emojis:
     const emojis = {
       smile: '\u{1F60A}', // 😊
       ring: '\u{1F48D}', // 💍
@@ -303,17 +340,13 @@ export default function GuestManagement() {
       groom: '\u{1F935}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}', // 🤵🏾‍♂️
     };
 
-    // Construct message with correct Unicode emojis
-    const message = `Olá ${guest.nome} ! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
+    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
 
-    // Encode message, ensuring UTF-8 compatibility
     let encodedMessage;
     try {
       encodedMessage = encodeURIComponent(message);
-      console.log('Encoded message:', encodedMessage);
     } catch (error) {
       console.error('Error encoding message:', error);
-      // Fallback: Replace emojis with text
       const fallbackMessage = `Olá ${guest.nome}! :)\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
       encodedMessage = encodeURIComponent(fallbackMessage);
       toast({
@@ -323,11 +356,7 @@ export default function GuestManagement() {
       });
     }
 
-    // Construct WhatsApp URL (api.whatsapp.com/send is preferred for international)
     const whatsappUrl = `https://api.whatsapp.com/send/?phone=${formattedPhone}&text=${encodedMessage}&type=phone_number&app_absent=0`;
-
-    // Log final URL for debugging
-    console.log('WhatsApp URL:', whatsappUrl);
 
     window.open(whatsappUrl, '_blank');
     toast({
@@ -563,7 +592,10 @@ export default function GuestManagement() {
             <div className="rounded-lg bg-blue-50 p-4 text-center">
               <TrendingUp className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <div className="text-2xl font-bold text-blue-900">
-                {Math.round((stats.confirmed / stats.total) * 100)}%
+                {stats.total > 0
+                  ? Math.round((stats.confirmed / stats.total) * 100)
+                  : 0}
+                %
               </div>
               <div className="text-sm text-blue-700">Taxa de Confirmação</div>
             </div>
@@ -579,7 +611,10 @@ export default function GuestManagement() {
             <div className="rounded-lg bg-purple-50 p-4 text-center">
               <BarChart3 className="mx-auto mb-2 h-8 w-8 text-purple-600" />
               <div className="text-2xl font-bold text-purple-900">
-                {Math.round((stats.invitationsSent / stats.total) * 100)}%
+                {stats.total > 0
+                  ? Math.round((stats.invitationsSent / stats.total) * 100)
+                  : 0}
+                %
               </div>
               <div className="text-sm text-purple-700">Convites Enviados</div>
             </div>
@@ -780,7 +815,15 @@ export default function GuestManagement() {
                           <Edit className="h-4 w-4" />
                         </button>
                         <button
-                          className="p-1 text-red-600 duration-300 animate-in slide-in-from-right hover:text-red-900"
+                          onClick={() => {
+                            setGuestToDelete({
+                              id: guest.id,
+                              nome: guest.nome,
+                            });
+                            setShowDeleteModal(true);
+                          }}
+                          disabled={sendingInvitation === guest.id}
+                          className="p-1 text-red-600 duration-300 animate-in slide-in-from-right hover:text-red-900 disabled:opacity-50"
                           title="Excluir"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -797,7 +840,7 @@ export default function GuestManagement() {
 
       {/* Add Guest Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
+        <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
           <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
             <div className="p-6">
               <h3 className="mb-4 font-josefin text-lg font-semibold text-gray-900">
@@ -854,13 +897,50 @@ export default function GuestManagement() {
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={handleAddGuest}
-                  className="flex-1 rounded-lg bg-rose-600 px-4 py-2 font-josefin text-white transition-colors hover:bg-rose-700"
+                  className="flex-1 rounded-lg bg-rose-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-rose-700"
                 >
                   Adicionar
                 </button>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors hover:bg-gray-400"
+                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteModal && guestToDelete && (
+        <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
+          <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="p-6">
+              <h3 className="mb-4 font-josefin text-lg font-semibold text-gray-900">
+                Confirmar Exclusão
+              </h3>
+              <p className="font-quicksand text-sm text-gray-700">
+                Tem certeza que deseja excluir{' '}
+                <strong>{guestToDelete.nome}</strong>? Esta ação não pode ser
+                desfeita.
+              </p>
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={() =>
+                    handleDeleteGuest(guestToDelete.id, guestToDelete.nome)
+                  }
+                  className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-red-700"
+                >
+                  Excluir
+                </button>
+                <button
+                  onClick={() => {
+                    setShowDeleteModal(false);
+                    setGuestToDelete(null);
+                  }}
+                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
                 >
                   Cancelar
                 </button>

@@ -1,3 +1,5 @@
+//api/admin/guests/route.ts
+
 import { type NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
@@ -10,7 +12,6 @@ const generateUniqueUrl = (nome: string) => {
   return `${randomId}-${nameSlug}`;
 };
 
-// GET - Fetch all guests for admin
 export async function GET() {
   try {
     const { data: guests, error } = await supabase
@@ -36,10 +37,9 @@ export async function GET() {
   }
 }
 
-// POST - Create new guest
 export async function POST(request: NextRequest) {
   try {
-    const { nome, telefone, email, rsvp_deadline } = await request.json();
+    const { nome, telefone, email, rsvp_deadline, mesa } = await request.json();
 
     if (!nome || !telefone) {
       return NextResponse.json(
@@ -48,11 +48,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Generate token and unique_url
     const token = `guest-token-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
     const unique_url = generateUniqueUrl(nome);
 
-    // Prepare guest data
     const guestData = {
       nome: nome.trim(),
       telefone: telefone.trim(),
@@ -61,9 +59,8 @@ export async function POST(request: NextRequest) {
       unique_url,
       status: 'pending',
       rsvp_deadline: rsvp_deadline || '2025-08-25T23:59:59Z',
+      mesa: mesa || null,
     };
-
-    console.log('Creating guest with data:', guestData);
 
     const { data: guest, error } = await supabase
       .from('guests')
@@ -94,6 +91,80 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
+    return NextResponse.json(
+      { error: 'Erro interno do servidor' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  try {
+    const { guestId } = await request.json();
+
+    if (!guestId) {
+      return NextResponse.json(
+        { error: 'Guest ID é obrigatório' },
+        { status: 400 }
+      );
+    }
+
+    const { error } = await supabase.from('guests').delete().eq('id', guestId);
+
+    if (error) {
+      console.error('Erro ao excluir convidado:', error);
+      return NextResponse.json(
+        { error: 'Erro ao excluir convidado: ' + error.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: 'Convidado excluído com sucesso!',
+    });
+  } catch (error) {
+    console.error('Erro interno:', error);
+    return NextResponse.json(
+      { error: 'Erro interno do servidor' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function PATCH(request: NextRequest) {
+  try {
+    const { guestId, mesa } = await request.json();
+
+    if (!guestId) {
+      return NextResponse.json(
+        { error: 'Guest ID é obrigatório' },
+        { status: 400 }
+      );
+    }
+
+    const updateData = { mesa: mesa || null };
+
+    const { data: guest, error } = await supabase
+      .from('guests')
+      .update(updateData)
+      .eq('id', guestId)
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating guest:', error);
+      return NextResponse.json(
+        { error: 'Erro ao atualizar convidado: ' + error.message },
+        { status: 500 }
+      );
+    }
+
+    return NextResponse.json({
+      message: 'Convidado atualizado com sucesso!',
+      guest,
+    });
+  } catch (error) {
+    console.error('Internal error:', error);
     return NextResponse.json(
       { error: 'Erro interno do servidor' },
       { status: 500 }

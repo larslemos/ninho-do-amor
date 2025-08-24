@@ -2,6 +2,7 @@
 'use client';
 
 import { useState } from 'react';
+import { Gift, Waves, Sun } from 'lucide-react';
 import type { WeddingData } from '@/types/wedding';
 import GiftListModal from './GiftListModal';
 
@@ -11,45 +12,65 @@ interface GiftSectionProps {
 
 export default function GiftSection({ weddingData }: GiftSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [animateButton, setAnimateButton] = useState(false);
+
+  const handleButtonClick = () => {
+    setAnimateButton(true);
+    setIsModalOpen(true);
+    setTimeout(() => setAnimateButton(false), 600);
+  };
 
   return (
     <>
-      <div className="mt-6 w-[400px] rounded-xl border border-rose-200 bg-rose-100 p-6 text-center shadow-lg">
-        <div className="mb-4">
-          <div className="mx-auto mb-3 h-12 w-12 text-rose-600">
-            <svg
-              aria-hidden="true"
-              className="h-full w-full"
-              viewBox="0 0 512 512"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="currentColor"
-            >
-              <path d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"></path>
-            </svg>
-          </div>
-          <h2 className="mb-4 text-xl font-semibold text-rose-700">
-            🎁 Lista de Presentes
-          </h2>
+      <div className="place-card font-poppins relative mx-auto mt-6 w-full max-w-md rounded-xl p-6 text-center shadow-lg duration-300 animate-in slide-in-from-right sm:mt-8">
+        {/* Decorative Beach Elements */}
+        <div className="absolute right-0 top-0 h-20 w-20 opacity-10 sm:h-24 sm:w-24">
+          <Waves className="h-full w-full text-sky-400" />
+        </div>
+        <div className="absolute bottom-4 left-4 h-16 w-16 opacity-10 sm:h-20 sm:w-20">
+          <Sun className="h-full w-full text-orange-400" />
         </div>
 
-        <p className="mb-6 leading-relaxed text-rose-500">
-          Queridos amigos e familiares, caso queiram presentear{' '}
-          {weddingData.wedding_details.bride} &{' '}
-          {weddingData.wedding_details.groom}, temos uma lista de sugestões e
-          transferência bancária disponível.
-        </p>
+        <div className="place-card-enhanced relative z-10 rounded-lg bg-white/90 p-6 shadow-inner backdrop-blur-sm">
+          <div className="mb-4">
+            <div className="mx-auto mb-3 h-12 w-12 text-sky-500 sm:h-14 sm:w-14">
+              <Gift className="h-full w-full" aria-hidden="true" />
+            </div>
+            <h2 className="mb-4 flex items-center justify-center gap-2 text-lg font-semibold text-sky-700 sm:text-xl">
+              <Gift className="h-6 w-6 text-sky-500" />
+              Lista de Presentes
+            </h2>
+          </div>
 
-        <button
-          onClick={() => setIsModalOpen(true)}
-          className="inline-flex transform items-center gap-2 rounded-lg bg-gradient-to-r from-rose-600 to-pink-600 px-6 py-3 font-semibold text-white shadow-md transition-all hover:-translate-y-0.5 hover:from-rose-700 hover:to-pink-700 hover:shadow-lg"
-        >
-          <span>🎁</span>
-          Ver Lista de Presentes
-        </button>
+          <p className="mb-6 font-quicksand text-sm leading-relaxed text-sky-600 sm:text-base">
+            Queridos amigos e familiares, caso queiram presentear{' '}
+            <span className="font-dancing text-lg font-semibold text-sky-700">
+              {weddingData.wedding_details.bride}
+            </span>{' '}
+            &{' '}
+            <span className="font-dancing text-lg font-semibold text-sky-700">
+              {weddingData.wedding_details.groom}
+            </span>
+            , temos uma lista de sugestões e transferência bancária disponível.
+          </p>
 
-        <p className="mt-3 text-xs text-rose-400">
-          Lista de presentes • Transferência bancária
-        </p>
+          <button
+            onClick={handleButtonClick}
+            className={`rsvp-button rsvp-confirm inline-flex items-center gap-2 rounded-lg bg-sky-600 px-6 py-3 text-sm font-medium text-white shadow-md transition-all duration-300 hover:bg-sky-700 active:bg-sky-800 sm:text-base ${
+              animateButton ? 'status-change-animation' : ''
+            }`}
+            aria-label="Ver lista de presentes"
+          >
+            <Gift className="h-5 w-5" />
+            <span>Ver Lista de Presentes</span>
+          </button>
+
+          <div className="mt-3 text-xs text-sky-600 sm:text-sm">
+            <p className="font-quicksand">
+              Lista de presentes • Transferência bancária
+            </p>
+          </div>
+        </div>
       </div>
 
       <GiftListModal
