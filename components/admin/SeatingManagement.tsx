@@ -124,7 +124,8 @@ export default function SeatingManagement() {
       toast({
         variant: 'destructive',
         title: 'Erro',
-        description: 'Insira um número válido de mesas e capacidade (maior que 0).',
+        description:
+          'Insira um número válido de mesas e capacidade (maior que 0).',
       });
       return;
     }
@@ -437,7 +438,7 @@ export default function SeatingManagement() {
         <div className="mb-6 flex justify-end gap-2">
           <button
             onClick={() => setShowGenerateTablesModal(true)}
-            className="rsvp-button rsvp-confirm flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white transition-colors animate-in slide-in-from-right hover:bg-sky-700 active:bg-sky-800 sm:text-base"
+            className="rsvp-button rsvp-confirm font-poppins flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm text-white transition-colors animate-in slide-in-from-right hover:bg-sky-700 active:bg-sky-800 sm:text-base"
             aria-label="Gerar mesas automaticamente"
           >
             <Users className="h-4 w-4" />
@@ -445,7 +446,7 @@ export default function SeatingManagement() {
           </button>
           <button
             onClick={() => setShowAddTableModal(true)}
-            className="rsvp-button rsvp-confirm flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white transition-colors animate-in slide-in-from-right hover:bg-sky-700 active:bg-sky-800 sm:text-base"
+            className="rsvp-button rsvp-confirm font-poppins flex items-center gap-2 rounded-lg bg-sky-600 px-4 py-2 text-sm text-white transition-colors animate-in slide-in-from-right hover:bg-sky-700 active:bg-sky-800 sm:text-base"
             aria-label="Adicionar nova mesa"
           >
             <Plus className="h-4 w-4" />
@@ -456,20 +457,24 @@ export default function SeatingManagement() {
         {/* Tables List or Empty State */}
         {tables.length === 0 ? (
           <div className="place-card-enhanced rounded-lg border border-sky-200 bg-white/90 p-8 text-center shadow-inner">
-            <Heart className="mx-auto mb-4 h-12 w-12 text-sky-500" aria-hidden="true" />
+            <Heart
+              className="mx-auto mb-4 h-12 w-12 text-sky-500"
+              aria-hidden="true"
+            />
             <p className="font-quicksand text-sm text-sky-600 sm:text-base">
-              Nenhuma mesa encontrada. Crie ou gere mesas para começar a atribuir convidados.
+              Nenhuma mesa encontrada. Crie ou gere mesas para começar a
+              atribuir convidados.
             </p>
             <div className="mt-4 flex justify-center gap-2">
               <button
                 onClick={() => setShowGenerateTablesModal(true)}
-                className="rsvp-button rsvp-confirm rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white hover:bg-sky-700 sm:text-base"
+                className="rsvp-button rsvp-confirm font-poppins rounded-lg bg-sky-600 px-4 py-2 text-sm text-white hover:bg-sky-700 sm:text-base"
               >
                 Gerar Mesas
               </button>
               <button
                 onClick={() => setShowAddTableModal(true)}
-                className="rsvp-button rsvp-confirm rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white hover:bg-sky-700 sm:text-base"
+                className="rsvp-button rsvp-confirm font-poppins rounded-lg bg-sky-600 px-4 py-2 text-sm text-white hover:bg-sky-700 sm:text-base"
               >
                 Adicionar Mesa
               </button>
@@ -481,22 +486,22 @@ export default function SeatingManagement() {
               <table className="w-full">
                 <thead className="bg-sky-50">
                   <tr>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Mesa
                     </th>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Capacidade
                     </th>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Ocupados
                     </th>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Disponíveis
                     </th>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Convidados
                     </th>
-                    <th className="px-6 py-3 text-left font-poppins text-xs font-medium uppercase tracking-wider text-sky-700">
+                    <th className="font-poppins px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-sky-700">
                       Ações
                     </th>
                   </tr>
@@ -506,7 +511,7 @@ export default function SeatingManagement() {
                     const assignedGuests = getAssignedGuests(table.id);
                     return (
                       <tr key={table.id} className="hover:bg-sky-50">
-                        <td className="whitespace-nowrap px-6 py-4 font-dancing text-sm text-sky-900">
+                        <td className="font-dancing whitespace-nowrap px-6 py-4 text-sm text-sky-900">
                           {table.name}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-sky-900">
@@ -531,7 +536,9 @@ export default function SeatingManagement() {
                                 >
                                   <span className="font-dancing">
                                     {guest.nome}{' '}
-                                    {guest.companions ? `(+${guest.companions})` : ''}
+                                    {guest.companions
+                                      ? `(+${guest.companions})`
+                                      : ''}
                                   </span>
                                   <button
                                     onClick={() =>
@@ -590,7 +597,7 @@ export default function SeatingManagement() {
           <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
             <div className="place-card-enhanced w-full max-w-md rounded-lg bg-white/90 shadow-xl">
               <div className="p-6">
-                <h3 className="mb-4 font-poppins text-lg font-semibold text-sky-900">
+                <h3 className="font-poppins mb-4 text-lg font-semibold text-sky-900">
                   Gerar Mesas
                 </h3>
                 <div className="space-y-4">
@@ -636,14 +643,14 @@ export default function SeatingManagement() {
                 <div className="mt-6 flex gap-3">
                   <button
                     onClick={handleGenerateTables}
-                    className="rsvp-button rsvp-confirm flex-1 rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 sm:text-base"
+                    className="rsvp-button rsvp-confirm font-poppins flex-1 rounded-lg bg-sky-600 px-4 py-2 text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 sm:text-base"
                     aria-label="Gerar mesas"
                   >
                     Gerar
                   </button>
                   <button
                     onClick={() => setShowGenerateTablesModal(false)}
-                    className="rsvp-button flex-1 rounded-lg bg-gray-300 px-4 py-2 font-poppins text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
+                    className="rsvp-button font-poppins flex-1 rounded-lg bg-gray-300 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
                     aria-label="Cancelar geração de mesas"
                   >
                     Cancelar
@@ -659,7 +666,7 @@ export default function SeatingManagement() {
           <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
             <div className="place-card-enhanced w-full max-w-md rounded-lg bg-white/90 shadow-xl">
               <div className="p-6">
-                <h3 className="mb-4 font-poppins text-lg font-semibold text-sky-900">
+                <h3 className="font-poppins mb-4 text-lg font-semibold text-sky-900">
                   Adicionar Nova Mesa
                 </h3>
                 <div className="space-y-4">
@@ -698,14 +705,14 @@ export default function SeatingManagement() {
                 <div className="mt-6 flex gap-3">
                   <button
                     onClick={handleAddTable}
-                    className="rsvp-button rsvp-confirm flex-1 rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 sm:text-base"
+                    className="rsvp-button rsvp-confirm font-poppins flex-1 rounded-lg bg-sky-600 px-4 py-2 text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 sm:text-base"
                     aria-label="Adicionar nova mesa"
                   >
                     Adicionar
                   </button>
                   <button
                     onClick={() => setShowAddTableModal(false)}
-                    className="rsvp-button flex-1 rounded-lg bg-gray-300 px-4 py-2 font-poppins text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
+                    className="rsvp-button font-poppins flex-1 rounded-lg bg-gray-300 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
                     aria-label="Cancelar adição de mesa"
                   >
                     Cancelar
@@ -721,7 +728,7 @@ export default function SeatingManagement() {
           <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
             <div className="place-card-enhanced w-full max-w-md rounded-lg bg-white/90 shadow-xl">
               <div className="p-6">
-                <h3 className="mb-4 font-poppins text-lg font-semibold text-sky-900">
+                <h3 className="font-poppins mb-4 text-lg font-semibold text-sky-900">
                   Atribuir Convidado à {selectedTable.name}
                 </h3>
                 <div className="space-y-4">
@@ -742,7 +749,7 @@ export default function SeatingManagement() {
                             !guest.mesa &&
                             guest.status === 'confirmed' &&
                             getAvailableSeats(selectedTable) >=
-                            1 + (guest.companions || 0)
+                              1 + (guest.companions || 0)
                         )
                         .map((guest) => (
                           <option key={guest.id} value={guest.id}>
@@ -757,7 +764,7 @@ export default function SeatingManagement() {
                   <button
                     onClick={handleAssignGuest}
                     disabled={!selectedGuestId}
-                    className="rsvp-button rsvp-confirm flex-1 rounded-lg bg-sky-600 px-4 py-2 font-poppins text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 disabled:bg-gray-400 sm:text-base"
+                    className="rsvp-button rsvp-confirm font-poppins flex-1 rounded-lg bg-sky-600 px-4 py-2 text-sm text-white transition-colors hover:bg-sky-700 active:bg-sky-800 disabled:bg-gray-400 sm:text-base"
                     aria-label="Atribuir convidado à mesa"
                   >
                     Atribuir
@@ -768,7 +775,7 @@ export default function SeatingManagement() {
                       setSelectedGuestId('');
                       setSelectedTable(null);
                     }}
-                    className="rsvp-button flex-1 rounded-lg bg-gray-300 px-4 py-2 font-poppins text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
+                    className="rsvp-button font-poppins flex-1 rounded-lg bg-gray-300 px-4 py-2 text-sm text-gray-700 transition-colors hover:bg-gray-400 sm:text-base"
                     aria-label="Cancelar atribuição de convidado"
                   >
                     Cancelar
