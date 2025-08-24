@@ -59,8 +59,8 @@ export default function GuestInvitationPage() {
       // Trigger envelope opening animation after component loads
       const timer = setTimeout(() => {
         setEnvelopeOpen(true);
-        setTimeout(() => setShowInvite(true), 800);
-      }, 500);
+        setTimeout(() => setShowInvite(true), 1800);
+      }, 1500);
       return () => clearTimeout(timer);
     }
   }, [isLoading, guest]);

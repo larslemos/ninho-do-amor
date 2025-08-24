@@ -49,20 +49,26 @@ export default function GuestManagement() {
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
-  const [guestToDelete, setGuestToDelete] = useState<{ id: string; nome: string } | null>(null);
+  const [guestToDelete, setGuestToDelete] = useState<{
+    id: string;
+    nome: string;
+  } | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [newGuest, setNewGuest] = useState({
     nome: '',
     telefone: '',
     email: '',
   });
-  const [sendingInvitation, setSendingInvitation] = useState<string | null>(null);
+  const [sendingInvitation, setSendingInvitation] = useState<string | null>(
+    null
+  );
   const [schemaError, setSchemaError] = useState<string | null>(null);
   const [emailInfo, setEmailInfo] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
-  const [selectedGuestForEmail, setSelectedGuestForEmail] = useState<Guest | null>(null);
+  const [selectedGuestForEmail, setSelectedGuestForEmail] =
+    useState<Guest | null>(null);
 
   useEffect(() => {
     fetchGuests();
@@ -586,7 +592,10 @@ export default function GuestManagement() {
             <div className="rounded-lg bg-blue-50 p-4 text-center">
               <TrendingUp className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <div className="text-2xl font-bold text-blue-900">
-                {stats.total > 0 ? Math.round((stats.confirmed / stats.total) * 100) : 0}%
+                {stats.total > 0
+                  ? Math.round((stats.confirmed / stats.total) * 100)
+                  : 0}
+                %
               </div>
               <div className="text-sm text-blue-700">Taxa de Confirmação</div>
             </div>
@@ -602,7 +611,10 @@ export default function GuestManagement() {
             <div className="rounded-lg bg-purple-50 p-4 text-center">
               <BarChart3 className="mx-auto mb-2 h-8 w-8 text-purple-600" />
               <div className="text-2xl font-bold text-purple-900">
-                {stats.total > 0 ? Math.round((stats.invitationsSent / stats.total) * 100) : 0}%
+                {stats.total > 0
+                  ? Math.round((stats.invitationsSent / stats.total) * 100)
+                  : 0}
+                %
               </div>
               <div className="text-sm text-purple-700">Convites Enviados</div>
             </div>
@@ -804,7 +816,10 @@ export default function GuestManagement() {
                         </button>
                         <button
                           onClick={() => {
-                            setGuestToDelete({ id: guest.id, nome: guest.nome });
+                            setGuestToDelete({
+                              id: guest.id,
+                              nome: guest.nome,
+                            });
                             setShowDeleteModal(true);
                           }}
                           disabled={sendingInvitation === guest.id}
@@ -825,7 +840,7 @@ export default function GuestManagement() {
 
       {/* Add Guest Modal */}
       {showAddModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 animate-in fadeIn duration-300">
+        <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
           <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
             <div className="p-6">
               <h3 className="mb-4 font-josefin text-lg font-semibold text-gray-900">
@@ -882,13 +897,13 @@ export default function GuestManagement() {
               <div className="mt-6 flex gap-3">
                 <button
                   onClick={handleAddGuest}
-                  className="flex-1 rounded-lg bg-rose-600 px-4 py-2 font-josefin text-white transition-colors hover:bg-rose-700 animate-in slide-in-from-right"
+                  className="flex-1 rounded-lg bg-rose-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-rose-700"
                 >
                   Adicionar
                 </button>
                 <button
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors hover:bg-gray-400 animate-in slide-in-from-right"
+                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
                 >
                   Cancelar
                 </button>
@@ -900,19 +915,23 @@ export default function GuestManagement() {
 
       {/* Delete Confirmation Modal */}
       {showDeleteModal && guestToDelete && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 animate-in fadeIn duration-300">
+        <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
           <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
             <div className="p-6">
               <h3 className="mb-4 font-josefin text-lg font-semibold text-gray-900">
                 Confirmar Exclusão
               </h3>
               <p className="font-quicksand text-sm text-gray-700">
-                Tem certeza que deseja excluir <strong>{guestToDelete.nome}</strong>? Esta ação não pode ser desfeita.
+                Tem certeza que deseja excluir{' '}
+                <strong>{guestToDelete.nome}</strong>? Esta ação não pode ser
+                desfeita.
               </p>
               <div className="mt-6 flex gap-3">
                 <button
-                  onClick={() => handleDeleteGuest(guestToDelete.id, guestToDelete.nome)}
-                  className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-josefin text-white transition-colors hover:bg-red-700 animate-in slide-in-from-right"
+                  onClick={() =>
+                    handleDeleteGuest(guestToDelete.id, guestToDelete.nome)
+                  }
+                  className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-red-700"
                 >
                   Excluir
                 </button>
@@ -921,7 +940,7 @@ export default function GuestManagement() {
                     setShowDeleteModal(false);
                     setGuestToDelete(null);
                   }}
-                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors hover:bg-gray-400 animate-in slide-in-from-right"
+                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
                 >
                   Cancelar
                 </button>

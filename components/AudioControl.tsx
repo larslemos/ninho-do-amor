@@ -1,3 +1,5 @@
+// app/components/AudioControl.tsx
+
 'use client';
 
 import type React from 'react';
@@ -13,18 +15,14 @@ export default function AudioControl() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    // Create audio element with a working wedding music URL
-    // Using a placeholder wedding music URL - you can replace this with your actual audio file
+    // Initialize audio element
     audioRef.current = new Audio();
-
-    // For now, we'll use a placeholder. In production, you should:
-    // 1. Upload your audio file to /public/audio/wedding-music.mp3
-    // 2. Or use a direct audio file URL from a CDN
-    audioRef.current.src = '/audio/wedding-music.mp3'; // This should be your actual audio file
+    audioRef.current.src = '/audio/Teeks_-_First_time.mp3';
     audioRef.current.loop = true;
     audioRef.current.volume = volume;
+    audioRef.current.muted = isMuted;
     audioRef.current.crossOrigin = 'anonymous';
-    audioRef.current.preload = 'metadata'; // Added preload attribute for better performance
+    audioRef.current.preload = 'metadata';
 
     const audio = audioRef.current;
 
@@ -42,8 +40,8 @@ export default function AudioControl() {
       setIsLoading(false);
       setHasError(true);
       console.warn(
-        'Wedding music file not found at /public/audio/wedding-music.mp3'
-      ); // Updated error messaging
+        'Audio file not found at /public/audio/Teeks_-_First_time.mp3'
+      );
     };
 
     const handleLoadedData = () => {
@@ -63,22 +61,31 @@ export default function AudioControl() {
       audio.removeEventListener('error', handleError);
       audio.pause();
     };
-  }, [volume]);
+  }, []); // Removed volume dependency to avoid recreating audio element
+
+  // Update volume and mute state when they change
+  useEffect(() => {
+    if (audioRef.current && !hasError) {
+      audioRef.current.volume = volume;
+      audioRef.current.muted = isMuted;
+    }
+  }, [volume, isMuted]);
 
   const togglePlay = async () => {
-    if (!audioRef.current || hasError) return;
+    if (!audioRef.current || hasError) {
+      console.warn('Cannot toggle play: audioRef is null or has error');
+      return;
+    }
 
     try {
       if (isPlaying) {
         audioRef.current.pause();
         setIsPlaying(false);
+        console.log('Audio paused');
       } else {
-        // Try to play, handle potential autoplay restrictions
-        const playPromise = audioRef.current.play();
-        if (playPromise !== undefined) {
-          await playPromise;
-          setIsPlaying(true);
-        }
+        await audioRef.current.play();
+        setIsPlaying(true);
+        console.log('Audio playing');
       }
     } catch (error) {
       console.warn('Playback failed:', error);
@@ -87,22 +94,27 @@ export default function AudioControl() {
   };
 
   const toggleMute = () => {
-    if (!audioRef.current || hasError) return;
+    if (!audioRef.current || hasError) {
+      console.warn('Cannot toggle mute: audioRef is null or has error');
+      return;
+    }
 
-    const newMutedState = !isMuted;
-    audioRef.current.muted = newMutedState;
-    setIsMuted(newMutedState);
+    setIsMuted((prev) => {
+      const newMutedState = !prev;
+      if (audioRef.current) {
+        audioRef.current.muted = newMutedState;
+      }
+      console.log('Mute state:', newMutedState);
+      return newMutedState;
+    });
   };
 
   const handleVolumeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newVolume = Number.parseFloat(e.target.value);
     setVolume(newVolume);
-    if (audioRef.current && !hasError) {
-      audioRef.current.volume = newVolume;
-    }
+    console.log('Volume changed to:', newVolume);
   };
 
-  // Don't render if there's an error
   if (hasError) {
     return (
       <div className="fixed right-4 top-4 z-50 rounded-full border border-rose-200 bg-white/90 p-2 shadow-lg backdrop-blur-sm">
@@ -116,14 +128,12 @@ export default function AudioControl() {
   return (
     <div className="fixed right-4 top-4 z-50 rounded-full border border-rose-200 bg-white/90 p-2 shadow-lg backdrop-blur-sm">
       <div className="flex items-center gap-2">
-        {/* Music indicator when not playing */}
         {!isPlaying && !isLoading && (
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-rose-100">
             <Music className="h-4 w-4 text-rose-600" />
           </div>
         )}
 
-        {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
           disabled={isLoading || hasError}
@@ -143,7 +153,6 @@ export default function AudioControl() {
           )}
         </button>
 
-        {/* Volume Controls - Show when playing */}
         {isPlaying && !hasError && (
           <div className="flex items-center gap-2 duration-300 animate-in slide-in-from-right">
             <button
@@ -175,7 +184,6 @@ export default function AudioControl() {
           </div>
         )}
 
-        {/* Pulse animation when playing */}
         {isPlaying && !hasError && (
           <div className="absolute inset-0 animate-ping rounded-full border-2 border-rose-300 opacity-20"></div>
         )}

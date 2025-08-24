@@ -1,4 +1,4 @@
-'use client';
+// app/components/PlatformHeader.tsx
 
 import { useState } from 'react';
 import {
@@ -10,15 +10,8 @@ import {
   Calendar,
   BarChart3,
 } from 'lucide-react';
+import Link from 'next/link';
 
-/**
- * A responsive header component for the PingDigital wedding management
- * platform. It displays the PingDigital logo, navigation menu, and a
- * mobile menu that appears when the menu button is clicked.
- *
- * @returns A `header` element containing the PingDigital logo, navigation
- * menu, and mobile menu.
- */
 export default function PlatformHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,22 +20,31 @@ export default function PlatformHeader() {
       icon: Users,
       title: 'Gestão de Convidados',
       description: 'RSVP e upload de listas',
+      href: '/admin/guests',
     },
     {
       icon: MapPin,
       title: 'Mesas e Lugares',
       description: 'Layout 3D interativo',
+      href: '/admin/seating',
     },
     {
       icon: Gift,
       title: 'Lista de Presentes',
       description: 'Lojas e transferências',
+      href: '/admin/gifts',
     },
-    { icon: Calendar, title: 'Cronograma', description: 'Timeline do evento' },
+    {
+      icon: Calendar,
+      title: 'Cronograma',
+      description: 'Timeline do evento',
+      href: '/admin/schedule',
+    },
     {
       icon: BarChart3,
       title: 'Relatórios',
       description: 'Analytics em tempo real',
+      href: '/admin/reports',
     },
   ];
 
@@ -75,13 +77,14 @@ export default function PlatformHeader() {
 
           <nav className="hidden items-center gap-6 md:flex">
             {features.map((feature, index) => (
-              <div
+              <Link
                 key={index}
+                href={feature.href}
                 className="group flex cursor-pointer items-center gap-2 text-rose-600 transition-colors hover:text-rose-800"
               >
                 <feature.icon className="h-4 w-4" />
                 <span className="text-sm font-medium">{feature.title}</span>
-              </div>
+              </Link>
             ))}
           </nav>
         </div>
@@ -91,8 +94,9 @@ export default function PlatformHeader() {
           <div className="mt-4 border-t border-rose-100 pb-4 md:hidden">
             <nav className="mt-4 space-y-3">
               {features.map((feature, index) => (
-                <div
+                <Link
                   key={index}
+                  href={feature.href}
                   className="flex items-center gap-3 rounded-lg p-3 transition-colors hover:bg-rose-50"
                 >
                   <feature.icon className="h-5 w-5 text-rose-600" />
@@ -104,7 +108,7 @@ export default function PlatformHeader() {
                       {feature.description}
                     </p>
                   </div>
-                </div>
+                </Link>
               ))}
             </nav>
           </div>
