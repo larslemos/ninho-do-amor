@@ -42,6 +42,8 @@
     "@react-email/render": "latest",
     "@supabase/supabase-js": "latest",
     "@t3-oss/env-nextjs": "^0.13.8",
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "autoprefixer": "^10.4.21",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

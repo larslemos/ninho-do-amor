@@ -3,6 +3,11 @@ import type { Metadata } from 'next';
 import { Inter, Josefin_Sans, Quicksand } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+import { AudioProvider } from '@/hooks/use-audio';
+import AudioControl from '@/components/AudioControl';
+
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -30,8 +35,13 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body className={`${josefin.variable} ${quicksand.variable}`}>
-        {children}
-        <Toaster />
+        <AudioProvider>
+          {children}
+          <AudioControl />
+          <Toaster />
+        </AudioProvider>
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

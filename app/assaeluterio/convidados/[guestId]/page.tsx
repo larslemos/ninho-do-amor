@@ -21,7 +21,6 @@ import {
   MailOpen,
 } from 'lucide-react';
 import { env } from '@/env';
-import AudioControl from '@/components/AudioControl';
 
 interface GuestData {
   id: string;
@@ -137,8 +136,6 @@ export default function GuestInvitationPage() {
             Carregando seu convite personalizado...
           </p>
         </div>
-        {/* Audio Control for loading state */}
-        <AudioControl />
       </div>
     );
   }
@@ -179,8 +176,6 @@ export default function GuestInvitationPage() {
             Voltar ao Início
           </Link>
         </div>
-        {/* Audio Control for error state */}
-        <AudioControl />
       </div>
     );
   }
@@ -193,9 +188,6 @@ export default function GuestInvitationPage() {
           'linear-gradient(135deg, rgba(240, 249, 255, 0.95), rgba(224, 242, 254, 0.9), rgba(186, 230, 253, 0.85))',
       }}
     >
-      {/* Audio Control - Now properly placed */}
-      <AudioControl />
-
       {/* Background Image */}
       <div className="fixed inset-0 z-0">
         <Image
