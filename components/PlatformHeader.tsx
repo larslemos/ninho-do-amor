@@ -1,5 +1,5 @@
 // app/components/PlatformHeader.tsx
-"use client";
+'use client';
 
 import { useState } from 'react';
 import {
