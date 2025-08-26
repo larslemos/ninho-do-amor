@@ -58,14 +58,25 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
           });
         })
         .catch((error) => {
-          console.error('Unmuted autoplay failed:', error);
-          setIsPlaying(false);
-          toast({
-            title: 'Música Pausada',
-            description:
-              'Seu navegador bloqueou a reprodução automática. Clique no botão de play para ouvir a música.',
-            variant: 'default',
-          });
+          console.warn('Unmuted autoplay failed:', error);
+          // Fallback to muted autoplay
+          audio.muted = true;
+          setIsMuted(true);
+          audio
+            .play()
+            .then(() => {
+              setIsPlaying(true);
+              toast({
+                title: 'Música Iniciada (Silenciada)',
+                description:
+                  'A música está tocando sem som devido a restrições do navegador. Clique no ícone de volume para ativar o som.',
+                variant: 'default',
+              });
+            })
+            .catch((mutedError) => {
+              console.error('Muted autoplay also failed:', mutedError);
+              setIsPlaying(false);
+            });
         });
     };
 
@@ -201,7 +212,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <AudioContext.Provider value={value}>{children} </AudioContext.Provider>
+    <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
   );
 }
 

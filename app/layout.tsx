@@ -8,7 +8,6 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { AudioProvider } from '@/hooks/use-audio';
 import AudioControl from '@/components/AudioControl';
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

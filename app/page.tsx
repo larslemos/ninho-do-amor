@@ -11,7 +11,8 @@ import CountdownSection from '@/components/CountdownSection';
 import FooterNavComponent from '@/components/FooterNavComponent';
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
-import { track } from '@vercel/analytics';
+// import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server';
 
 export default function Home() {
   const [guest, setGuest] = useState<Guest | null>(null);
@@ -20,7 +21,7 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [isLoadingGuest, setIsLoadingGuest] = useState(false);
 
-  track('Pagina Aberta');
+  // track('Pagina Aberta');
 
   useEffect(() => {
     const urlToken = new URLSearchParams(window.location.search).get('token');
