@@ -100,7 +100,16 @@ export async function POST(request: NextRequest) {
 
 export async function PUT(request: NextRequest) {
   try {
-    const { guestId, nome, telefone, email, mesa } = await request.json();
+    const {
+      guestId,
+      nome,
+      telefone,
+      email,
+      mesa,
+      status,
+      invitation_sent_at,
+      rsvp_deadline,
+    } = await request.json();
 
     if (!guestId || !nome || !telefone) {
       return NextResponse.json(
@@ -109,11 +118,18 @@ export async function PUT(request: NextRequest) {
       );
     }
 
+    if (status && !['pending', 'confirmed', 'rejected'].includes(status)) {
+      return NextResponse.json({ error: 'Status inválido' }, { status: 400 });
+    }
+
     const updateData = {
       nome: nome.trim(),
       telefone: telefone.trim(),
       email: email?.trim() || null,
       mesa: mesa?.trim() || null,
+      status: status || 'pending',
+      invitation_sent_at: invitation_sent_at || null,
+      rsvp_deadline: rsvp_deadline || null,
     };
 
     const { data: guest, error } = await supabase

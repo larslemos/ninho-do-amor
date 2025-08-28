@@ -215,6 +215,9 @@ export default function GuestManagement() {
       telefone: editGuest.telefone.trim(),
       email: editGuest.email?.trim() || null,
       mesa: editGuest.mesa?.trim() || null,
+      status: editGuest.status,
+      invitation_sent_at: editGuest.invitation_sent_at || null,
+      rsvp_deadline: editGuest.rsvp_deadline || null,
     };
 
     try {
@@ -404,7 +407,7 @@ export default function GuestManagement() {
       encodedMessage = encodeURIComponent(message);
     } catch (error) {
       console.error('Error encoding message:', error);
-      const fallbackMessage = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\n  Passo 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento 💍✨  \n\n Passo 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌.   ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
+      const fallbackMessage = `Olá ${guest.nome}! :)\n\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: \n\n ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
       encodedMessage = encodeURIComponent(fallbackMessage);
       toast({
         variant: 'destructive',
@@ -521,6 +524,13 @@ export default function GuestManagement() {
 
   const getPhoneNumber = (guest: Guest) => {
     return guest.telefone || guest.phone || guest.telephone || '';
+  };
+
+  // Format ISO date to datetime-local input format (YYYY-MM-DDTHH:mm)
+  const formatDateForInput = (isoDate?: string) => {
+    if (!isoDate) return '';
+    const date = new Date(isoDate);
+    return date.toISOString().slice(0, 16);
   };
 
   if (loading) {
@@ -1027,6 +1037,7 @@ export default function GuestManagement() {
                     }
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: João Silva"
+                    required
                   />
                 </div>
 
@@ -1042,6 +1053,7 @@ export default function GuestManagement() {
                     }
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: +258 84 123 4567"
+                    required
                   />
                 </div>
 
@@ -1072,6 +1084,67 @@ export default function GuestManagement() {
                     }
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: Mesa 5"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <select
+                    value={editGuest.status}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        status: e.target.value as
+                          | 'pending'
+                          | 'confirmed'
+                          | 'rejected',
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                  >
+                    <option value="pending">Pendente</option>
+                    <option value="confirmed">Confirmado</option>
+                    <option value="rejected">Rejeitado</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Convite Enviado (opcional)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formatDateForInput(editGuest.invitation_sent_at)}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        invitation_sent_at: e.target.value
+                          ? new Date(e.target.value).toISOString()
+                          : null,
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Prazo RSVP (opcional)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formatDateForInput(editGuest.rsvp_deadline)}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        rsvp_deadline: e.target.value
+                          ? new Date(e.target.value).toISOString()
+                          : null,
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                   />
                 </div>
               </div>

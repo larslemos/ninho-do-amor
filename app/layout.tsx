@@ -5,8 +5,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { AudioProvider } from '@/hooks/use-audio';
-import AudioControl from '@/components/AudioControl';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -34,11 +32,10 @@ export default function RootLayout({
   return (
     <html lang="pt">
       <body className={`${josefin.variable} ${quicksand.variable}`}>
-        <AudioProvider>
-          {children}
-          <AudioControl />
-          <Toaster />
-        </AudioProvider>
+        {children}
+
+        <Toaster />
+
         <Analytics />
         <SpeedInsights />
       </body>
