@@ -3,7 +3,6 @@
 'use client';
 
 import WeddingHero from '@/components/WeddingHero';
-import AudioControl from '@/components/AudioControl';
 import ConfirmationSection from '@/components/ConfirmationSection';
 import FelicitationForm from '@/components/FelicitationForm';
 import FelicitationList from '@/components/FelicitationList';
@@ -12,6 +11,8 @@ import CountdownSection from '@/components/CountdownSection';
 import FooterNavComponent from '@/components/FooterNavComponent';
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
+// import { track } from '@vercel/analytics'
+import { track } from '@vercel/analytics/server';
 
 export default function Home() {
   const [guest, setGuest] = useState<Guest | null>(null);
@@ -19,6 +20,8 @@ export default function Home() {
   const [weddingData, setWeddingData] = useState<WeddingData | null>(null);
   const [token, setToken] = useState<string | null>(null);
   const [isLoadingGuest, setIsLoadingGuest] = useState(false);
+
+  // track('Pagina Aberta');
 
   useEffect(() => {
     const urlToken = new URLSearchParams(window.location.search).get('token');
@@ -104,9 +107,6 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
       <div className="flex flex-col items-center justify-center px-6 py-9">
-        {/* Audio Control */}
-        <AudioControl />
-
         {/* Main Wedding Hero */}
         <WeddingHero
           guest={guest}

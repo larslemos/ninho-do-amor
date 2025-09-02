@@ -1,5 +1,7 @@
 // app/components/AudioControl.tsx
 
+// app/components/AudioControl.tsx
+
 'use client';
 
 import { useState, useEffect, useRef } from 'react';

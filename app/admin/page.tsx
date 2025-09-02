@@ -22,10 +22,10 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="bg-gray-50">
       <PlatformHeader />
 
-      <div className="mx-auto max-w-7xl px-4 py-8">
+      <div className="mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
           <h1 className="mb-2 text-3xl font-bold text-gray-900">

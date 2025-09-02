@@ -48,16 +48,19 @@ export default function GuestManagement() {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [guestToDelete, setGuestToDelete] = useState<{
     id: string;
     nome: string;
   } | null>(null);
+  const [editGuest, setEditGuest] = useState<Guest | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [newGuest, setNewGuest] = useState({
     nome: '',
     telefone: '',
     email: '',
+    mesa: '',
   });
   const [sendingInvitation, setSendingInvitation] = useState<string | null>(
     null
@@ -146,6 +149,7 @@ export default function GuestManagement() {
       nome: newGuest.nome.trim(),
       telefone: newGuest.telefone.trim(),
       email: newGuest.email.trim() || null,
+      mesa: newGuest.mesa.trim() || null,
       unique_url: generateUniqueUrl(newGuest.nome),
       rsvp_deadline: '2025-08-25T23:59:59Z',
     };
@@ -161,7 +165,7 @@ export default function GuestManagement() {
 
       if (response.ok) {
         await fetchGuests();
-        setNewGuest({ nome: '', telefone: '', email: '' });
+        setNewGuest({ nome: '', telefone: '', email: '', mesa: '' });
         setShowAddModal(false);
         toast({
           variant: 'success',
@@ -191,6 +195,62 @@ export default function GuestManagement() {
         variant: 'destructive',
         title: 'Erro',
         description: 'Erro ao adicionar convidado',
+      });
+    }
+  };
+
+  const handleEditGuest = async () => {
+    if (!editGuest || !editGuest.nome.trim() || !editGuest.telefone?.trim()) {
+      toast({
+        variant: 'destructive',
+        title: 'Erro',
+        description: 'Nome e telefone são obrigatórios',
+      });
+      return;
+    }
+
+    const guestData = {
+      guestId: editGuest.id,
+      nome: editGuest.nome.trim(),
+      telefone: editGuest.telefone.trim(),
+      email: editGuest.email?.trim() || null,
+      mesa: editGuest.mesa?.trim() || null,
+      status: editGuest.status,
+      invitation_sent_at: editGuest.invitation_sent_at || null,
+      rsvp_deadline: editGuest.rsvp_deadline || null,
+    };
+
+    try {
+      const response = await fetch('/api/admin/guests', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(guestData),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        await fetchGuests();
+        setEditGuest(null);
+        setShowEditModal(false);
+        toast({
+          variant: 'success',
+          title: 'Sucesso! ✏️',
+          description: 'Convidado atualizado com sucesso',
+        });
+      } else {
+        toast({
+          variant: 'destructive',
+          title: 'Erro',
+          description: data.error || 'Erro ao atualizar convidado',
+        });
+      }
+    } catch (error) {
+      console.error('Error updating guest:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Erro',
+        description: 'Erro ao atualizar convidado',
       });
     }
   };
@@ -340,14 +400,14 @@ export default function GuestManagement() {
       groom: '\u{1F935}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}', // 🤵🏾‍♂️
     };
 
-    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
+    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\n  Passo 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento 💍✨  \n\n Passo 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌.   ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
 
     let encodedMessage;
     try {
       encodedMessage = encodeURIComponent(message);
     } catch (error) {
       console.error('Error encoding message:', error);
-      const fallbackMessage = `Olá ${guest.nome}! :)\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
+      const fallbackMessage = `Olá ${guest.nome}! :)\n\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: \n\n ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
       encodedMessage = encodeURIComponent(fallbackMessage);
       toast({
         variant: 'destructive',
@@ -356,7 +416,7 @@ export default function GuestManagement() {
       });
     }
 
-    const whatsappUrl = `https://api.whatsapp.com/send/?phone=${formattedPhone}&text=${encodedMessage}&type=phone_number&app_absent=0`;
+    const whatsappUrl = `https://web.whatsapp.com/send/?phone=${formattedPhone}&text=${encodedMessage}&type=phone_number&app_absent=0`;
 
     window.open(whatsappUrl, '_blank');
     toast({
@@ -380,12 +440,15 @@ export default function GuestManagement() {
         const line = lines[i].trim();
         if (!line) continue;
 
-        const [nome, telefone, email] = line.split(',').map((s) => s.trim());
+        const [nome, telefone, email, mesa] = line
+          .split(',')
+          .map((s) => s.trim());
         if (nome && telefone) {
           newGuests.push({
             nome,
             telefone,
             email: email || null,
+            mesa: mesa || null,
             unique_url: generateUniqueUrl(nome),
             rsvp_deadline: '2025-08-25T23:59:59Z',
           });
@@ -461,6 +524,13 @@ export default function GuestManagement() {
 
   const getPhoneNumber = (guest: Guest) => {
     return guest.telefone || guest.phone || guest.telephone || '';
+  };
+
+  // Format ISO date to datetime-local input format (YYYY-MM-DDTHH:mm)
+  const formatDateForInput = (isoDate?: string) => {
+    if (!isoDate) return '';
+    const date = new Date(isoDate);
+    return date.toISOString().slice(0, 16);
   };
 
   if (loading) {
@@ -809,6 +879,15 @@ export default function GuestManagement() {
                           </button>
                         )}
                         <button
+                          onClick={() => {
+                            setEditGuest({
+                              ...guest,
+                              telefone: phoneNumber,
+                              email: guest.email || '',
+                              mesa: guest.mesa || '',
+                            });
+                            setShowEditModal(true);
+                          }}
                           className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900"
                           title="Editar"
                         >
@@ -892,6 +971,21 @@ export default function GuestManagement() {
                     placeholder="Ex: joao@example.com"
                   />
                 </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Mesa (opcional)
+                  </label>
+                  <input
+                    type="text"
+                    value={newGuest.mesa}
+                    onChange={(e) =>
+                      setNewGuest({ ...newGuest, mesa: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: Mesa 5"
+                  />
+                </div>
               </div>
 
               <div className="mt-6 flex gap-3">
@@ -902,7 +996,171 @@ export default function GuestManagement() {
                   Adicionar
                 </button>
                 <button
-                  onClick={() => setShowAddModal(false)}
+                  onClick={() => {
+                    setNewGuest({
+                      nome: '',
+                      telefone: '',
+                      email: '',
+                      mesa: '',
+                    });
+                    setShowAddModal(false);
+                  }}
+                  className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
+                >
+                  Cancelar
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Edit Guest Modal */}
+      {showEditModal && editGuest && (
+        <div className="fadeIn fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4 duration-300 animate-in">
+          <div className="w-full max-w-md rounded-lg bg-white shadow-xl">
+            <div className="p-6">
+              <h3 className="mb-4 font-josefin text-lg font-semibold text-gray-900">
+                Editar Convidado
+              </h3>
+
+              <div className="space-y-4">
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Nome Completo
+                  </label>
+                  <input
+                    type="text"
+                    value={editGuest.nome}
+                    onChange={(e) =>
+                      setEditGuest({ ...editGuest, nome: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: João Silva"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Telefone
+                  </label>
+                  <input
+                    type="tel"
+                    value={editGuest.telefone || ''}
+                    onChange={(e) =>
+                      setEditGuest({ ...editGuest, telefone: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: +258 84 123 4567"
+                    required
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Email (opcional)
+                  </label>
+                  <input
+                    type="email"
+                    value={editGuest.email || ''}
+                    onChange={(e) =>
+                      setEditGuest({ ...editGuest, email: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: joao@example.com"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Mesa (opcional)
+                  </label>
+                  <input
+                    type="text"
+                    value={editGuest.mesa || ''}
+                    onChange={(e) =>
+                      setEditGuest({ ...editGuest, mesa: e.target.value })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                    placeholder="Ex: Mesa 5"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Status
+                  </label>
+                  <select
+                    value={editGuest.status}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        status: e.target.value as
+                          | 'pending'
+                          | 'confirmed'
+                          | 'rejected',
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                  >
+                    <option value="pending">Pendente</option>
+                    <option value="confirmed">Confirmado</option>
+                    <option value="rejected">Rejeitado</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Convite Enviado (opcional)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formatDateForInput(editGuest.invitation_sent_at)}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        invitation_sent_at: e.target.value
+                          ? new Date(e.target.value).toISOString()
+                          : null,
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                  />
+                </div>
+
+                <div>
+                  <label className="mb-1 block font-quicksand text-sm font-medium text-gray-700">
+                    Prazo RSVP (opcional)
+                  </label>
+                  <input
+                    type="datetime-local"
+                    value={formatDateForInput(editGuest.rsvp_deadline)}
+                    onChange={(e) =>
+                      setEditGuest({
+                        ...editGuest,
+                        rsvp_deadline: e.target.value
+                          ? new Date(e.target.value).toISOString()
+                          : null,
+                      })
+                    }
+                    className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 flex gap-3">
+                <button
+                  onClick={handleEditGuest}
+                  className="flex-1 rounded-lg bg-rose-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-rose-700"
+                >
+                  Salvar
+                </button>
+                <button
+                  onClick={() => {
+                    setEditGuest(null);
+                    setShowEditModal(false);
+                  }}
                   className="flex-1 rounded-lg bg-gray-300 px-4 py-2 font-josefin text-gray-700 transition-colors animate-in slide-in-from-right hover:bg-gray-400"
                 >
                   Cancelar

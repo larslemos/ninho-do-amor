@@ -1,7 +1,5 @@
 // app/components/admin/InviteManagement.tsx
 
-'use client';
-
 import type React from 'react';
 import { useState, useEffect } from 'react';
 import {
@@ -14,6 +12,8 @@ import {
   Mail,
   Bell,
   Smartphone,
+  ArrowUp,
+  ArrowDown,
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { env } from '@/env';
@@ -42,6 +42,10 @@ export default function InviteManagement() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sendingAction, setSendingAction] = useState<string | null>(null);
+  const [sortColumn, setSortColumn] = useState<
+    keyof Guest | 'whatsapp_click' | 'confirmado'
+  >('id');
+  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const { toast } = useToast();
 
   useEffect(() => {
@@ -77,7 +81,66 @@ export default function InviteManagement() {
     guest.nome.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  // Compute stats for cards
+  const sortedGuests = [...filteredGuests].sort((a, b) => {
+    let aValue: any;
+    let bValue: any;
+
+    switch (sortColumn) {
+      case 'id':
+        aValue = a.id.toLowerCase();
+        bValue = b.id.toLowerCase();
+        break;
+      case 'mesa':
+        aValue = a.mesa || '';
+        bValue = b.mesa || '';
+        break;
+      case 'nome':
+        aValue = a.nome.toLowerCase();
+        bValue = b.nome.toLowerCase();
+        break;
+      case 'whatsapp_click':
+        aValue = a.invite_sent_count > 0 ? 1 : 0;
+        bValue = b.invite_sent_count > 0 ? 1 : 0;
+        break;
+      case 'invite_sent_count':
+      case 'whatsapp_delivered_count':
+      case 'sms_sent_count':
+      case 'sms_delivered_count':
+      case 'confirm_sent_count':
+      case 'reminder_count':
+        aValue = a[sortColumn];
+        bValue = b[sortColumn];
+        break;
+      case 'confirmado':
+        aValue = a.status === 'confirmed' ? 1 : 0;
+        bValue = b.status === 'confirmed' ? 1 : 0;
+        break;
+      default:
+        aValue = a.id.toLowerCase();
+        bValue = b.id.toLowerCase();
+    }
+
+    if (aValue === '' || aValue === null)
+      return sortDirection === 'asc' ? 1 : -1;
+    if (bValue === '' || bValue === null)
+      return sortDirection === 'asc' ? -1 : 1;
+
+    if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
+    if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const handleSort = (
+    column: keyof Guest | 'whatsapp_click' | 'confirmado'
+  ) => {
+    if (sortColumn === column) {
+      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+    } else {
+      setSortColumn(column);
+      setSortDirection('asc');
+    }
+  };
+
   const stats = {
     total: guests.length,
     whatsappSent: guests.filter((g) => g.invite_sent_count > 0).length,
@@ -106,7 +169,7 @@ export default function InviteManagement() {
           title: 'Sucesso! 🎉',
           description: data.message,
         });
-        await fetchGuests(); // Refresh guest list
+        await fetchGuests();
       } else {
         toast({
           variant: 'destructive',
@@ -158,6 +221,17 @@ export default function InviteManagement() {
     return guest.sms_delivered_count > 0
       ? `✅ x${guest.sms_delivered_count}`
       : '❌';
+  };
+
+  const renderSortIcon = (
+    column: keyof Guest | 'whatsapp_click' | 'confirmado'
+  ) => {
+    if (sortColumn !== column) return null;
+    return sortDirection === 'asc' ? (
+      <ArrowUp className="ml-1 inline h-4 w-4" />
+    ) : (
+      <ArrowDown className="ml-1 inline h-4 w-4" />
+    );
   };
 
   if (loading) {
@@ -263,38 +337,72 @@ export default function InviteManagement() {
           <table className="w-full">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  ID Convidado
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('id')}
+                >
+                  ID Convidado {renderSortIcon('id')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Mesa
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('mesa')}
+                >
+                  Mesa {renderSortIcon('mesa')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Nome
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('nome')}
+                >
+                  Nome {renderSortIcon('nome')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  WhatsApp Click
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('whatsapp_click')}
+                >
+                  WhatsApp Click {renderSortIcon('whatsapp_click')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Convite Enviado
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('invite_sent_count')}
+                >
+                  Convite Enviado {renderSortIcon('invite_sent_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  WhatsApp Delivered
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('whatsapp_delivered_count')}
+                >
+                  WhatsApp Delivered{' '}
+                  {renderSortIcon('whatsapp_delivered_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  SMS Sent
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('sms_sent_count')}
+                >
+                  SMS Sent {renderSortIcon('sms_sent_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  SMS Delivered
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('sms_delivered_count')}
+                >
+                  SMS Delivered {renderSortIcon('sms_delivered_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Confirmado Enviado
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('confirm_sent_count')}
+                >
+                  Confirmado Enviado {renderSortIcon('confirm_sent_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Confirmado
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('confirmado')}
+                >
+                  Confirmado {renderSortIcon('confirmado')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
-                  Lembretes
+                <th
+                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  onClick={() => handleSort('reminder_count')}
+                >
+                  Lembretes {renderSortIcon('reminder_count')}
                 </th>
                 <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
                   Ações
@@ -302,7 +410,7 @@ export default function InviteManagement() {
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 bg-white">
-              {filteredGuests.map((guest) => (
+              {sortedGuests.map((guest) => (
                 <tr key={guest.id} className="hover:bg-gray-50">
                   <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
                     {guest.id.slice(0, 8)}…
