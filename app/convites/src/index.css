@@ -1,0 +1,185 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Ninho do Amor Wedding Planning App Design System
+All colors MUST be HSL for consistency across light/dark modes.
+*/
+
+@layer base {
+  :root {
+    /* Background & Surface Colors */
+    --background: 30 54% 98%; /* Warm cream white */
+    --foreground: 160 25% 15%; /* Deep forest green for text */
+
+    --card: 30 67% 96%; /* Slightly warmer card background */
+    --card-foreground: 160 25% 15%;
+
+    --popover: 30 67% 96%;
+    --popover-foreground: 160 25% 15%;
+
+    /* Brand Colors - Sage & Botanical Theme */
+    --primary: 142 35% 45%; /* Sage green */
+    --primary-foreground: 30 54% 98%;
+    --primary-light: 142 35% 65%; /* Lighter sage for hovers */
+    --primary-dark: 142 35% 25%; /* Darker sage for depth */
+
+    --secondary: 30 35% 90%; /* Warm oatmeal */
+    --secondary-foreground: 160 25% 15%;
+
+    --muted: 30 25% 92%;
+    --muted-foreground: 160 15% 45%;
+
+    --accent: 25 80% 85%; /* Soft peach for highlights */
+    --accent-foreground: 160 25% 15%;
+
+    /* Wedding Specific Colors */
+    --wedding-gold: 45 90% 75%; /* Elegant gold accent */
+    --wedding-blush: 350 45% 88%; /* Soft blush pink */
+    --wedding-sage: 142 35% 45%; /* Main sage green */
+    --wedding-cream: 30 54% 98%; /* Warm cream */
+
+    /* System Colors */
+    --destructive: 0 75% 55%;
+    --destructive-foreground: 30 54% 98%;
+
+    --border: 30 25% 88%;
+    --input: 30 25% 88%;
+    --ring: 142 35% 45%;
+
+    /* Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--wedding-cream)), hsl(var(--wedding-blush)));
+    --gradient-sage: linear-gradient(180deg, hsl(var(--wedding-sage)), hsl(var(--primary-dark)));
+    --gradient-warm: linear-gradient(45deg, hsl(var(--wedding-cream)), hsl(var(--wedding-gold)));
+
+    /* Shadows */
+    --shadow-soft: 0 2px 8px hsl(var(--primary) / 0.08);
+    --shadow-elegant: 0 8px 32px hsl(var(--primary) / 0.12);
+    --shadow-invitation: 0 12px 40px hsl(var(--primary) / 0.15);
+
+    /* Typography */
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+
+    /* Animation */
+    --transition-elegant: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-quick: all 0.2s ease-out;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dark mode with romantic wedding theme */
+    --background: 160 25% 8%; /* Deep forest green background */
+    --foreground: 30 54% 95%; /* Warm cream text */
+
+    --card: 160 25% 10%;
+    --card-foreground: 30 54% 95%;
+
+    --popover: 160 25% 10%;
+    --popover-foreground: 30 54% 95%;
+
+    --primary: 142 45% 55%; /* Brighter sage in dark mode */
+    --primary-foreground: 160 25% 8%;
+    --primary-light: 142 45% 75%;
+    --primary-dark: 142 45% 35%;
+
+    --secondary: 160 15% 15%;
+    --secondary-foreground: 30 54% 95%;
+
+    --muted: 160 15% 12%;
+    --muted-foreground: 30 25% 65%;
+
+    --accent: 25 80% 70%; /* Warmer peach in dark mode */
+    --accent-foreground: 160 25% 8%;
+
+    /* Wedding colors adjusted for dark mode */
+    --wedding-gold: 45 90% 65%;
+    --wedding-blush: 350 35% 70%;
+    --wedding-sage: 142 45% 55%;
+    --wedding-cream: 30 54% 95%;
+
+    --destructive: 0 75% 60%;
+    --destructive-foreground: 30 54% 95%;
+
+    --border: 160 15% 20%;
+    --input: 160 15% 20%;
+    --ring: 142 45% 55%;
+
+    /* Update gradients for dark mode */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-light)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--background)), hsl(var(--wedding-blush)));
+    --gradient-sage: linear-gradient(180deg, hsl(var(--wedding-sage)), hsl(var(--primary-dark)));
+    --gradient-warm: linear-gradient(45deg, hsl(var(--wedding-cream)), hsl(var(--wedding-gold)));
+
+    --sidebar-background: 160 25% 8%;
+    --sidebar-foreground: 30 54% 95%;
+    --sidebar-primary: 142 45% 55%;
+    --sidebar-primary-foreground: 160 25% 8%;
+    --sidebar-accent: 160 15% 15%;
+    --sidebar-accent-foreground: 30 54% 95%;
+    --sidebar-border: 160 15% 20%;
+    --sidebar-ring: 142 45% 55%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-body);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+  }
+
+  /* Custom font variables */
+  :root {
+    --font-heading: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
+  }
+
+  /* Smooth scrolling */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--primary));
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary-dark));
+  }
+}
