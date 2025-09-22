@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Judy & Helder | Convite de Casamento</title>
+  <link rel="stylesheet" href="style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <!-- Background Image -->
+  <div class="background"></div>
+  <!-- Falling Petals -->
+  <div class="petals-container" id="petals-container"></div>
+
+  <!-- Music Controls -->
+  <div class="music-controls" id="music-controls">
+    <button class="music-toggle" id="music-toggle">
+      <span class="music-icon">🎵</span>
+    </button>
+    <div class="volume-control" id="volume-control">
+      <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+      <span class="volume-icon">🔊</span>
+    </div>
+    <button class="hide-controls" id="hide-controls">×</button>
+  </div>
+
+  <!-- Hidden Music Button -->
+  <button class="hidden-music-btn" id="hidden-music-btn">
+    <span class="music-icon">🎵</span>
+  </button>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="header">
+      <div class="divider"></div>
+      <h1 class="names">J | H</h1>
+      <div class="divider"></div>
+    </div>
+
+    <!-- Couple Photo -->
+    <div class="photo-container">
+      <img 
+        src="backgrounds/3N1A0207_optimized.jpg" 
+        alt="Judy e Helder" 
+        class="couple-photo" 
+        loading="lazy"
+        decoding="async"
+        width="600"
+        height="400"
+      />
+    </div>
+
+    <!-- Wedding Details -->
+    <div class="details">
+        <h1 class="names2"> Judy & Helder </h1>
+      <p class="text">Com a bênção de Deus e de seus pais,<br />têm a honra de convidar para celebrar seu casamento civil</p>
+
+      <div class="info-grid">
+        <div class="info-item">
+          <div class="date">15</div>
+          <div class="label">Novembro 2025</div>
+        </div>
+        <div class="info-item">
+          <div class="time">11:00</div>
+          <div class="label">Horário</div>
+        </div>
+        <div class="info-item">
+          <div class="location">The Venue MZ</div>
+          <div class="label">Local</div>
+          <a href="https://www.google.com/maps/place/The+Venue+MZ/@-25.8571739,32.636692,17z/data=!3m1!4b1!4m6!3m5!1s0x1ee697a056800d33:0x77069f87d33015b1!8m2!3d-25.8571788!4d32.6392669!16s%2Fg%2F11h_1r9n_3!5m1!1e1?entry=ttu&g_ep=EgoyMDI1MDkxNi4wIKXMDSoASAFQAw%3D%3D" target="_blank" class="map-button">Ver Localização</a>
+        </div>
+      </div>
+
+      <div class="note">
+        
+        <p><strong>Seguido pelo copo de agua no mesmo local.</strong><br />
+          Confirme a sua presença clicando no botão abaixo<br />
+          <button class="rsvp-btn" id="rsvp-btn">Confirmar Presença</button>
+        </p>
+      </div>
+
+      <!-- Gift List Section -->
+      <div class="gift-section">
+        <div class="gift-icon">🎁</div>
+        <h3 class="gift-title">PRESENTE</h3>
+        
+        <div class="gift-description">
+          <p>Queridos amigos e familiares, caso queiram presentear-nos podem por favor clicar no botão abaixo para ver as opções disponíveis.</p>
+        </div>
+        
+        <button class="gift-toggle-btn" id="gift-toggle-btn">CLIQUE AQUI</button>
+        
+        <!-- Hidden gift options -->
+        <div class="gift-options" id="gift-options" style="display: none;">
+          <div class="gift-content">
+            <div class="gift-description-detailed">
+              <p><strong>Presentes Monetários:</strong><br />
+              Queridos amigos e familiares, caso queiram presentear-nos podem fazê-lo oferecendo valores monetários no dia do casamento, no momento da dança, "tradição do Kupfupa", ajudando-nos desta forma concretizar os nossos sonhos de recém casados.</p>
+              
+              <p><strong>Presentes Materiais:</strong><br />
+              Também podem fazê-lo oferecendo presentes materiais. Dispomos de uma lista de artigos especificada. A lista já está disponível nas lojas indicadas abaixo:</p>
+            </div>
+
+            <div class="store-list">
+              <div class="store-item">
+                <div class="store-info">
+                  <h4>HISENSE</h4>
+                  <p>Cidade de Maputo</p>
+                </div>
+                <button class="store-link-btn" onclick="openStoreLink('hisense')">visitar a loja</button>
+              </div>
+              
+              <div class="store-item">
+                <div class="store-info">
+                  <h4>BUILDERS WAREHOUSE</h4>
+                  <p>Super Marés</p>
+                </div>
+                <button class="store-link-btn" onclick="openStoreLink('builders')">visitar a loja</button>
+              </div>
+              
+              <div class="store-item">
+                <div class="store-info">
+                  <h4>GIFT VOUCHERS</h4>
+                  <p>Vale-presente</p>
+                </div>
+                <button class="store-link-btn" onclick="openStoreLink('vouchers')">visitar a loja</button>
+              </div>
+            </div>
+            
+            <p class="gift-note">Lista de Artigos disponível na loja.</p>
+          </div>
+        </div>
+      </div>
+
+    <!-- Message Section -->
+    <div class="message-section">
+      <h3>FELICITAÇÕES</h3>
+      
+      <!-- Message Form -->
+      <div class="message-form-container">
+        <form id="message-form" class="message-form">
+          <div class="form-group">
+            <label for="sender-name">Digite o seu nome e apelido *</label>
+            <input type="text" id="sender-name" name="name" required placeholder="Ex.: António João">
+          </div>
+          
+          <div class="form-group">
+            <label for="congratulation-message">Por favor, digite uma mensagem de felicitação aos noivos.</label>
+            <textarea id="congratulation-message" name="message" rows="4" required placeholder="Escreva aqui a sua mensagem de felicitação..."></textarea>
+          </div>
+          
+          <button type="submit" class="submit-btn">ENVIAR</button>
+        </form>
+        
+        <button id="view-messages-btn" class="view-messages-btn">
+          <span class="envelope-icon">✉️</span>
+          VER FELICITAÇÕES
+        </button>
+      </div>
+      
+      <!-- Messages Display -->
+      <div id="messages-display" class="messages-display" style="display: none;">
+        <h4>Mensagens de Felicitação</h4>
+        <div id="messages-list" class="messages-list"></div>
+        <button id="close-messages-btn" class="close-messages-btn">Fechar</button>
+      </div>
+    </div>
+
+    <!-- Success Notification -->
+    <div id="success-notification" class="success-notification">
+      <div class="notification-content">
+        <div class="notification-icon">✅</div>
+        <div class="notification-text">
+          <h4>Mensagem Enviada!</h4>
+          <p>Obrigado pela sua felicitação! 🙏</p>
+        </div>
+        <button class="notification-close" id="close-notification">×</button>
+      </div>
+    </div>
+
+    <!-- Countdown Section -->
+    <div class="countdown-section">
+      <h2 class="countdown-title">FALTA POUCO...</h2>
+      <p class="countdown-subtitle">A contagem decrescente já começou – falta pouco para celebrarmos juntos o nosso grande dia!</p>
+      
+      <div class="countdown-container">
+        <div class="countdown-box">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">Dias</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">Horas</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">Minutos</div>
+        </div>
+        <div class="countdown-box">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">Segundos</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background Music -->
+  <audio id="background-music" loop>
+    <source src="backgrounds/Alicia Keys - Like You'll Never See Me Again (Instrumental).mp3" type="audio/mpeg">
+  </audio>
+
+  <script src="invitation.js"></script>
+</body>
+</html>
