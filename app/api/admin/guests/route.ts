@@ -12,11 +12,30 @@ const generateUniqueUrl = (nome: string) => {
   return `${randomId}-${nameSlug}`;
 };
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const weddingSlug = request.nextUrl.searchParams.get('weddingSlug');
+    if (!weddingSlug) {
+      return NextResponse.json(
+        { error: 'Wedding slug is required' },
+        { status: 400 }
+      );
+    }
+
+    const { data: wedding, error: weddingError } = await supabase
+      .from('weddings')
+      .select('id')
+      .eq('slug', weddingSlug)
+      .single();
+
+    if (weddingError || !wedding) {
+      return NextResponse.json({ error: 'Wedding not found' }, { status: 404 });
+    }
+
     const { data: guests, error } = await supabase
       .from('guests')
       .select('*')
+      .eq('wedding_id', wedding.id)
       .order('created_at', { ascending: false });
 
     if (error) {
@@ -39,13 +58,24 @@ export async function GET() {
 
 export async function POST(request: NextRequest) {
   try {
-    const { nome, telefone, email, rsvp_deadline, mesa } = await request.json();
+    const { nome, telefone, email, rsvp_deadline, mesa, weddingSlug } =
+      await request.json();
 
-    if (!nome || !telefone) {
+    if (!nome || !telefone || !weddingSlug) {
       return NextResponse.json(
-        { error: 'Nome e telefone são obrigatórios' },
+        { error: 'Nome, telefone e wedding slug são obrigatórios' },
         { status: 400 }
       );
+    }
+
+    const { data: wedding, error: weddingError } = await supabase
+      .from('weddings')
+      .select('id')
+      .eq('slug', weddingSlug)
+      .single();
+
+    if (weddingError || !wedding) {
+      return NextResponse.json({ error: 'Wedding not found' }, { status: 404 });
     }
 
     const token = `guest-token-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
@@ -60,6 +90,7 @@ export async function POST(request: NextRequest) {
       status: 'pending',
       rsvp_deadline: rsvp_deadline || '2025-08-25T23:59:59Z',
       mesa: mesa || null,
+      wedding_id: wedding.id,
     };
 
     const { data: guest, error } = await supabase
@@ -109,17 +140,28 @@ export async function PUT(request: NextRequest) {
       status,
       invitation_sent_at,
       rsvp_deadline,
+      weddingSlug,
     } = await request.json();
 
-    if (!guestId || !nome || !telefone) {
+    if (!guestId || !nome || !telefone || !weddingSlug) {
       return NextResponse.json(
-        { error: 'Guest ID, nome e telefone são obrigatórios' },
+        { error: 'Guest ID, nome, telefone e wedding slug são obrigatórios' },
         { status: 400 }
       );
     }
 
     if (status && !['pending', 'confirmed', 'rejected'].includes(status)) {
       return NextResponse.json({ error: 'Status inválido' }, { status: 400 });
+    }
+
+    const { data: wedding, error: weddingError } = await supabase
+      .from('weddings')
+      .select('id')
+      .eq('slug', weddingSlug)
+      .single();
+
+    if (weddingError || !wedding) {
+      return NextResponse.json({ error: 'Wedding not found' }, { status: 404 });
     }
 
     const updateData = {
@@ -136,6 +178,7 @@ export async function PUT(request: NextRequest) {
       .from('guests')
       .update(updateData)
       .eq('id', guestId)
+      .eq('wedding_id', wedding.id)
       .select()
       .single();
 
@@ -162,13 +205,23 @@ export async function PUT(request: NextRequest) {
 
 export async function PATCH(request: NextRequest) {
   try {
-    const { guestId, mesa } = await request.json();
+    const { guestId, mesa, weddingSlug } = await request.json();
 
-    if (!guestId) {
+    if (!guestId || !weddingSlug) {
       return NextResponse.json(
-        { error: 'Guest ID é obrigatório' },
+        { error: 'Guest ID e wedding slug são obrigatórios' },
         { status: 400 }
       );
+    }
+
+    const { data: wedding, error: weddingError } = await supabase
+      .from('weddings')
+      .select('id')
+      .eq('slug', weddingSlug)
+      .single();
+
+    if (weddingError || !wedding) {
+      return NextResponse.json({ error: 'Wedding not found' }, { status: 404 });
     }
 
     const updateData = { mesa: mesa || null };
@@ -177,6 +230,7 @@ export async function PATCH(request: NextRequest) {
       .from('guests')
       .update(updateData)
       .eq('id', guestId)
+      .eq('wedding_id', wedding.id)
       .select()
       .single();
 
@@ -203,16 +257,30 @@ export async function PATCH(request: NextRequest) {
 
 export async function DELETE(request: NextRequest) {
   try {
-    const { guestId } = await request.json();
+    const { guestId, weddingSlug } = await request.json();
 
-    if (!guestId) {
+    if (!guestId || !weddingSlug) {
       return NextResponse.json(
-        { error: 'Guest ID é obrigatório' },
+        { error: 'Guest ID e wedding slug são obrigatórios' },
         { status: 400 }
       );
     }
 
-    const { error } = await supabase.from('guests').delete().eq('id', guestId);
+    const { data: wedding, error: weddingError } = await supabase
+      .from('weddings')
+      .select('id')
+      .eq('slug', weddingSlug)
+      .single();
+
+    if (weddingError || !wedding) {
+      return NextResponse.json({ error: 'Wedding not found' }, { status: 404 });
+    }
+
+    const { error } = await supabase
+      .from('guests')
+      .delete()
+      .eq('id', guestId)
+      .eq('wedding_id', wedding.id);
 
     if (error) {
       console.error('Erro ao excluir convidado:', error);
@@ -222,9 +290,7 @@ export async function DELETE(request: NextRequest) {
       );
     }
 
-    return NextResponse.json({
-      message: 'Convidado excluído com sucesso!',
-    });
+    return NextResponse.json({ message: 'Convidado excluído com sucesso!' });
   } catch (error) {
     console.error('Erro interno:', error);
     return NextResponse.json(

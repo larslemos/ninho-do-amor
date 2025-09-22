@@ -1,32 +1,29 @@
 // lib/api-handler.ts
+
 import { NextRequest, NextResponse } from 'next/server';
-import { apiLogger } from '@/lib/logger';
-import { loggingMiddleware } from '@/middleware/logger';
+import { supabase } from './supabase';
+import { WeddingData } from '@/types/wedding';
 
 type ApiHandler = (req: NextRequest, params?: any) => Promise<NextResponse>;
 
-export function withLogging(handler: ApiHandler) {
+// Simple logging for API routes
+export function withApiLogging(handler: ApiHandler) {
   return async (req: NextRequest, params?: any) => {
-    const completeRequest = loggingMiddleware(req);
+    const startTime = Date.now();
+
+    console.log(`API Request: ${req.method} ${req.url}`);
 
     try {
       const response = await handler(req, params);
-      completeRequest(response);
-      return response;
-    } catch (error) {
-      apiLogger.error(
-        {
-          error: error instanceof Error ? error.message : 'Unknown error',
-          stack: error instanceof Error ? error.stack : undefined,
-          url: req.url,
-          method: req.method,
-        },
-        'API Handler error'
+
+      const duration = Date.now() - startTime;
+      console.log(
+        `API Response: ${req.method} ${req.url} - ${response.status} (${duration}ms)`
       );
 
-      completeRequest(
-        NextResponse.json({ error: 'Internal server error' }, { status: 500 })
-      );
+      return response;
+    } catch (error) {
+      console.error(`API Error: ${req.method} ${req.url}`, error);
 
       return NextResponse.json(
         { error: 'Internal server error' },
@@ -34,4 +31,35 @@ export function withLogging(handler: ApiHandler) {
       );
     }
   };
+}
+
+export async function getWeddingBySlug(
+  slug: string
+): Promise<WeddingData | null> {
+  const { data: wedding, error: weddingError } = await supabase
+    .from('weddings')
+    .select('id')
+    .eq('slug', slug)
+    .single();
+
+  if (weddingError || !wedding) {
+    console.error('Wedding not found:', { slug, error: weddingError });
+    return null;
+  }
+
+  const { data: weddingData, error: dataError } = await supabase
+    .from('wedding_data')
+    .select('*')
+    .eq('wedding_id', wedding.id)
+    .single();
+
+  if (dataError || !weddingData) {
+    console.error('Wedding data not found:', {
+      weddingId: wedding.id,
+      error: dataError,
+    });
+    return null;
+  }
+
+  return weddingData as WeddingData; // Type assertion based on schema
 }

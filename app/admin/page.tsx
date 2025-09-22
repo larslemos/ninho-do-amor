@@ -4,14 +4,41 @@
 
 import PlatformHeader from '@/components/PlatformHeader';
 import GuestManagement from '@/components/admin/GuestManagement';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Users, BarChart3, Settings, Gift, Send } from 'lucide-react';
 import InviteManagement from '@/components/admin/InviteManagement';
+import { supabase } from '@/lib/supabase';
+
+interface Wedding {
+  id: string;
+  slug: string;
+  name: string; // Add other fields as needed
+}
 
 export default function AdminPage() {
   const [activeTab, setActiveTab] = useState<
     'guests' | 'invitations' | 'analytics' | 'settings' | 'gifts'
   >('guests');
+  const [weddings, setWeddings] = useState<Wedding[]>([]);
+  const [selectedWeddingSlug, setSelectedWeddingSlug] = useState<string | null>(
+    null
+  );
+
+  useEffect(() => {
+    const fetchWeddings = async () => {
+      const { data, error } = await supabase
+        .from('weddings')
+        .select('id, slug, name'); // Adjust fields as per your schema
+      if (error) {
+        console.error('Error fetching weddings:', error);
+      } else {
+        setWeddings(data || []);
+        // Set the first wedding as default if available
+        if (data.length > 0) setSelectedWeddingSlug(data[0].slug);
+      }
+    };
+    fetchWeddings();
+  }, []);
 
   const tabs = [
     { id: 'guests', label: 'Gestão de Convidados', icon: Users },
@@ -36,6 +63,31 @@ export default function AdminPage() {
           </p>
         </div>
 
+        {/* Wedding Selector */}
+        <div className="mb-8">
+          <label
+            htmlFor="wedding-select"
+            className="block text-sm font-medium text-gray-700"
+          >
+            Selecionar Casamento
+          </label>
+          <select
+            id="wedding-select"
+            value={selectedWeddingSlug || ''}
+            onChange={(e) => setSelectedWeddingSlug(e.target.value)}
+            className="mt-1 block w-full rounded-md border-gray-300 py-2 pl-3 pr-10 text-base focus:border-rose-500 focus:outline-none focus:ring-rose-500 sm:text-sm"
+          >
+            <option value="" disabled>
+              Selecione um casamento
+            </option>
+            {weddings.map((wedding) => (
+              <option key={wedding.id} value={wedding.slug}>
+                {wedding.name}
+              </option>
+            ))}
+          </select>
+        </div>
+
         {/* Tab Navigation */}
         <div className="mb-8 rounded-lg border border-gray-200 bg-white shadow-sm">
           <nav className="flex">
@@ -58,7 +110,9 @@ export default function AdminPage() {
 
         {/* Tab Content */}
         <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
-          {activeTab === 'guests' && <GuestManagement />}
+          {activeTab === 'guests' && selectedWeddingSlug && (
+            <GuestManagement weddingSlug={selectedWeddingSlug} />
+          )}
           {activeTab === 'invitations' && <InviteManagement />}
           {activeTab === 'analytics' && (
             <div className="p-8 text-center">

@@ -5,11 +5,9 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Import Google Fonts for Josefin Sans and Quicksand */
+/* Import Google Fonts for Josefin Sans, Quicksand, and new fonts */
 @import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Quicksand:wght@400;500;700&display=swap');
-
-/* Import additional Google Fonts for better typography */
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
 
 /* Font families */
 .font-josefin {
@@ -22,8 +20,8 @@
 
 /* Spinner for loading states */
 .spinner {
-  border: 4px solid rgba(233, 190, 93, 0.2);
-  border-top: 4px solid #e9be5d;
+  border: 4px solid rgba(250, 230, 172, 0.2); /* Soft gold */
+  border-top: 4px solid #f59e0b; /* Amber-500 */
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -42,7 +40,7 @@
 
 /* Floral background for decorative elements */
 .floral-bg {
-  background-image: url('/images/floral-pattern.svg');
+  background-image: url('/images/floral-pattern-gold.svg'); /* Updated to gold-themed floral */
   background-size: 80px;
   background-position: top right;
   background-repeat: no-repeat;
@@ -51,78 +49,78 @@
 
 /* Custom color variables */
 :root {
-  --whatsapp-600: #25d366; /* WhatsApp green */
+  --whatsapp-600: #25d366;
   --whatsapp-900: #1da851;
-  --background: oklch(0.98 0.02 60); /* Light cream for better contrast */
-  --foreground: oklch(0.2 0.05 260); /* Darker text for readability */
-  --card: oklch(0.99 0.01 60);
-  --card-foreground: oklch(0.2 0.05 260);
-  --popover: oklch(0.99 0.01 60);
-  --popover-foreground: oklch(0.2 0.05 260);
-  --primary: oklch(0.65 0.15 320); /* Rose for buttons */
-  --primary-foreground: oklch(0.98 0.01 60);
-  --secondary: oklch(0.95 0.03 180); /* Light teal */
-  --secondary-foreground: oklch(0.2 0.05 260);
-  --muted: oklch(0.9 0.02 60);
-  --muted-foreground: oklch(0.5 0.03 260);
-  --accent: oklch(0.95 0.03 180);
-  --accent-foreground: oklch(0.2 0.05 260);
-  --destructive: oklch(0.6 0.2 20); /* Red for errors */
-  --destructive-foreground: oklch(0.98 0.01 60);
-  --border: oklch(0.85 0.02 60);
-  --input: oklch(0.85 0.02 60);
-  --ring: oklch(0.65 0.15 320); /* Rose for focus rings */
-  --chart-1: oklch(0.65 0.22 41); /* Vibrant colors for charts */
+  --background: oklch(0.98 0.02 80); /* Near-white */
+  --foreground: oklch(0.2 0.05 50); /* Dark gray for contrast */
+  --card: oklch(0.99 0.01 80);
+  --card-foreground: oklch(0.2 0.05 50);
+  --popover: oklch(0.99 0.01 80);
+  --popover-foreground: oklch(0.2 0.05 50);
+  --primary: oklch(0.7 0.15 70); /* Gold-inspired */
+  --primary-foreground: oklch(0.98 0.01 80);
+  --secondary: oklch(0.95 0.03 60); /* Soft cream */
+  --secondary-foreground: oklch(0.2 0.05 50);
+  --muted: oklch(0.9 0.02 80);
+  --muted-foreground: oklch(0.5 0.03 50);
+  --accent: oklch(0.95 0.03 60);
+  --accent-foreground: oklch(0.2 0.05 50);
+  --destructive: oklch(0.6 0.2 20);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.85 0.02 80);
+  --input: oklch(0.85 0.02 80);
+  --ring: oklch(0.7 0.15 70);
+  --chart-1: oklch(0.7 0.22 70);
   --chart-2: oklch(0.6 0.12 185);
   --chart-3: oklch(0.4 0.07 227);
   --chart-4: oklch(0.83 0.19 84);
   --chart-5: oklch(0.77 0.19 70);
   --radius: 0.625rem;
-  --sidebar: oklch(0.99 0.01 60);
-  --sidebar-foreground: oklch(0.2 0.05 260);
-  --sidebar-primary: oklch(0.65 0.15 320);
-  --sidebar-primary-foreground: oklch(0.98 0.01 60);
-  --sidebar-accent: oklch(0.95 0.03 180);
-  --sidebar-accent-foreground: oklch(0.2 0.05 260);
-  --sidebar-border: oklch(0.85 0.02 60);
-  --sidebar-ring: oklch(0.65 0.15 320);
+  --sidebar: oklch(0.99 0.01 80);
+  --sidebar-foreground: oklch(0.2 0.05 50);
+  --sidebar-primary: oklch(0.7 0.15 70);
+  --sidebar-primary-foreground: oklch(0.98 0.01 80);
+  --sidebar-accent: oklch(0.95 0.03 60);
+  --sidebar-accent-foreground: oklch(0.2 0.05 50);
+  --sidebar-border: oklch(0.85 0.02 80);
+  --sidebar-ring: oklch(0.7 0.15 70);
 }
 
 .dark {
-  --whatsapp-600: #2be76c; /* Lighter WhatsApp green for dark mode */
+  --whatsapp-600: #2be76c;
   --whatsapp-900: #24c25f;
-  --background: oklch(0.2 0.05 260); /* Dark blue-gray */
-  --foreground: oklch(0.95 0.02 60);
-  --card: oklch(0.25 0.05 260);
-  --card-foreground: oklch(0.95 0.02 60);
-  --popover: oklch(0.25 0.05 260);
-  --popover-foreground: oklch(0.95 0.02 60);
-  --primary: oklch(0.7 0.15 320); /* Brighter rose */
-  --primary-foreground: oklch(0.2 0.05 260);
-  --secondary: oklch(0.3 0.05 180);
-  --secondary-foreground: oklch(0.95 0.02 60);
-  --muted: oklch(0.3 0.05 260);
-  --muted-foreground: oklch(0.6 0.03 60);
-  --accent: oklch(0.3 0.05 180);
-  --accent-foreground: oklch(0.95 0.02 60);
+  --background: oklch(0.2 0.05 50);
+  --foreground: oklch(0.95 0.02 80);
+  --card: oklch(0.25 0.05 50);
+  --card-foreground: oklch(0.95 0.02 80);
+  --popover: oklch(0.25 0.05 50);
+  --popover-foreground: oklch(0.95 0.02 80);
+  --primary: oklch(0.75 0.15 70); /* Brighter gold */
+  --primary-foreground: oklch(0.2 0.05 50);
+  --secondary: oklch(0.3 0.05 60);
+  --secondary-foreground: oklch(0.95 0.02 80);
+  --muted: oklch(0.3 0.05 50);
+  --muted-foreground: oklch(0.6 0.03 80);
+  --accent: oklch(0.3 0.05 60);
+  --accent-foreground: oklch(0.95 0.02 80);
   --destructive: oklch(0.5 0.2 20);
-  --destructive-foreground: oklch(0.95 0.02 60);
-  --border: oklch(0.3 0.05 260);
-  --input: oklch(0.3 0.05 260);
-  --ring: oklch(0.7 0.15 320);
+  --destructive-foreground: oklch(0.95 0.02 80);
+  --border: oklch(0.3 0.05 50);
+  --input: oklch(0.3 0.05 50);
+  --ring: oklch(0.75 0.15 70);
   --chart-1: oklch(0.5 0.24 264);
   --chart-2: oklch(0.7 0.17 162);
   --chart-3: oklch(0.77 0.19 70);
   --chart-4: oklch(0.63 0.27 304);
   --chart-5: oklch(0.65 0.25 16);
-  --sidebar: oklch(0.25 0.05 260);
-  --sidebar-foreground: oklch(0.95 0.02 60);
-  --sidebar-primary: oklch(0.5 0.24 264);
-  --sidebar-primary-foreground: oklch(0.95 0.02 60);
-  --sidebar-accent: oklch(0.3 0.05 180);
-  --sidebar-accent-foreground: oklch(0.95 0.02 60);
-  --sidebar-border: oklch(0.3 0.05 260);
-  --sidebar-ring: oklch(0.7 0.15 320);
+  --sidebar: oklch(0.25 0.05 50);
+  --sidebar-foreground: oklch(0.95 0.02 80);
+  --sidebar-primary: oklch(0.75 0.15 70);
+  --sidebar-primary-foreground: oklch(0.95 0.02 80);
+  --sidebar-accent: oklch(0.3 0.05 60);
+  --sidebar-accent-foreground: oklch(0.95 0.02 80);
+  --sidebar-border: oklch(0.3 0.05 50);
+  --sidebar-ring: oklch(0.75 0.15 70);
 }
 
 /* Base layer for global styles */
@@ -133,332 +131,335 @@
   }
   body {
     @apply bg-background text-foreground;
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Inter', sans-serif;
   }
 }
 
-/* Animations for UI elements */
-@keyframes slide-in-from-right {
-  from {
-    opacity: 0;
-    transform: translateX(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+/* Enhanced Wedding Theme System */
+:root {
+  /* Default/Custom Theme */
+  --wedding-primary: #be185d; /* rose-700 */
+  --wedding-primary-hover: #9f1239; /* rose-800 */
+  --wedding-secondary: #ec4899; /* pink-500 */
+  --wedding-accent: #f9a8d4; /* pink-300 */
+  --wedding-text-primary: #1f2937; /* gray-800 */
+  --wedding-text-secondary: #6b7280; /* gray-500 */
+  --wedding-bg-gradient: linear-gradient(
+    135deg,
+    #fdf2f8 0%,
+    #fce7f3 30%,
+    #fbcfe8 70%,
+    #f9a8d4 100%
+  );
+  --wedding-card-bg: rgba(255, 255, 255, 0.95);
+  --wedding-decorative: #f472b6; /* pink-400 */
+
+  /* Enhanced Typography Hierarchy */
+  --wedding-font-primary:
+    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wedding-font-secondary: 'Playfair Display', 'Dancing Script', serif;
+  --wedding-font-body: 'Inter', 'Quicksand', sans-serif;
+  --wedding-font-accent: 'Crimson Text', serif;
+
+  /* Spacing System */
+  --wedding-space-xs: 0.5rem;
+  --wedding-space-sm: 1rem;
+  --wedding-space-md: 1.5rem;
+  --wedding-space-lg: 2rem;
+  --wedding-space-xl: 3rem;
+  --wedding-space-2xl: 4rem;
 }
 
-.animate-in {
-  animation-fill-mode: both;
+/* Branco Dourado (White Gold) Theme - Updated */
+[data-theme='branco-dourado'] {
+  --wedding-primary: #b45309; /* amber-700 */
+  --wedding-primary-hover: #92400e; /* amber-800 */
+  --wedding-secondary: #f59e0b; /* amber-500 */
+  --wedding-accent: #fde047; /* yellow-300 */
+  --wedding-text-primary: #451a03; /* amber-900 */
+  --wedding-text-secondary: #78716c; /* stone-500 */
+  --wedding-bg-gradient: linear-gradient(
+    135deg,
+    #ffffff 0%,
+    #fef3c7 30%,
+    #fed7aa 70%,
+    #f9e5a0 100%
+  ); /* White to gold gradient */
+  --wedding-card-bg: rgba(255, 255, 255, 0.98);
+  --wedding-decorative: #fbbf24; /* amber-400 */
+
+  /* Elegant typography */
+  --wedding-font-primary: 'Inter', sans-serif;
+  --wedding-font-secondary: 'Playfair Display', serif;
+  --wedding-font-body: 'Inter', sans-serif;
+  --wedding-font-accent: 'Crimson Text', serif;
 }
 
-.slide-in-from-right {
-  animation-name: slide-in-from-right;
+/* Enhanced Wedding Hero Component Styles */
+.wedding-hero {
+  background: var(--wedding-bg-gradient);
+  font-family: var(--wedding-font-body);
+  min-height: 100vh;
+  padding: var(--wedding-space-lg) var(--wedding-space-sm);
 }
 
-.duration-300 {
-  animation-duration: 300ms;
+.wedding-hero-card {
+  background: var(--wedding-card-bg);
+  backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.3);
 }
 
-/* Fade-in animation for place cards */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+/* Enhanced Typography */
+.wedding-names {
+  font-family: var(--wedding-font-secondary);
+  color: var(--wedding-text-primary);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.place-card {
-  animation: fadeIn 0.5s ease-in;
+.wedding-text-primary {
+  color: var(--wedding-text-primary);
+  font-family: var(--wedding-font-primary);
 }
 
-/* Pulse animation for interactive elements (e.g., audio controls) */
-@keyframes pulse-ring {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.2);
-    opacity: 0;
-  }
+.wedding-text-secondary {
+  color: var(--wedding-text-secondary);
+  font-family: var(--wedding-font-body);
 }
 
-.pulse-ring {
-  animation: pulse-ring 2s infinite;
-}
-
-/* Font family additions */
-.font-dancing {
-  font-family: 'Dancing Script', cursive;
-}
-
-.font-poppins {
-  font-family: 'Poppins', sans-serif;
-}
-
-/* Enhanced Button Styles - Beach Wedding Theme */
-.rsvp-button {
+/* Enhanced Buttons */
+.wedding-button {
+  background: linear-gradient(
+    135deg,
+    var(--wedding-primary) 0%,
+    var(--wedding-primary-hover) 100%
+  );
+  color: white;
+  font-family: var(--wedding-font-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
   position: relative;
   overflow: hidden;
-  border-radius: 16px;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(10px);
-  font-family: 'Poppins', sans-serif;
-  font-weight: 500;
-  letter-spacing: 0.025em;
-  min-height: 56px;
-  border: 2px solid transparent;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
 }
 
-.rsvp-button::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
+.wedding-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
+}
+
+.wedding-button:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.1s;
+}
+
+/* Enhanced decorative elements */
+.wedding-accent-line {
   background: linear-gradient(
     90deg,
-    transparent,
-    rgba(255, 255, 255, 0.3),
-    transparent
+    transparent 0%,
+    var(--wedding-secondary) 50%,
+    transparent 100%
   );
-  transition: left 0.5s;
+  height: 2px;
 }
 
-.rsvp-button:hover::before {
-  left: 100%;
+.wedding-heart-icon {
+  color: var(--wedding-secondary);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-/* Confirm Button - Ocean Inspired */
-.rsvp-confirm {
-  background: linear-gradient(135deg, #0ea5e9 0%, #06b6d4 50%, #22d3ee 100%);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.3);
+.wedding-decorative-svg {
+  color: var(--wedding-decorative);
+  opacity: 0.6;
+  filter: blur(0.5px);
 }
 
-.rsvp-confirm:hover {
-  background: linear-gradient(135deg, #0284c7 0%, #0891b2 50%, #06b6d4 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(6, 182, 212, 0.3);
-}
-
-.rsvp-confirm:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 20px rgba(6, 182, 212, 0.2);
-}
-
-/* Decline Button - Coral/Sunset Inspired */
-.rsvp-decline {
-  background: linear-gradient(135deg, #fb7185 0%, #f43f5e 50%, #e11d48 100%);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.rsvp-decline:hover {
-  background: linear-gradient(135deg, #f43f5e 0%, #e11d48 50%, #be123c 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(244, 63, 94, 0.3);
-}
-
-.rsvp-decline:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 20px rgba(244, 63, 94, 0.2);
-}
-
-/* Confirmed State - Success with Beach Vibes */
-.rsvp-confirmed {
-  background: linear-gradient(135deg, #10b981 0%, #059669 50%, #047857 100%);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.rsvp-confirmed:hover {
-  background: linear-gradient(135deg, #059669 0%, #047857 50%, #065f46 100%);
-}
-
-/* Rejected State */
-.rsvp-rejected {
-  background: linear-gradient(135deg, #dc2626 0%, #b91c1c 50%, #991b1b 100%);
-  color: white;
-  border-color: rgba(255, 255, 255, 0.3);
-}
-
-.rsvp-rejected:hover {
-  background: linear-gradient(135deg, #b91c1c 0%, #991b1b 50%, #7f1d1d 100%);
-}
-
-/* Button Icon Enhancements */
-.rsvp-button .icon {
-  transition: transform 0.3s ease;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.1));
-}
-
-.rsvp-button:hover .icon {
-  transform: scale(1.1);
-}
-
-/* Loading State with Beach Theme */
-.rsvp-loading {
-  background: linear-gradient(135deg, #94a3b8 0%, #64748b 50%, #475569 100%);
-  color: white;
-  cursor: not-allowed;
-  border-color: rgba(255, 255, 255, 0.2);
-}
-
-/* Custom Spinner for Beach Theme */
-.beach-spinner {
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top: 3px solid #ffffff;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: beach-spin 1.2s ease-in-out infinite;
-  margin-right: 8px;
-}
-
-@keyframes beach-spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-/* Enhanced Section Background */
-.confirmation-section {
+/* Enhanced date badge */
+.wedding-date-badge {
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.9) 0%,
-    rgba(254, 242, 242, 0.95) 100%
+    var(--wedding-primary) 0%,
+    var(--wedding-secondary) 100%
   );
+  color: white;
+  font-family: var(--wedding-font-primary);
+  font-weight: 900;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+}
+
+/* Enhanced photo styling */
+.wedding-photo {
+  border: 4px solid rgba(255, 255, 255, 0.9);
+  box-shadow:
+    0 25px 50px -12px rgba(0, 0, 0, 0.25),
+    0 0 0 1px rgba(255, 255, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.wedding-photo:hover {
+  transform: scale(1.02);
+  box-shadow:
+    0 32px 64px -12px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+/* Enhanced card components */
+.wedding-info-card,
+.wedding-guest-card,
+.wedding-rsvp-badge {
+  background: var(--wedding-card-bg);
   backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.3);
-  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Improved Typography for Headers */
-.section-title {
-  font-family: 'Dancing Script', cursive;
-  font-size: 1.75rem;
-  font-weight: 700;
-  background: linear-gradient(135deg, #0891b2 0%, #0ea5e9 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 1rem;
+/* Enhanced invitation text */
+.wedding-invitation-text {
+  font-family: var(--wedding-font-accent);
+  color: var(--wedding-text-secondary);
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+  font-style: italic;
+  font-size: 1.1rem;
 }
 
-/* Status Badge Enhancements */
-.status-badge {
-  border-radius: 12px;
-  padding: 12px 16px;
-  font-family: 'Poppins', sans-serif;
+/* Enhanced venue text */
+.wedding-venue-text {
+  font-family: var(--wedding-font-primary);
+  color: var(--wedding-text-primary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+/* Enhanced date container */
+.wedding-date-container {
+  font-family: var(--wedding-font-primary);
   font-weight: 500;
-  font-size: 0.95rem;
-  backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.status-confirmed {
-  background: linear-gradient(
-    135deg,
-    rgba(16, 185, 129, 0.15) 0%,
-    rgba(5, 150, 105, 0.15) 100%
-  );
-  color: #047857;
-  border-color: rgba(16, 185, 129, 0.3);
+/* Icon enhancements */
+.wedding-icon {
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  transition: all 0.3s ease;
 }
 
-.status-pending {
-  background: linear-gradient(
-    135deg,
-    rgba(251, 191, 36, 0.15) 0%,
-    rgba(245, 158, 11, 0.15) 100%
-  );
-  color: #92400e;
-  border-color: rgba(251, 191, 36, 0.3);
+.wedding-button:hover .wedding-icon {
+  transform: scale(1.1) translateY(-1px);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.2));
 }
 
-.status-rejected {
-  background: linear-gradient(
-    135deg,
-    rgba(239, 68, 68, 0.15) 0%,
-    rgba(220, 38, 38, 0.15) 100%
-  );
-  color: #991b1b;
-  border-color: rgba(239, 68, 68, 0.3);
+/* Loading state improvements */
+.wedding-loading {
+  color: var(--wedding-text-secondary);
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
-/* Place Card Enhancement */
-.place-card-enhanced {
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.95) 0%,
-    rgba(248, 250, 252, 0.95) 100%
-  );
-  backdrop-filter: blur(15px);
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 16px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.08);
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .wedding-hero {
+    padding: var(--wedding-space-md) var(--wedding-space-sm);
+  }
+
+  .wedding-names {
+    font-size: 3.5rem;
+    line-height: 1.1;
+  }
+
+  .wedding-invitation-text {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+
+  .wedding-button {
+    width: 6rem;
+    height: 6rem;
+  }
+
+  .wedding-date-badge {
+    font-size: 2.5rem;
+    padding: 0.75rem 1.25rem;
+  }
 }
 
-/* Responsive Improvements */
-@media (max-width: 640px) {
-  .rsvp-button {
-    min-height: 52px;
+@media (max-width: 480px) {
+  .wedding-names {
+    font-size: 2.8rem;
+  }
+
+  .wedding-invitation-text {
     font-size: 0.9rem;
-    border-radius: 14px;
   }
 
-  .section-title {
-    font-size: 1.5rem;
+  .wedding-button {
+    width: 5rem;
+    height: 5rem;
   }
 
-  .beach-spinner {
-    width: 18px;
-    height: 18px;
+  .wedding-button span {
+    font-size: 0.625rem;
   }
 }
 
-/* Disabled State */
-.rsvp-button:disabled {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  color: #64748b;
-  cursor: not-allowed;
-  transform: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* Enhanced animations */
+@keyframes wedding-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
-.rsvp-button:disabled::before {
-  display: none;
+.wedding-hero-card {
+  animation: wedding-fade-in 0.8s ease-out forwards;
 }
 
-/* Accessibility Enhancements */
-.rsvp-button:focus-visible {
-  outline: 3px solid rgba(59, 130, 246, 0.5);
+/* Accessibility improvements */
+.wedding-button:focus-visible {
+  outline: 3px solid rgba(255, 255, 255, 0.8);
   outline-offset: 2px;
 }
 
-/* Animation for state changes */
-.status-change-animation {
-  animation: statusPulse 0.6s ease-out;
-}
+/* Print styles */
+@media print {
+  .wedding-hero {
+    background: white;
+    color: black;
+  }
 
-@keyframes statusPulse {
-  0% {
-    transform: scale(1);
+  .wedding-hero-card {
+    box-shadow: none;
+    border: 1px solid #ccc;
   }
-  50% {
-    transform: scale(1.05);
-  }
-  100% {
-    transform: scale(1);
+
+  .wedding-button {
+    background: #ccc;
+    color: black;
   }
 }

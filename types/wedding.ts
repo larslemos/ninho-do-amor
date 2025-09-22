@@ -1,3 +1,6 @@
+// types/wedding.ts
+
+// types/wedding.ts
 export interface Guest {
   id: string;
   nome: string;
@@ -7,28 +10,26 @@ export interface Guest {
   unique_url: string;
   token: string;
   rsvp_deadline?: string; // ISO string format
+  wedding_id: string;
+  // Add other fields as needed (e.g., telefone, companions)
 }
-
 export interface WeddingData {
-  wedding_details: {
-    bride: string;
-    groom: string;
-    date: string;
-    day_of_week: string;
-    time: string;
-    venue: string;
-    rsvp_numbers: string[];
-  };
-  invitation_text: {
-    portuguese: string;
-  };
+  id: string;
+  // slug?: string;
+  bride: string;
+  groom: string;
+  date: string; // ISO string format
+  day_of_week: string;
+  time: string;
+  venue: string;
+  rsvp_numbers: string[];
+  invitation_text_portuguese: string;
   ceremony_types: { type: string; icon_description: string }[];
   wedding_program: { time: string; activity: string }[];
   design_elements: {
-    color_scheme: string[];
     floral_elements: string;
-    background: string;
-    rings: string;
-    branding: string;
   };
+  created_at: string;
+  updated_at: string;
+  wedding_id: string; // Optional, depending on your schema
 }
