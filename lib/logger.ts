@@ -1,13 +1,12 @@
 // lib/logger.ts
 
-// lib/logger.ts
 import pino from 'pino';
-import path from 'path';
 
 // Environment detection
 const isProduction = process.env.NODE_ENV === 'production';
 const isVercel = process.env.VERCEL === '1';
 const isDevelopment = process.env.NODE_ENV === 'development';
+const isBrowser = typeof window !== 'undefined';
 
 // Base logger configuration
 const baseConfig: pino.LoggerOptions = {
@@ -31,8 +30,8 @@ const baseConfig: pino.LoggerOptions = {
   },
   // Add custom fields for production tracking
   base: {
-    pid: process.pid,
-    hostname: process.env.VERCEL_URL || 'localhost',
+    pid: isBrowser ? undefined : process.pid,
+    hostname: isBrowser ? 'browser' : process.env.VERCEL_URL || 'localhost',
     service: 'ninho-do-amor',
     version: process.env.npm_package_version || '1.0.0',
     environment: process.env.NODE_ENV || 'development',
@@ -46,53 +45,51 @@ const baseConfig: pino.LoggerOptions = {
 // Create logger with environment-specific transport
 let logger: pino.Logger;
 
-if (isDevelopment) {
-  // Development: Pretty printing + file logging
-  const streams: pino.StreamEntry[] = [
-    // Console with pretty printing
-    {
-      level: 'debug',
-      stream: pino.transport({
-        target: 'pino-pretty',
-        options: {
-          colorize: true,
-          translateTime: 'HH:MM:ss Z',
-          ignore: 'pid,hostname,service,version,environment',
-          singleLine: false,
-          levelFirst: true,
-          messageFormat: '[{service}] {msg}',
-        },
-      }),
-    },
-    // File logging for development
-    {
-      level: 'info',
-      stream: pino.destination({
-        dest: path.join(
-          process.cwd(),
-          'logs',
-          `app-${new Date().toISOString().split('T')[0]}.log`
-        ),
-        sync: false,
-        mkdir: true,
-      }),
-    },
-    // Error file logging
-    {
-      level: 'error',
-      stream: pino.destination({
-        dest: path.join(
-          process.cwd(),
-          'logs',
-          `errors-${new Date().toISOString().split('T')[0]}.log`
-        ),
-        sync: false,
-        mkdir: true,
-      }),
-    },
-  ];
+if (isBrowser) {
+  // Browser environment: simple console logging
+  logger = pino({
+    ...baseConfig,
+    browser: {
+      asObject: true,
+      write: (o) => {
+        const level =
+          o.level === 30
+            ? 'info'
+            : o.level === 40
+              ? 'warn'
+              : o.level === 50
+                ? 'error'
+                : 'debug';
 
-  logger = pino(baseConfig, pino.multistream(streams));
+        const args = [o.msg, o];
+        if (level === 'error') {
+          console.error(...args);
+        } else if (level === 'warn') {
+          console.warn(...args);
+        } else if (level === 'info') {
+          console.info(...args);
+        } else {
+          console.debug(...args);
+        }
+      },
+    },
+  });
+} else if (isDevelopment) {
+  // Node.js development: Pretty printing
+  logger = pino({
+    ...baseConfig,
+    transport: {
+      target: 'pino-pretty',
+      options: {
+        colorize: true,
+        translateTime: 'HH:MM:ss Z',
+        ignore: 'pid,hostname,service,version,environment',
+        singleLine: false,
+        levelFirst: true,
+        messageFormat: '[{service}] {msg}',
+      },
+    },
+  });
 } else {
   // Production environments (Vercel and others)
   logger = pino(baseConfig);
@@ -134,6 +131,28 @@ export const logRequest = (
   req: Request | RequestLogContext,
   startTime: number = Date.now()
 ) => {
+  // For browser environment, use a simple logger
+  if (isBrowser) {
+    const simpleLogger = createLogger('request');
+    return {
+      info: (msg: string, extra?: object) =>
+        simpleLogger.info({ ...extra }, msg),
+      error: (msg: string, error?: Error | object) =>
+        simpleLogger.error({ error }, msg),
+      warn: (msg: string, extra?: object) =>
+        simpleLogger.warn({ ...extra }, msg),
+      debug: (msg: string, extra?: object) =>
+        simpleLogger.debug({ ...extra }, msg),
+      complete: (statusCode: number, extra?: object) => {
+        const duration = Date.now() - startTime;
+        simpleLogger.info(
+          { statusCode, duration, ...extra },
+          `Request completed in ${duration}ms`
+        );
+      },
+    };
+  }
+
   const request =
     req instanceof Request
       ? {
@@ -180,11 +199,13 @@ export const logRequest = (
   };
 };
 
+// Server-only logging utilities (these won't work in browser)
 export const logDatabase = (
   operation: string,
   table?: string,
   extra?: Record<string, any>
 ) => {
+  if (isBrowser) return createLogger('database');
   return dbLogger.child({
     operation,
     table,
@@ -197,6 +218,7 @@ export const logAuth = (
   action?: string,
   extra?: Record<string, any>
 ) => {
+  if (isBrowser) return createLogger('auth');
   return authLogger.child({
     userId,
     action,
@@ -209,45 +231,10 @@ export const logEmail = (
   template?: string,
   extra?: Record<string, any>
 ) => {
+  if (isBrowser) return createLogger('email');
   return emailLogger.child({
     to,
     template,
-    ...extra,
-  });
-};
-
-export const logAnalytics = (
-  event: string,
-  userId?: string,
-  extra?: Record<string, any>
-) => {
-  return analyticsLogger.child({
-    event,
-    userId,
-    ...extra,
-  });
-};
-
-export const logGuest = (
-  guestId?: string,
-  action?: string,
-  extra?: Record<string, any>
-) => {
-  return guestLogger.child({
-    guestId,
-    action,
-    ...extra,
-  });
-};
-
-export const logWedding = (
-  weddingId?: string,
-  action?: string,
-  extra?: Record<string, any>
-) => {
-  return weddingLogger.child({
-    weddingId,
-    action,
     ...extra,
   });
 };
@@ -261,24 +248,6 @@ export const logError = (error: Error, context?: Record<string, any>) => {
       stack: error.stack,
     },
     error.message
-  );
-};
-
-// Performance logging
-export const logPerformance = (
-  operation: string,
-  duration: number,
-  extra?: Record<string, any>
-) => {
-  logger.info(
-    {
-      type: 'performance',
-      operation,
-      duration,
-      durationMs: duration,
-      ...extra,
-    },
-    `Performance: ${operation} took ${duration}ms`
   );
 };
 

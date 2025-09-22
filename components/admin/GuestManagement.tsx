@@ -1,5 +1,6 @@
-//ninho-do-amor/components/admin/GuestManagement.tsx
+//components/admin/GuestManagement.tsx
 
+// components/admin/GuestManagement.tsx
 'use client';
 
 import type React from 'react';
@@ -44,7 +45,11 @@ interface Guest {
   created_at: string;
 }
 
-export default function GuestManagement() {
+interface GuestManagementProps {
+  weddingSlug: string | null; // Update to allow null
+}
+
+export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -74,15 +79,23 @@ export default function GuestManagement() {
     useState<Guest | null>(null);
 
   useEffect(() => {
-    fetchGuests();
+    if (weddingSlug) {
+      fetchGuests();
+    } else {
+      setGuests([]); // Reset guests if no weddingSlug
+      setLoading(false);
+    }
     setEmailInfo(
       'Emails são enviados usando o domínio padrão do Resend (onboarding@resend.dev)'
     );
-  }, []);
+  }, [weddingSlug]);
 
   const fetchGuests = async () => {
+    if (!weddingSlug) return; // Exit early if no weddingSlug
     try {
-      const response = await fetch('/api/admin/guests');
+      const response = await fetch(
+        `/api/admin/guests?weddingSlug=${weddingSlug}`
+      ); // Pass weddingSlug
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
@@ -136,11 +149,11 @@ export default function GuestManagement() {
   };
 
   const handleAddGuest = async () => {
-    if (!newGuest.nome.trim() || !newGuest.telefone.trim()) {
+    if (!newGuest.nome.trim() || !newGuest.telefone.trim() || !weddingSlug) {
       toast({
         variant: 'destructive',
         title: 'Erro',
-        description: 'Nome e telefone são obrigatórios',
+        description: 'Nome, telefone e wedding slug são obrigatórios',
       });
       return;
     }
@@ -151,7 +164,8 @@ export default function GuestManagement() {
       email: newGuest.email.trim() || null,
       mesa: newGuest.mesa.trim() || null,
       unique_url: generateUniqueUrl(newGuest.nome),
-      rsvp_deadline: '2025-08-25T23:59:59Z',
+      rsvp_deadline: '2025-11-05T23:59:59Z',
+      weddingSlug, // Pass weddingSlug to the API
     };
 
     try {
@@ -218,6 +232,7 @@ export default function GuestManagement() {
       status: editGuest.status,
       invitation_sent_at: editGuest.invitation_sent_at || null,
       rsvp_deadline: editGuest.rsvp_deadline || null,
+      weddingSlug, // Pass weddingSlug to the API
     };
 
     try {
@@ -256,11 +271,13 @@ export default function GuestManagement() {
   };
 
   const handleDeleteGuest = async (guestId: string, guestName: string) => {
+    if (!weddingSlug) return; // Exit if no weddingSlug
+
     try {
       const response = await fetch('/api/admin/guests', {
         method: 'DELETE',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guestId }),
+        body: JSON.stringify({ guestId, weddingSlug }),
       });
 
       if (response.ok) {
@@ -451,9 +468,24 @@ export default function GuestManagement() {
             mesa: mesa || null,
             unique_url: generateUniqueUrl(nome),
             rsvp_deadline: '2025-08-25T23:59:59Z',
+            weddingSlug, // Pass weddingSlug for upload
           });
         }
       }
+
+      // Batch insert or handle individually
+      newGuests.forEach(async (guest) => {
+        try {
+          const response = await fetch('/api/admin/guests', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(guest),
+          });
+          if (response.ok) await fetchGuests();
+        } catch (error) {
+          console.error('Error uploading guest:', error);
+        }
+      });
 
       toast({
         variant: 'success',
@@ -526,7 +558,6 @@ export default function GuestManagement() {
     return guest.telefone || guest.phone || guest.telephone || '';
   };
 
-  // Format ISO date to datetime-local input format (YYYY-MM-DDTHH:mm)
   const formatDateForInput = (isoDate?: string) => {
     if (!isoDate) return '';
     const date = new Date(isoDate);
@@ -538,6 +569,16 @@ export default function GuestManagement() {
       <div className="p-6 text-center">
         <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-rose-600"></div>
         <p>Carregando convidados...</p>
+      </div>
+    );
+  }
+
+  if (!weddingSlug) {
+    return (
+      <div className="p-6 text-center">
+        <p className="text-gray-600">
+          Selecione um casamento para gerenciar os convidados.
+        </p>
       </div>
     );
   }
