@@ -1,5 +1,4 @@
 // app/page.tsx
-
 'use client';
 
 import WeddingHero from '@/components/WeddingHero';
@@ -11,7 +10,6 @@ import CountdownSection from '@/components/CountdownSection';
 import FooterNavComponent from '@/components/FooterNavComponent';
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
-// import { track } from '@vercel/analytics'
 import { track } from '@vercel/analytics/server';
 
 export default function Home() {
@@ -21,16 +19,12 @@ export default function Home() {
   const [token, setToken] = useState<string | null>(null);
   const [isLoadingGuest, setIsLoadingGuest] = useState(false);
 
-  // track('Pagina Aberta');
-
   useEffect(() => {
     const urlToken = new URLSearchParams(window.location.search).get('token');
     setToken(urlToken);
 
-    // Always load wedding data
     fetchWeddingData();
 
-    // Only try to fetch guest data if token is provided
     if (urlToken) {
       setIsLoadingGuest(true);
       fetchGuestData(urlToken);
@@ -107,17 +101,15 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
       <div className="flex flex-col items-center justify-center px-6 py-9">
-        {/* Main Wedding Hero */}
         <WeddingHero
+          weddingSlug="default" // Provide a default slug or fetch it dynamically
           guest={guest}
-          weddingData={weddingData}
           isLoadingGuest={isLoadingGuest}
+          weddingData={weddingData} // Pass weddingData as a prop
         />
 
-        {/* Countdown Section */}
         <CountdownSection weddingData={weddingData} />
 
-        {/* Confirmation Section - Only show if we have a token */}
         {token && (
           <ConfirmationSection
             guest={guest}
@@ -126,16 +118,12 @@ export default function Home() {
             isLoadingGuest={isLoadingGuest}
           />
         )}
-        {/* Gift Section */}
         <GiftSection weddingData={weddingData} />
 
-        {/* Felicitation Form - Only show if we have a token */}
         {token && <FelicitationForm />}
 
-        {/* Felicitation List - Only show if we have a token */}
         {token && <FelicitationList />}
 
-        {/* Guest Access Info - Show if no token */}
         {!token && (
           <div className="mt-6 w-[400px] rounded-xl border border-rose-200 bg-rose-100 p-6 text-center shadow-lg">
             <div className="mb-3 text-3xl">💌</div>
@@ -154,7 +142,6 @@ export default function Home() {
           </div>
         )}
 
-        {/* Footer */}
         <FooterNavComponent />
       </div>
     </div>

@@ -2,13 +2,15 @@
   "name": "ninho-do-amor",
   "version": "0.4.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "next build",
     "dev": "next dev",
-    "lint": "next lint",
+    "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\""
+    "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
+    "prepare": "husky"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -77,15 +79,19 @@
     "@types/pino": "^7.0.5",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/swagger-jsdoc": "^6.0.4",
     "eslint": "^9.33.0",
     "eslint-config-next": "^15.5.0",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.4",
     "eslint-plugin-tailwindcss": "^3.18.2",
     "husky": "^9.1.7",
+    "lint-staged": "^16.2.0",
     "postcss": "^8.5",
     "prettier": "^3.6.2",
     "prettier-plugin-tailwindcss": "^0.6.14",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-react": "^5.29.0",
     "tailwindcss": "^3.4.0",
     "typescript": "^5"
   },
