@@ -12,6 +12,7 @@ import {
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
 import { getWeddingBySlug } from '@/lib/api-handler';
+import Image from 'next/image';
 
 interface WeddingHeroProps {
   weddingSlug: string;
@@ -77,8 +78,8 @@ export default function WeddingHero({
   if (isLoadingWedding && !initialWeddingData) {
     return (
       <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl bg-white shadow-2xl">
-        <div className="relative flex h-[800px] items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100">
-          <Loader2 className="wedding-loading h-16 w-16 animate-spin" />
+        <div className="relative flex h-[400px] items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 sm:h-[600px] md:h-[800px]">
+          <Loader2 className="wedding-loading h-12 w-12 animate-spin sm:h-16 sm:w-16" />
         </div>
       </div>
     );
@@ -86,8 +87,8 @@ export default function WeddingHero({
 
   if (!weddingData) {
     return (
-      <div className="flex h-96 items-center justify-center">
-        <p className="wedding-text-primary text-xl font-medium">
+      <div className="flex h-48 items-center justify-center sm:h-64 md:h-96">
+        <p className="wedding-text-primary text-lg font-medium sm:text-xl md:text-2xl">
           Erro ao carregar dados do casamento
         </p>
       </div>
@@ -104,14 +105,13 @@ export default function WeddingHero({
   };
 
   const dateInfo = formatDate(weddingData.date);
-  const theme = weddingData.theme || 'custom';
+  const theme = weddingData.theme || 'branco-dourado';
 
   return (
-    <div data-theme={theme} className="wedding-hero py-8">
-      <div className="wedding-hero-card relative mx-auto w-full max-w-2xl overflow-hidden rounded-3xl shadow-2xl">
-        <div className="relative min-h-[900px] px-4 py-8">
-          {/* Decorative elements with better positioning */}
-          <div className="absolute right-8 top-8 h-28 w-28 opacity-20">
+    <div data-theme={theme} className="wedding-hero">
+      <div className="wedding-hero-card relative mx-auto w-full max-w-xs overflow-hidden rounded-3xl shadow-2xl sm:max-w-md md:max-w-2xl">
+        <div className="relative min-h-[500px] px-4 py-6 sm:min-h-[700px] sm:px-6 sm:py-8 md:min-h-[900px] md:px-10 md:py-10">
+          <div className="absolute right-2 top-2 h-16 w-16 opacity-20 sm:right-4 sm:top-4 sm:h-20 sm:w-20 md:right-6 md:top-6 md:h-28 md:w-28">
             <svg
               viewBox="0 0 100 100"
               className="wedding-decorative-svg h-full w-full"
@@ -127,7 +127,7 @@ export default function WeddingHero({
             </svg>
           </div>
 
-          <div className="absolute bottom-8 left-8 h-36 w-36 opacity-15">
+          <div className="absolute bottom-2 left-2 h-20 w-20 opacity-15 sm:bottom-4 sm:left-4 sm:h-24 sm:w-24 md:bottom-6 md:left-6 md:h-36 md:w-36">
             <svg
               viewBox="0 0 100 100"
               className="wedding-decorative-svg h-full w-full"
@@ -143,92 +143,105 @@ export default function WeddingHero({
             </svg>
           </div>
 
-          <div className="relative z-10 mx-auto flex h-full max-w-lg flex-col">
-            {/* Couple Photo - Better spacing and sizing */}
-            <div className="mb-12 flex flex-shrink-0 items-center justify-center">
+          <div className="relative z-10 mx-auto flex h-full max-w-[80%] flex-col items-center">
+            <div className="mb-4 flex flex-shrink-0 items-center justify-center sm:mb-6 md:mb-12">
               <div className="relative">
-                <img
+                <Image
                   src={`/images/${weddingSlug}-wedding.jpg`}
                   alt={`${weddingData.bride} e ${weddingData.groom}`}
-                  className="wedding-photo h-72 w-72 rounded-3xl object-cover shadow-2xl"
+                  className="wedding-photo h-40 w-40 rounded-2xl object-cover shadow-2xl sm:h-52 sm:w-52 sm:rounded-3xl md:h-72 md:w-72"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = '/placeholder.jpg';
                   }}
+                  width={288}
+                  height={288}
                 />
-                {/* Photo overlay gradient for better text readability */}
-                <div className="pointer-events-none absolute inset-0 rounded-3xl bg-gradient-to-t from-black/20 via-transparent to-transparent"></div>
+                <div className="pointer-events-none absolute inset-0 rounded-2xl bg-gradient-to-t from-black/20 via-transparent to-transparent sm:rounded-3xl"></div>
               </div>
             </div>
 
-            {/* Names Section - Improved typography */}
-            <div className="mb-12 space-y-6 text-center">
-              <div className="space-y-4">
-                <h1 className="wedding-names text-6xl font-bold leading-tight">
+            <div className="mb-4 space-y-4 text-center sm:mb-6 sm:space-y-6 md:mb-12 md:space-y-6">
+              <div className="">
+                <h1 className="wedding-names text-2xl sm:text-3xl md:text-4xl">
                   {weddingData.bride}
                 </h1>
-                <div className="my-6 flex items-center justify-center">
-                  <div className="wedding-accent-line h-0.5 w-16 rounded-full"></div>
-                  <Heart className="wedding-heart-icon mx-6 h-8 w-8" />
-                  <div className="wedding-accent-line h-0.5 w-16 rounded-full"></div>
+                <div className="my-2 flex items-center justify-center sm:my-4 md:my-6">
+                  <div className="wedding-accent-line h-0.5 w-12 rounded-full sm:w-16 md:w-20"></div>
+                  <Heart className="wedding-heart-icon mx-2 h-6 w-6 sm:mx-4 sm:h-8 sm:w-8 md:mx-6 md:h-10 md:w-10" />
+                  <div className="wedding-accent-line h-0.5 w-12 rounded-full sm:w-16 md:w-20"></div>
                 </div>
-                <h1 className="wedding-names text-6xl font-bold leading-tight">
+                <h1 className="wedding-names text-2xl sm:text-3xl md:text-4xl">
                   {weddingData.groom}
                 </h1>
               </div>
 
-              {/* Invitation text with better spacing */}
-              <div className="mt-8 px-4">
-                <p className="wedding-invitation-text mx-auto max-w-md text-base leading-relaxed">
+              <div className="mt-4 px-2 sm:mt-6 sm:px-4 md:mt-8">
+                <p className="wedding-invitation-text mx-auto max-w-md text-center text-sm leading-relaxed sm:text-base md:text-lg">
                   {weddingData.invitation_text_portuguese}
                 </p>
+                <div className="wedding-accent-line mx-auto mt-2 h-0.5 w-12 opacity-50 sm:mt-4 sm:w-16 md:mt-8 md:w-24"></div>
+              </div>
+
+              <div className="mt-4 px-2 text-center sm:mt-6 sm:px-4 md:mt-8">
+                <div className="relative mx-auto max-w-2xl">
+                  <div className="mb-2 flex justify-center sm:mb-4 md:mb-4">
+                    <i className="ri-double-quotes-l text-wedding-text-secondary text-2xl opacity-60 sm:text-3xl md:text-4xl"></i>
+                  </div>
+                  <p className="wedding-bible-text mx-auto px-2 text-center text-sm italic leading-relaxed sm:px-4 sm:text-base md:text-lg md:text-xl lg:text-2xl">
+                    "{weddingData.bible_verse}"
+                  </p>
+                  <div className="mt-2 flex justify-center sm:mt-4 md:mt-4">
+                    <i className="ri-double-quotes-r text-wedding-text-secondary text-2xl opacity-60 sm:text-3xl md:text-4xl"></i>
+                  </div>
+                  <div className="wedding-accent-line mx-auto mt-2 h-0.5 w-12 opacity-50 sm:mt-4 sm:w-16 md:mt-8 md:w-24"></div>
+                </div>
               </div>
             </div>
 
-            {/* Date & Time Information - Better layout */}
-            <div className="mb-12">
-              <div className="wedding-info-card space-y-6 rounded-3xl p-8">
-                <div className="flex items-center justify-center gap-12">
-                  <div className="flex flex-col items-center space-y-3">
-                    <Calendar className="wedding-text-primary h-6 w-6" />
-                    <div className="wedding-date-badge rounded-2xl px-6 py-3 text-4xl font-bold">
+            <div className="mb-4 sm:mb-6 md:mb-12">
+              <div className="wedding-info-card space-y-4 rounded-3xl p-4 sm:space-y-6 sm:p-6 md:space-y-6 md:p-8">
+                <div className="flex flex-col items-center justify-center gap-4 sm:flex-row sm:gap-8">
+                  <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                    <Calendar className="wedding-icon text-wedding-text-primary h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8" />
+                    <div className="wedding-date-badge rounded-2xl px-2 py-1 text-center sm:px-4 sm:py-2 md:px-6 md:py-3">
                       {dateInfo.day}
                     </div>
-                    <span className="wedding-text-secondary text-sm font-semibold uppercase tracking-wider">
+                    <span className="wedding-text-secondary text-center text-xs font-semibold uppercase tracking-wider sm:text-sm md:text-base">
                       {dateInfo.month}
                     </span>
                   </div>
 
-                  <div className="h-20 w-px bg-white/30"></div>
+                  <div className="hidden h-20 w-px bg-white/30 sm:block"></div>
 
-                  <div className="flex flex-col items-center space-y-3">
-                    <Clock className="wedding-text-primary h-6 w-6" />
-                    <span className="wedding-text-primary text-3xl font-bold">
+                  <div className="flex flex-col items-center space-y-2 sm:space-y-3">
+                    <Clock className="wedding-icon text-wedding-text-primary h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8" />
+                    <span className="wedding-text-primary text-center text-xl font-bold sm:text-2xl md:text-3xl">
                       {weddingData.time}
                     </span>
-                    <span className="wedding-text-secondary text-sm font-medium">
+                    <span className="wedding-text-secondary text-center text-xs font-medium sm:text-sm md:text-base">
                       {weddingData.day_of_week}
                     </span>
                   </div>
                 </div>
 
-                <div className="mt-8 border-t border-white/30 pt-6">
-                  <p className="wedding-venue-text text-center text-xl font-semibold">
+                <div className="mt-4 border-t border-white/30 pt-2 text-center sm:mt-6 sm:pt-4 md:mt-8 md:pt-6">
+                  <MapPin className="wedding-icon text-wedding-text-primary mx-auto h-5 w-5 sm:h-6 sm:w-6 md:h-8 md:w-8" />
+                  <p className="font-sacremento text-center text-lg font-semibold sm:text-xl md:text-2xl">
                     {weddingData.venue}
                   </p>
                 </div>
               </div>
             </div>
 
-            {/* Guest Information - Better styling */}
             {guest && (
-              <div className="mb-8">
-                <div className="wedding-guest-card rounded-2xl border border-white/30 p-6 text-center">
-                  <p className="wedding-text-primary mb-2 text-xl font-bold">
+              <div className="mb-4 sm:mb-6 md:mb-8">
+                <div className="wedding-guest-card rounded-2xl border border-white/30 p-3 text-center sm:p-4 md:p-6">
+                  <p className="wedding-text-primary mb-1 text-lg font-bold sm:mb-2 sm:text-xl md:mb-2 md:text-2xl">
                     Olá, {guest.nome}!
                   </p>
                   {guest.mesa && (
-                    <p className="wedding-text-secondary text-base font-medium">
+                    <p className="wedding-text-secondary text-base font-medium sm:text-lg md:text-xl">
                       Mesa: {guest.mesa}
                     </p>
                   )}
@@ -236,13 +249,12 @@ export default function WeddingHero({
               </div>
             )}
 
-            {/* Loading Guest State */}
             {isLoadingGuest && (
-              <div className="mb-8">
-                <div className="wedding-guest-card rounded-2xl p-6 text-center">
-                  <div className="flex items-center justify-center space-x-3">
-                    <div className="wedding-text-secondary h-5 w-5 animate-spin rounded-full border-b-2 border-current"></div>
-                    <p className="wedding-text-secondary text-base">
+              <div className="mb-4 sm:mb-6 md:mb-8">
+                <div className="wedding-guest-card rounded-2xl p-3 text-center sm:p-4 md:p-6">
+                  <div className="flex items-center justify-center space-x-2 sm:space-x-3">
+                    <div className="wedding-text-secondary h-4 w-4 animate-spin rounded-full border-b-2 border-current sm:h-5 sm:w-5 md:h-5 md:w-5"></div>
+                    <p className="wedding-text-secondary text-sm sm:text-base md:text-lg">
                       Carregando informações...
                     </p>
                   </div>
@@ -250,15 +262,14 @@ export default function WeddingHero({
               </div>
             )}
 
-            {/* Action Buttons - Better spacing and sizing */}
-            <div className="mb-12 flex justify-center gap-8">
+            <div className="mb-4 flex flex-col justify-center gap-4 sm:mb-6 sm:flex-row sm:gap-6 md:mb-12 md:gap-8">
               <button
                 onClick={handleComoChegar}
-                className="wedding-button flex h-28 w-28 flex-col items-center justify-center rounded-3xl shadow-xl transition-all duration-300 hover:scale-105"
+                className="wedding-button flex h-32 w-24 flex-col items-center justify-center rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 sm:h-40 sm:w-28 sm:rounded-3xl sm:hover:scale-110 md:h-52 md:w-32"
                 aria-label="Como chegar"
               >
-                <MapPin className="wedding-icon mb-3 h-8 w-8" />
-                <span className="px-2 text-center text-xs font-bold leading-tight">
+                <MapPin className="wedding-icon mb-2 h-6 w-6 sm:mb-3 sm:h-8 sm:w-8 md:mb-4 md:h-10 md:w-10" />
+                <span className="px-1 text-center text-xs font-bold leading-tight sm:px-2 sm:text-sm md:text-base">
                   COMO
                   <br />
                   CHEGAR
@@ -267,11 +278,11 @@ export default function WeddingHero({
 
               <button
                 onClick={handleCerimoniaCivil}
-                className="wedding-button flex h-28 w-28 flex-col items-center justify-center rounded-3xl shadow-xl transition-all duration-300 hover:scale-105"
+                className="wedding-button flex h-32 w-24 flex-col items-center justify-center rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 sm:h-36 sm:w-28 sm:rounded-3xl sm:hover:scale-110 md:h-40 md:w-36"
                 aria-label="Cerimônia Civil"
               >
-                <FileText className="wedding-icon mb-3 h-8 w-8" />
-                <span className="px-2 text-center text-xs font-bold leading-tight">
+                <FileText className="wedding-icon mb-2 h-6 w-6 sm:mb-3 sm:h-8 sm:w-8 md:mb-4 md:h-10 md:w-10" />
+                <span className="px-1 text-center text-xs font-bold leading-tight sm:px-2 sm:text-sm md:text-base">
                   CERIMÔNIA
                   <br />
                   CIVIL
@@ -280,11 +291,11 @@ export default function WeddingHero({
 
               <button
                 onClick={handleCerimoniaReligiosa}
-                className="wedding-button flex h-28 w-28 flex-col items-center justify-center rounded-3xl shadow-xl transition-all duration-300 hover:scale-105"
+                className="wedding-button flex h-32 w-24 flex-col items-center justify-center rounded-2xl shadow-xl transition-all duration-300 hover:scale-105 sm:h-36 sm:w-28 sm:rounded-3xl sm:hover:scale-110 md:h-40 md:w-36"
                 aria-label="Cerimônia Religiosa"
               >
-                <Heart className="wedding-icon mb-3 h-8 w-8" />
-                <span className="px-2 text-center text-xs font-bold leading-tight">
+                <Heart className="wedding-icon mb-2 h-6 w-6 sm:mb-3 sm:h-8 sm:w-8 md:mb-4 md:h-10 md:w-10" />
+                <span className="px-1 text-center text-xs font-bold leading-tight sm:px-2 sm:text-sm md:text-base">
                   CERIMÔNIA
                   <br />
                   RELIGIOSA
@@ -292,10 +303,9 @@ export default function WeddingHero({
               </button>
             </div>
 
-            {/* RSVP Information - Better styling */}
             <div className="text-center">
-              <div className="wedding-rsvp-badge inline-block rounded-full px-8 py-4">
-                <p className="text-base font-bold tracking-wide">
+              <div className="wedding-rsvp-badge inline-block rounded-full px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4">
+                <p className="text-sm font-bold tracking-wide sm:text-base md:text-lg">
                   RSVP:{' '}
                   {weddingData.rsvp_numbers?.join(' / ') || 'Não disponível'}
                 </p>

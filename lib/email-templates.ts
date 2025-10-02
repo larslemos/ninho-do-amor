@@ -208,8 +208,7 @@ export class EmailTemplateService {
               </div>
               
               <div class="message">
-                É com imensa alegria e corações cheios de amor que convidamos você para celebrar conosco 
-                o início da nossa jornada como marido e mulher.
+              Com gratidão a Deus, Judy e Helder convidam para o dia especial da celebração do seu casamento civil
               </div>
               
               ${this.getWeddingDetails(data)}
