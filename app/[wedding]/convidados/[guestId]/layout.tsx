@@ -22,7 +22,11 @@ export default async function WeddingLayout({
       wedding: params.wedding,
       weddingData,
     });
-    return <div>Erro: Dados do casamento não encontrados</div>; // Improved fallback
+    return (
+      <div className="font-blancha">
+        Erro: Dados do casamento não encontrados
+      </div>
+    ); // Improved fallback with Blancha font
   }
 
   return (
@@ -30,7 +34,7 @@ export default async function WeddingLayout({
       <AudioControl />
       {/* Layout UI */}
       <main
-        className={`font-poppins ${weddingData.design_elements.branding}-theme`}
+        className={`font-blancha ${weddingData.design_elements.branding}-theme`}
       >
         {children}
       </main>

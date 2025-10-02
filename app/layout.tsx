@@ -1,28 +1,19 @@
+// app/layout.tsx
+
 import type React from 'react';
 import type { Metadata } from 'next';
-import { Inter, Josefin_Sans, Quicksand } from 'next/font/google';
 import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
-const inter = Inter({ subsets: ['latin'] });
-
 export const metadata: Metadata = {
-  title: 'Ninho Do Amor - Wedding Invitation',
-  description: 'Wedding invitation platform for Assa & Eleutério',
+  title: 'Ninho Do Amor - Convite de Casamento',
+  description:
+    'Convite de casamento personalizado para celebrar o amor - Plataforma Ninho Do Amor por Ping Digital Events',
   generator: 'Craftmanship by Ping Digital Events',
   metadataBase: new URL('https://pingdigital.online'),
 };
-
-const josefin = Josefin_Sans({
-  subsets: ['latin'],
-  variable: '--font-josefin',
-});
-const quicksand = Quicksand({
-  subsets: ['latin'],
-  variable: '--font-quicksand',
-});
 
 export default function RootLayout({
   children,
@@ -31,11 +22,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt">
-      <body className={`${josefin.variable} ${quicksand.variable}`}>
+      <body>
         {children}
-
         <Toaster />
-
         <Analytics />
         <SpeedInsights />
       </body>

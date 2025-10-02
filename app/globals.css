@@ -5,61 +5,139 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-/* Import Google Fonts for Josefin Sans, Quicksand, and new fonts */
-@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Quicksand:wght@400;500;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700;800&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap');
+/* Import Remix Icons */
+@import url('https://cdn.jsdelivr.net/npm/remixicon@4.2.0/fonts/remixicon.css');
 
-/* Font families */
+/* Import Google Fonts - Combined and optimized */
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;700&family=Quicksand:wght@400;500;700&family=Playfair+Display:wght@400;500;600;700;800;900&family=Cormorant+Garamond:wght@300;400;500;600;700&family=Marcellus&family=Abril+Fatface&family=Tangerine:wght@400;700&family=Dancing+Script:wght@400;500;600;700&family=Great+Vibes&family=Parisienne&family=Allura&family=Alex+Brush&family=Montserrat:wght@300;400;500;600;700&family=Lora:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Raleway:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Define local fonts */
+@font-face {
+  font-family: 'Quintella';
+  src:
+    url('/fonts/Quintella.otf') format('opentype'),
+    url('/fonts/Quintella.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Blancha';
+  src:
+    url('/fonts/Blancha.ttf') format('truetype'),
+    url('/fonts/Blancha-1.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'SangBleu';
+  src: url('/fonts/SangBleu-Sunrise.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Sacramento';
+  src: url('/fonts/Sacramento-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Font families - Combined and organized */
 .font-josefin {
   font-family: 'Josefin Sans', sans-serif;
 }
-
 .font-quicksand {
   font-family: 'Quicksand', sans-serif;
 }
-
-/* Spinner for loading states */
-.spinner {
-  border: 4px solid rgba(250, 230, 172, 0.2); /* Soft gold */
-  border-top: 4px solid #f59e0b; /* Amber-500 */
-  border-radius: 50%;
-  width: 24px;
-  height: 24px;
-  animation: spin 1s linear infinite;
-  margin: 10px auto;
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+.font-cormorant {
+  font-family: 'Cormorant Garamond', serif;
+}
+.font-marcellus {
+  font-family: 'Marcellus', serif;
+}
+.font-abril {
+  font-family: 'Abril Fatface', cursive;
+}
+.font-tangerine {
+  font-family: 'Tangerine', cursive;
+}
+.font-dancing {
+  font-family: 'Dancing Script', cursive;
+}
+.font-great-vibes {
+  font-family: 'Great Vibes', cursive;
+}
+.font-parisienne {
+  font-family: 'Parisienne', cursive;
+}
+.font-allura {
+  font-family: 'Allura', cursive;
+}
+.font-alex-brush {
+  font-family: 'Alex Brush', cursive;
+}
+.font-montserrat {
+  font-family: 'Montserrat', sans-serif;
+}
+.font-lora {
+  font-family: 'Lora', serif;
+}
+.font-crimson {
+  font-family: 'Crimson Text', serif;
+}
+.font-raleway {
+  font-family: 'Raleway', sans-serif;
+}
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+.font-quintella {
+  font-family: 'Quintella', serif;
+}
+.font-blancha {
+  font-family: 'Blancha', serif;
+}
+.font-sacramento {
+  font-family: 'Sacramento', cursive;
+}
+.font-sangbleu {
+  font-family: 'SangBleu', serif;
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
+/* Base layer for global styles */
+@layer base {
+  * {
+    @apply border-border;
+    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
   }
-  100% {
-    transform: rotate(360deg);
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Blancha', sans-serif;
   }
-}
-
-/* Floral background for decorative elements */
-.floral-bg {
-  background-image: url('/images/floral-pattern-gold.svg'); /* Updated to gold-themed floral */
-  background-size: 80px;
-  background-position: top right;
-  background-repeat: no-repeat;
-  opacity: 0.1;
 }
 
 /* Custom color variables */
 :root {
   --whatsapp-600: #25d366;
   --whatsapp-900: #1da851;
-  --background: oklch(0.98 0.02 80); /* Near-white */
-  --foreground: oklch(0.2 0.05 50); /* Dark gray for contrast */
+  --background: oklch(0.98 0.02 80);
+  --foreground: oklch(0.2 0.05 50);
   --card: oklch(0.99 0.01 80);
   --card-foreground: oklch(0.2 0.05 50);
   --popover: oklch(0.99 0.01 80);
   --popover-foreground: oklch(0.2 0.05 50);
-  --primary: oklch(0.7 0.15 70); /* Gold-inspired */
+  --primary: oklch(0.7 0.15 70);
   --primary-foreground: oklch(0.98 0.01 80);
-  --secondary: oklch(0.95 0.03 60); /* Soft cream */
+  --secondary: oklch(0.95 0.03 60);
   --secondary-foreground: oklch(0.2 0.05 50);
   --muted: oklch(0.9 0.02 80);
   --muted-foreground: oklch(0.5 0.03 50);
@@ -95,7 +173,7 @@
   --card-foreground: oklch(0.95 0.02 80);
   --popover: oklch(0.25 0.05 50);
   --popover-foreground: oklch(0.95 0.02 80);
-  --primary: oklch(0.75 0.15 70); /* Brighter gold */
+  --primary: oklch(0.75 0.15 70);
   --primary-foreground: oklch(0.2 0.05 50);
   --secondary: oklch(0.3 0.05 60);
   --secondary-foreground: oklch(0.95 0.02 80);
@@ -123,27 +201,15 @@
   --sidebar-ring: oklch(0.75 0.15 70);
 }
 
-/* Base layer for global styles */
-@layer base {
-  * {
-    @apply border-border;
-    outline-color: color-mix(in oklab, var(--ring) 50%, transparent);
-  }
-  body {
-    @apply bg-background text-foreground;
-    font-family: 'Inter', sans-serif;
-  }
-}
-
 /* Enhanced Wedding Theme System */
 :root {
   /* Default/Custom Theme */
-  --wedding-primary: #be185d; /* rose-700 */
-  --wedding-primary-hover: #9f1239; /* rose-800 */
-  --wedding-secondary: #ec4899; /* pink-500 */
-  --wedding-accent: #f9a8d4; /* pink-300 */
-  --wedding-text-primary: #1f2937; /* gray-800 */
-  --wedding-text-secondary: #6b7280; /* gray-500 */
+  --wedding-primary: #be185d;
+  --wedding-primary-hover: #9f1239;
+  --wedding-secondary: #ec4899;
+  --wedding-accent: #f9a8d4;
+  --wedding-text-primary: #1f2937;
+  --wedding-text-secondary: #6b7280;
   --wedding-bg-gradient: linear-gradient(
     135deg,
     #fdf2f8 0%,
@@ -152,14 +218,14 @@
     #f9a8d4 100%
   );
   --wedding-card-bg: rgba(255, 255, 255, 0.95);
-  --wedding-decorative: #f472b6; /* pink-400 */
+  --wedding-decorative: #f472b6;
 
   /* Enhanced Typography Hierarchy */
   --wedding-font-primary:
-    'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --wedding-font-secondary: 'Playfair Display', 'Dancing Script', serif;
-  --wedding-font-body: 'Inter', 'Quicksand', sans-serif;
-  --wedding-font-accent: 'Crimson Text', serif;
+    'Blancha', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wedding-font-secondary: 'Quintella', 'Dancing Script', serif;
+  --wedding-font-body: 'Blancha', 'Quicksand', sans-serif;
+  --wedding-font-accent: 'Blancha', 'Crimson Text', serif;
 
   /* Spacing System */
   --wedding-space-xs: 0.5rem;
@@ -172,27 +238,25 @@
 
 /* Branco Dourado (White Gold) Theme - Updated */
 [data-theme='branco-dourado'] {
-  --wedding-primary: #b45309; /* amber-700 */
-  --wedding-primary-hover: #92400e; /* amber-800 */
-  --wedding-secondary: #f59e0b; /* amber-500 */
-  --wedding-accent: #fde047; /* yellow-300 */
-  --wedding-text-primary: #451a03; /* amber-900 */
-  --wedding-text-secondary: #78716c; /* stone-500 */
+  --wedding-primary: #b45309;
+  --wedding-primary-hover: #92400e;
+  --wedding-secondary: #f59e0b;
+  --wedding-accent: #fde047;
+  --wedding-text-primary: #451a03;
+  --wedding-text-secondary: #78716c;
   --wedding-bg-gradient: linear-gradient(
     135deg,
     #ffffff 0%,
     #fef3c7 30%,
     #fed7aa 70%,
     #f9e5a0 100%
-  ); /* White to gold gradient */
+  );
   --wedding-card-bg: rgba(255, 255, 255, 0.98);
-  --wedding-decorative: #fbbf24; /* amber-400 */
-
-  /* Elegant typography */
-  --wedding-font-primary: 'Inter', sans-serif;
-  --wedding-font-secondary: 'Playfair Display', serif;
-  --wedding-font-body: 'Inter', sans-serif;
-  --wedding-font-accent: 'Crimson Text', serif;
+  --wedding-decorative: #fbbf24;
+  --wedding-font-primary: 'Blancha', sans-serif;
+  --wedding-font-secondary: 'Quintella', serif;
+  --wedding-font-body: 'Blancha', sans-serif;
+  --wedding-font-accent: 'Sacramento', 'Crimson Text', serif;
 }
 
 /* Enhanced Wedding Hero Component Styles */
@@ -210,61 +274,57 @@
   box-shadow:
     0 25px 50px -12px rgba(0, 0, 0, 0.25),
     0 0 0 1px rgba(255, 255, 255, 0.3);
+  position: relative;
+  overflow: hidden;
 }
 
-/* Enhanced Typography */
+/* New font classes for unique text components */
 .wedding-names {
-  font-family: var(--wedding-font-secondary);
+  font-family: 'Quintella', serif;
   color: var(--wedding-text-primary);
   font-weight: 700;
   letter-spacing: -0.02em;
-  line-height: 1.1;
+  line-height: 1.2;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-size: clamp(1.5rem, 5vw, 4rem);
+}
+
+.wedding-invitation-text {
+  font-family: 'Sacramento', cursive;
+  color: var(--wedding-text-secondary);
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+  font-style: italic;
+  font-size: clamp(0.875rem, 3vw, 1.5rem);
+}
+
+.wedding-bible-text {
+  font-family: 'SangBleu', serif;
+  color: var(--wedding-text-secondary);
+  letter-spacing: 0.01em;
+  line-height: 1.7;
+  font-style: italic;
+  font-size: clamp(0.875rem, 3vw, 2rem);
+}
+
+.wedding-venue-text {
+  font-family: 'Blancha', sans-serif;
+  color: var(--wedding-text-primary);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  font-size: clamp(1rem, 3vw, 2rem);
 }
 
 .wedding-text-primary {
   color: var(--wedding-text-primary);
-  font-family: var(--wedding-font-primary);
+  font-family: 'Josefin Sans', sans-serif;
+  font-size: clamp(1rem, 2.5vw, 1.25rem);
 }
 
 .wedding-text-secondary {
   color: var(--wedding-text-secondary);
-  font-family: var(--wedding-font-body);
-}
-
-/* Enhanced Buttons */
-.wedding-button {
-  background: linear-gradient(
-    135deg,
-    var(--wedding-primary) 0%,
-    var(--wedding-primary-hover) 100%
-  );
-  color: white;
-  font-family: var(--wedding-font-primary);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  border: none;
-  position: relative;
-  overflow: hidden;
-  box-shadow:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1),
-    0 2px 4px -1px rgba(0, 0, 0, 0.06),
-    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-}
-
-.wedding-button:hover {
-  transform: translateY(-2px) scale(1.02);
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 10px 10px -5px rgba(0, 0, 0, 0.04),
-    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
-}
-
-.wedding-button:active {
-  transform: translateY(0) scale(0.98);
-  transition-duration: 0.1s;
+  font-family: 'Quicksand', sans-serif;
+  font-size: clamp(0.875rem, 2vw, 1rem);
 }
 
 /* Enhanced decorative elements */
@@ -281,6 +341,7 @@
 .wedding-heart-icon {
   color: var(--wedding-secondary);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  font-size: 1.5rem;
 }
 
 .wedding-decorative-svg {
@@ -304,6 +365,8 @@
     0 10px 15px -3px rgba(0, 0, 0, 0.1),
     0 4px 6px -2px rgba(0, 0, 0, 0.05),
     0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  font-size: clamp(2rem, 5vw, 3rem);
+  padding: 0.75rem 1.5rem;
 }
 
 /* Enhanced photo styling */
@@ -314,6 +377,8 @@
     0 0 0 1px rgba(255, 255, 255, 0.5),
     inset 0 1px 0 rgba(255, 255, 255, 0.2);
   transition: all 0.3s ease;
+  height: 300px;
+  width: 300px;
 }
 
 .wedding-photo:hover {
@@ -337,34 +402,47 @@
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
-/* Enhanced invitation text */
-.wedding-invitation-text {
-  font-family: var(--wedding-font-accent);
-  color: var(--wedding-text-secondary);
-  letter-spacing: 0.01em;
-  line-height: 1.7;
-  font-style: italic;
-  font-size: 1.1rem;
+/* Enhanced Buttons */
+.wedding-button {
+  background: linear-gradient(
+    135deg,
+    var(--wedding-primary) 0%,
+    var(--wedding-primary-hover) 100%
+  );
+  color: white;
+  font-family: var(--wedding-font-primary);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: none;
+  position: relative;
+  overflow: hidden;
+  box-shadow:
+    0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06),
+    0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
 
-/* Enhanced venue text */
-.wedding-venue-text {
-  font-family: var(--wedding-font-primary);
-  color: var(--wedding-text-primary);
-  font-weight: 600;
-  letter-spacing: 0.02em;
+.wedding-button:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow:
+    0 20px 25px -5px rgba(0, 0, 0, 0.1),
+    0 10px 10px -5px rgba(0, 0, 0, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset;
 }
 
-/* Enhanced date container */
-.wedding-date-container {
-  font-family: var(--wedding-font-primary);
-  font-weight: 500;
+.wedding-button:active {
+  transform: translateY(0) scale(0.98);
+  transition-duration: 0.1s;
 }
 
 /* Icon enhancements */
 .wedding-icon {
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
   transition: all 0.3s ease;
+  font-size: 1.5rem;
 }
 
 .wedding-button:hover .wedding-icon {
@@ -376,52 +454,36 @@
 .wedding-loading {
   color: var(--wedding-text-secondary);
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+  font-size: 1.5rem;
 }
 
-/* Responsive enhancements */
-@media (max-width: 768px) {
-  .wedding-hero {
-    padding: var(--wedding-space-md) var(--wedding-space-sm);
-  }
+/* Spinner for loading states */
+.spinner {
+  border: 4px solid rgba(250, 230, 172, 0.2);
+  border-top: 4px solid #f59e0b;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto;
+}
 
-  .wedding-names {
-    font-size: 3.5rem;
-    line-height: 1.1;
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-
-  .wedding-invitation-text {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-
-  .wedding-button {
-    width: 6rem;
-    height: 6rem;
-  }
-
-  .wedding-date-badge {
-    font-size: 2.5rem;
-    padding: 0.75rem 1.25rem;
+  100% {
+    transform: rotate(360deg);
   }
 }
 
-@media (max-width: 480px) {
-  .wedding-names {
-    font-size: 2.8rem;
-  }
-
-  .wedding-invitation-text {
-    font-size: 0.9rem;
-  }
-
-  .wedding-button {
-    width: 5rem;
-    height: 5rem;
-  }
-
-  .wedding-button span {
-    font-size: 0.625rem;
-  }
+/* Floral background for decorative elements */
+.floral-bg {
+  background-image: url('/images/floral-pattern-gold.svg');
+  background-size: 80px;
+  background-position: top right;
+  background-repeat: no-repeat;
+  opacity: 0.1;
 }
 
 /* Enhanced animations */
@@ -438,6 +500,123 @@
 
 .wedding-hero-card {
   animation: wedding-fade-in 0.8s ease-out forwards;
+}
+
+/* Enhanced Responsive Design */
+@media (max-width: 768px) {
+  .wedding-hero {
+    padding: var(--wedding-space-md) var(--wedding-space-xs);
+  }
+
+  .wedding-hero-card {
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .wedding-names {
+    font-size: clamp(1.2rem, 4vw, 3rem);
+  }
+
+  .wedding-invitation-text {
+    font-size: clamp(0.75rem, 2.5vw, 1.25rem);
+  }
+
+  .wedding-bible-text {
+    font-size: clamp(0.75rem, 2.5vw, 1.5rem);
+  }
+
+  .wedding-venue-text {
+    font-size: clamp(0.875rem, 2.5vw, 1.5rem);
+  }
+
+  .wedding-button {
+    min-height: 3rem;
+    min-width: 3rem;
+    padding: 0.5rem;
+    font-size: 0.75rem;
+  }
+
+  .wedding-button span {
+    font-size: clamp(0.625rem, 2.5vw, 0.875rem);
+  }
+
+  .wedding-icon {
+    font-size: clamp(1rem, 3vw, 1.5rem);
+  }
+
+  .wedding-date-badge {
+    font-size: clamp(1.2rem, 4vw, 2rem);
+    padding: 0.5rem 1rem;
+  }
+
+  .wedding-photo {
+    height: 200px;
+    width: 200px;
+  }
+}
+
+@media (max-width: 480px) {
+  .wedding-hero {
+    padding: var(--wedding-space-sm) var(--wedding-space-xs);
+  }
+
+  .wedding-names {
+    font-size: clamp(1rem, 3vw, 2.5rem);
+  }
+
+  .wedding-invitation-text {
+    font-size: clamp(0.625rem, 2vw, 1rem);
+  }
+
+  .wedding-bible-text {
+    font-size: clamp(0.625rem, 2vw, 1.25rem);
+  }
+
+  .wedding-venue-text {
+    font-size: clamp(0.75rem, 2vw, 1.25rem);
+  }
+
+  .wedding-button {
+    width: 20px;
+    height: 20px;
+    font-size: 0.5rem;
+  }
+
+  .wedding-button span {
+    font-size: 0.375rem;
+  }
+
+  .wedding-photo {
+    height: 150px;
+    width: 150px;
+  }
+}
+
+/* Mobile-specific button adjustments */
+@media (max-width: 768px) {
+  .wedding-button {
+    min-height: 3rem;
+    min-width: 3rem;
+    padding: 0.75rem;
+  }
+
+  .wedding-button span {
+    font-size: clamp(0.75rem, 3vw, 1rem);
+  }
+
+  .wedding-icon {
+    font-size: clamp(1rem, 4vw, 1.5rem);
+  }
+}
+
+/* Ensure hover effects work on touch devices */
+@media (hover: none) {
+  .wedding-button:hover {
+    transform: none;
+  }
+  .wedding-button:active {
+    transform: translateY(0) scale(0.98);
+  }
 }
 
 /* Accessibility improvements */
