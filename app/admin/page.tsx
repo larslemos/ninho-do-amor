@@ -4,15 +4,15 @@
 
 import PlatformHeader from '@/components/PlatformHeader';
 import GuestManagement from '@/components/admin/GuestManagement';
+import InviteManagement from '@/components/admin/InviteManagement';
 import { useState, useEffect } from 'react';
 import { Users, BarChart3, Settings, Gift, Send } from 'lucide-react';
-import InviteManagement from '@/components/admin/InviteManagement';
 import { supabase } from '@/lib/supabase';
 
 interface Wedding {
   id: string;
   slug: string;
-  name: string; // Add other fields as needed
+  displayName: string;
 }
 
 export default function AdminPage() {
@@ -28,13 +28,21 @@ export default function AdminPage() {
     const fetchWeddings = async () => {
       const { data, error } = await supabase
         .from('weddings')
-        .select('id, slug, name'); // Adjust fields as per your schema
+        .select('id, slug, bride_name, groom_name')
+        .order('created_at', { ascending: false });
+
       if (error) {
         console.error('Error fetching weddings:', error);
       } else {
-        setWeddings(data || []);
-        // Set the first wedding as default if available
-        if (data.length > 0) setSelectedWeddingSlug(data[0].slug);
+        const transformedWeddings = (data || []).map((wedding) => ({
+          id: wedding.id,
+          slug: wedding.slug,
+          displayName: `${wedding.bride_name} & ${wedding.groom_name}`,
+        }));
+        setWeddings(transformedWeddings);
+        if (transformedWeddings.length > 0) {
+          setSelectedWeddingSlug(transformedWeddings[0].slug);
+        }
       }
     };
     fetchWeddings();
@@ -49,7 +57,7 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="bg-gray-50">
+    <div className="font-montserrat bg-gray-50">
       <PlatformHeader />
 
       <div className="mx-auto px-4 py-8">
@@ -82,7 +90,7 @@ export default function AdminPage() {
             </option>
             {weddings.map((wedding) => (
               <option key={wedding.id} value={wedding.slug}>
-                {wedding.name}
+                {wedding.displayName}
               </option>
             ))}
           </select>
@@ -113,7 +121,9 @@ export default function AdminPage() {
           {activeTab === 'guests' && selectedWeddingSlug && (
             <GuestManagement weddingSlug={selectedWeddingSlug} />
           )}
-          {activeTab === 'invitations' && <InviteManagement />}
+          {activeTab === 'invitations' && selectedWeddingSlug && (
+            <InviteManagement weddingSlug={selectedWeddingSlug} />
+          )}
           {activeTab === 'analytics' && (
             <div className="p-8 text-center">
               <BarChart3 className="mx-auto mb-4 h-16 w-16 text-gray-400" />

@@ -1,6 +1,5 @@
 // lib/theme-config.ts
 export type WeddingTheme = 'sky-beach' | 'branco-dourado' | 'custom';
-
 export interface ThemeConfig {
   name: string;
   displayName: string;

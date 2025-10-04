@@ -37,7 +37,13 @@ interface Guest {
   rsvp_deadline?: string;
 }
 
-export default function InviteManagement() {
+interface InviteManagementProps {
+  weddingSlug: string; // Add prop for weddingSlug
+}
+
+export default function InviteManagement({
+  weddingSlug,
+}: InviteManagementProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -49,20 +55,25 @@ export default function InviteManagement() {
   const { toast } = useToast();
 
   useEffect(() => {
-    fetchGuests();
-  }, []);
+    if (weddingSlug) {
+      fetchGuests();
+    }
+  }, [weddingSlug]);
 
   const fetchGuests = async () => {
     try {
-      const response = await fetch('/api/admin/guests');
+      const response = await fetch(
+        `/api/admin/guests?weddingSlug=${weddingSlug}`
+      );
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
       } else {
+        const errorData = await response.json();
         toast({
           variant: 'destructive',
           title: 'Erro',
-          description: 'Erro ao carregar convidados',
+          description: errorData.error || 'Erro ao carregar convidados',
         });
       }
     } catch (error) {
@@ -155,7 +166,7 @@ export default function InviteManagement() {
       const response = await fetch('/api/admin/invitations', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ guestId, action }),
+        body: JSON.stringify({ guestId, action, weddingSlug }),
       });
 
       const data = await response.json();
@@ -236,24 +247,34 @@ export default function InviteManagement() {
 
   if (loading) {
     return (
-      <div className="p-6 text-center">
+      <div className="font-montserrat p-6 text-center">
         <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-rose-600"></div>
         <p>Carregando convidados...</p>
       </div>
     );
   }
 
+  if (!weddingSlug) {
+    return (
+      <div className="font-montserrat p-6 text-center">
+        <p className="text-gray-600">
+          Selecione um casamento para gerenciar os convites.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <div className="p-6">
+    <div className="font-montserrat p-6">
       {/* Stats Cards */}
       <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-5">
         <div className="place-card rounded-lg border border-blue-200 bg-blue-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-josefin text-sm font-medium text-blue-600">
+              <p className="font-montserrat text-sm font-medium text-blue-600">
                 Total Convidados
               </p>
-              <p className="font-quicksand text-2xl font-bold text-blue-900">
+              <p className="font-montserrat text-2xl font-bold text-blue-900">
                 {stats.total}
               </p>
             </div>
@@ -264,10 +285,10 @@ export default function InviteManagement() {
         <div className="place-card rounded-lg border border-green-200 bg-green-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-josefin text-sm font-medium text-green-600">
+              <p className="font-montserrat text-sm font-medium text-green-600">
                 Convites WhatsApp
               </p>
-              <p className="font-quicksand text-2xl font-bold text-green-900">
+              <p className="font-montserrat text-2xl font-bold text-green-900">
                 {stats.whatsappSent}
               </p>
             </div>
@@ -278,10 +299,10 @@ export default function InviteManagement() {
         <div className="place-card rounded-lg border border-purple-200 bg-purple-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-josefin text-sm font-medium text-purple-600">
+              <p className="font-montserrat text-sm font-medium text-purple-600">
                 Confirmações Manuais
               </p>
-              <p className="font-quicksand text-2xl font-bold text-purple-900">
+              <p className="font-montserrat text-2xl font-bold text-purple-900">
                 {stats.manualConfirmations}
               </p>
             </div>
@@ -292,10 +313,10 @@ export default function InviteManagement() {
         <div className="place-card rounded-lg border border-orange-200 bg-orange-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-josefin text-sm font-medium text-orange-600">
+              <p className="font-montserrat text-sm font-medium text-orange-600">
                 Lembretes Enviados
               </p>
-              <p className="font-quicksand text-2xl font-bold text-orange-900">
+              <p className="font-montserrat text-2xl font-bold text-orange-900">
                 {stats.remindersSent}
               </p>
             </div>
@@ -306,10 +327,10 @@ export default function InviteManagement() {
         <div className="place-card rounded-lg border border-teal-200 bg-teal-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="font-josefin text-sm font-medium text-teal-600">
+              <p className="font-montserrat text-sm font-medium text-teal-600">
                 Confirmados
               </p>
-              <p className="font-quicksand text-2xl font-bold text-teal-900">
+              <p className="font-montserrat text-2xl font-bold text-teal-900">
                 {stats.confirmed}
               </p>
             </div>
@@ -326,7 +347,7 @@ export default function InviteManagement() {
             placeholder="Buscar convidados..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
+            className="font-montserrat w-full rounded-lg border border-gray-300 py-2 pl-10 pr-4 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
           />
         </div>
       </div>
@@ -338,73 +359,73 @@ export default function InviteManagement() {
             <thead className="bg-gray-50">
               <tr>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('id')}
                 >
                   ID Convidado {renderSortIcon('id')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('mesa')}
                 >
                   Mesa {renderSortIcon('mesa')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('nome')}
                 >
                   Nome {renderSortIcon('nome')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('whatsapp_click')}
                 >
                   WhatsApp Click {renderSortIcon('whatsapp_click')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('invite_sent_count')}
                 >
                   Convite Enviado {renderSortIcon('invite_sent_count')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('whatsapp_delivered_count')}
                 >
                   WhatsApp Delivered{' '}
                   {renderSortIcon('whatsapp_delivered_count')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('sms_sent_count')}
                 >
                   SMS Sent {renderSortIcon('sms_sent_count')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('sms_delivered_count')}
                 >
                   SMS Delivered {renderSortIcon('sms_delivered_count')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('confirm_sent_count')}
                 >
                   Confirmado Enviado {renderSortIcon('confirm_sent_count')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('confirmado')}
                 >
                   Confirmado {renderSortIcon('confirmado')}
                 </th>
                 <th
-                  className="cursor-pointer px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
+                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('reminder_count')}
                 >
                   Lembretes {renderSortIcon('reminder_count')}
                 </th>
-                <th className="px-6 py-3 text-left font-josefin text-xs font-medium uppercase tracking-wider text-gray-500">
+                <th className="font-montserrat px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                   Ações
                 </th>
               </tr>
@@ -412,37 +433,37 @@ export default function InviteManagement() {
             <tbody className="divide-y divide-gray-200 bg-white">
               {sortedGuests.map((guest) => (
                 <tr key={guest.id} className="hover:bg-gray-50">
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {guest.id.slice(0, 8)}…
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {guest.mesa || '-'}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {guest.nome}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getWhatsAppStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {guest.invite_sent_count}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getWhatsAppDeliveredStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getSmsSentStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getSmsDeliveredStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getConfirmSentStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getConfirmedStatus(guest)}
                   </td>
-                  <td className="whitespace-nowrap px-6 py-4 font-quicksand text-sm text-gray-900">
+                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {guest.reminder_count}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">

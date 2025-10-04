@@ -2,27 +2,20 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import WeddingHero from '@/components/WeddingHero';
 import WeddingInvitationContent from '@/components/WeddingInvitationContent';
 import { getWeddingBySlug } from '@/lib/api-handler';
 import { applyWeddingTheme, type WeddingTheme } from '@/lib/theme-config';
-import { WeddingData } from '@/types/wedding';
-import { env } from '@/env'; // Import env from '@/env'; // No curly braces for default export
-
-interface GuestData {
-  id: string;
-  nome: string;
-  email?: string;
-  status: string;
-  mesa?: string;
-  unique_url: string;
-  token: string;
-  rsvp_deadline?: string;
-  wedding_id: string;
-}
+import { WeddingData, GuestData } from '@/types/wedding';
+import { env } from '@/env';
+import { ArrowRight, Heart } from 'lucide-react';
+import JHCountdownSection from '@/components/judyhelder/JHCountdownSection';
+import JHWeddingHero from '@/components/judyhelder/JHWeddingHero';
+import JHFelicitationForm from '@/components/judyhelder/JHFelicitationForm';
+import JHFelicitationList from '@/components/judyhelder/JHFelicitationList';
+import JHGiftSection from '@/components/judyhelder/JHGiftSection';
 
 export default function GuestInvitationPage() {
   const { wedding, guestId } = useParams() as {
@@ -30,6 +23,8 @@ export default function GuestInvitationPage() {
     guestId: string;
   };
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const token = searchParams.get('token');
 
   const [guest, setGuest] = useState<GuestData | null>(null);
   const [weddingData, setWeddingData] = useState<WeddingData | null>(null);
@@ -39,6 +34,9 @@ export default function GuestInvitationPage() {
   const [copied, setCopied] = useState(false);
   const [envelopeOpen, setEnvelopeOpen] = useState(false);
   const [showInvite, setShowInvite] = useState(false);
+
+  // Check if we should show the full invitation (with token in URL)
+  const showFullInvitation = !!token;
 
   useEffect(() => {
     if (guestId && wedding) {
@@ -52,15 +50,24 @@ export default function GuestInvitationPage() {
 
   useEffect(() => {
     if (!isLoading && guest && weddingData) {
-      applyWeddingTheme(weddingData.theme || 'branco-dourado'); // Safe access with fallback
+      applyWeddingTheme(
+        (weddingData.theme as WeddingTheme) || 'branco-dourado'
+      );
 
-      const timer = setTimeout(() => {
+      // Only show envelope animation if not showing full invitation
+      if (!showFullInvitation) {
+        const timer = setTimeout(() => {
+          setEnvelopeOpen(true);
+          setTimeout(() => setShowInvite(true), 1000);
+        }, 2000);
+        return () => clearTimeout(timer);
+      } else {
+        // Show full invitation immediately if token is present
         setEnvelopeOpen(true);
-        setTimeout(() => setShowInvite(true), 1000);
-      }, 2000);
-      return () => clearTimeout(timer);
+        setShowInvite(true);
+      }
     }
-  }, [isLoading, guest, weddingData]);
+  }, [isLoading, guest, weddingData, showFullInvitation]);
 
   const fetchWeddingData = async (weddingSlug: string) => {
     try {
@@ -69,25 +76,30 @@ export default function GuestInvitationPage() {
       setWeddingData(data);
     } catch (err) {
       console.error('Erro ao buscar dados do casamento:', err);
+      setError('Erro ao carregar dados do casamento');
     }
   };
 
   const fetchGuestData = async (guestId: string, weddingSlug: string) => {
     try {
-      const response = await fetch(
-        `/api/guests/by-url/${guestId}?weddingSlug=${weddingSlug}`
-      );
-      const data = await response.json();
-
-      if (response.ok) {
-        setGuest(data.guest);
-        if (data.warning) setWarning(data.warning);
-      } else {
-        setError(data.error || 'Convidado não encontrado');
+      const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+      const url = new URL(`${baseUrl}/api/guests/by-url/${guestId}`);
+      url.searchParams.append('weddingSlug', weddingSlug);
+      const response = await fetch(url.toString(), {
+        cache: 'no-store',
+      });
+      if (!response.ok) {
+        const errorData = await response
+          .json()
+          .catch(() => ({ error: 'Erro na API' }));
+        throw new Error(errorData.error || 'Convidado não encontrado');
       }
+      const data = await response.json();
+      setGuest(data.guest);
+      if (data.warning) setWarning(data.warning);
     } catch (err) {
       console.error('Erro ao buscar dados do convidado:', err);
-      setError('Erro ao carregar dados do convidado');
+      setError((err as Error).message || 'Erro ao carregar dados do convidado');
     } finally {
       setIsLoading(false);
     }
@@ -95,7 +107,8 @@ export default function GuestInvitationPage() {
 
   const handleViewInvitation = () => {
     if (guest?.token) {
-      router.push(`/${wedding}/?token=${guest.token}`);
+      // Navigate to the same page but with token parameter
+      router.push(`/${wedding}/convidados/${guestId}?token=${guest.token}`);
     } else {
       setError('Token de convidado não disponível');
     }
@@ -107,7 +120,7 @@ export default function GuestInvitationPage() {
       return;
     }
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-    const invitationUrl = `${baseUrl}/${wedding}/?token=${guest.token}`;
+    const invitationUrl = `${baseUrl}/${wedding}/convidados/${guestId}?token=${guest.token}`;
     try {
       await navigator.clipboard.writeText(invitationUrl);
       setCopied(true);
@@ -119,12 +132,7 @@ export default function GuestInvitationPage() {
   };
 
   const formatDate = (dateString?: string) => {
-    if (!dateString)
-      return new Date().toLocaleDateString('pt-PT', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric',
-      });
+    if (!dateString) return '';
     return new Date(dateString).toLocaleDateString('pt-PT', {
       day: 'numeric',
       month: 'long',
@@ -133,11 +141,11 @@ export default function GuestInvitationPage() {
   };
 
   const formatTime = (timeString?: string) => {
-    return timeString || '15:00';
+    return timeString || '15:00:00';
   };
 
   const getDayOfWeek = (dateString?: string) => {
-    if (!dateString) return 'Quinta-feira';
+    if (!dateString) return 'Sábado';
     return new Date(dateString).toLocaleDateString('pt-PT', {
       weekday: 'long',
     });
@@ -147,7 +155,7 @@ export default function GuestInvitationPage() {
     return (
       <div
         className="wedding-hero min-h-screen"
-        data-theme={weddingData?.theme || 'branco-dourado'}
+        data-theme={(weddingData?.theme as WeddingTheme) || 'branco-dourado'}
       >
         <div className="relative flex min-h-screen items-center justify-center">
           <div className="fixed inset-0 opacity-20">
@@ -158,6 +166,10 @@ export default function GuestInvitationPage() {
               className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/placeholder.jpg';
+              }}
             />
           </div>
           <div className="wedding-hero-card relative z-10 mx-4 max-w-md rounded-3xl p-12 text-center shadow-2xl">
@@ -171,11 +183,11 @@ export default function GuestInvitationPage() {
     );
   }
 
-  if (error || !guest) {
+  if (error || !guest || !weddingData) {
     return (
       <div
         className="wedding-hero min-h-screen"
-        data-theme={weddingData?.theme || 'branco-dourado'}
+        data-theme={(weddingData?.theme as WeddingTheme) || 'branco-dourado'}
       >
         <div className="relative flex min-h-screen items-center justify-center p-8">
           <div className="fixed inset-0 opacity-20">
@@ -186,6 +198,10 @@ export default function GuestInvitationPage() {
               className="object-cover"
               priority
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = '/placeholder.jpg';
+              }}
             />
           </div>
           <div className="wedding-hero-card relative z-10 w-full max-w-lg rounded-3xl p-12 text-center shadow-2xl">
@@ -194,11 +210,11 @@ export default function GuestInvitationPage() {
                 <Heart className="h-10 w-10" />
               </div>
             </div>
-            <h2 className="wedding-names font-blancha text-wedding-text-primary mb-6 text-3xl">
+            <h2 className="wedding-names mb-6 font-blancha text-3xl">
               Convite Não Encontrado
             </h2>
-            <p className="wedding-text-secondary font-blancha mb-8 text-lg leading-relaxed">
-              {error || 'Este link de convite não é válido ou expirou'}
+            <p className="wedding-text-secondary mb-8 font-blancha text-lg leading-relaxed">
+              {error || 'Este link de convite não é válido ou expirado'}
             </p>
             <Link
               href={`/${wedding}`}
@@ -215,7 +231,7 @@ export default function GuestInvitationPage() {
     );
   }
 
-  const theme = weddingData?.theme || 'branco-dourado';
+  const theme = (weddingData.theme as WeddingTheme) || 'branco-dourado';
 
   return (
     <div className="wedding-hero min-h-screen" data-theme={theme}>
@@ -227,31 +243,52 @@ export default function GuestInvitationPage() {
           className="object-cover opacity-25"
           priority
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = '/placeholder.jpg';
+          }}
         />
       </div>
 
       <div className="relative z-20 flex min-h-screen flex-col items-center justify-start py-8">
-        <WeddingHero
-          weddingSlug={wedding}
-          guest={guest}
-          isLoadingGuest={false}
-          weddingData={weddingData || undefined} // Match expected type
-        />
-        <WeddingInvitationContent
-          wedding={wedding}
-          guest={guest}
-          weddingData={weddingData || undefined} // Match expected type
-          envelopeOpen={envelopeOpen}
-          setEnvelopeOpen={setEnvelopeOpen}
-          showInvite={showInvite}
-          handleViewInvitation={handleViewInvitation}
-          copyInvitationLink={copyInvitationLink}
-          copied={copied}
-          warning={warning}
-          formatDate={formatDate}
-          formatTime={formatTime}
-          getDayOfWeek={getDayOfWeek}
-        />
+        {/* Show WeddingInvitationContent if no token (initial view) */}
+        {!showFullInvitation && (
+          <WeddingInvitationContent
+            wedding={wedding}
+            guest={guest}
+            weddingData={weddingData}
+            envelopeOpen={envelopeOpen}
+            setEnvelopeOpen={setEnvelopeOpen}
+            showInvite={showInvite}
+            handleViewInvitation={handleViewInvitation}
+            copyInvitationLink={copyInvitationLink}
+            copied={copied}
+            warning={warning}
+            formatDate={formatDate}
+            formatTime={formatTime}
+            getDayOfWeek={getDayOfWeek}
+          />
+        )}
+
+        {/* Show full invitation components if token is present */}
+        {showFullInvitation && (
+          <>
+            <JHWeddingHero
+              weddingSlug={wedding}
+              guest={guest}
+              isLoadingGuest={false}
+              weddingData={weddingData}
+            />
+
+            <JHCountdownSection weddingData={weddingData} />
+
+            <JHFelicitationForm weddingData={weddingData} />
+
+            <JHFelicitationList weddingData={weddingData} />
+
+            <JHGiftSection weddingData={weddingData} />
+          </>
+        )}
       </div>
     </div>
   );

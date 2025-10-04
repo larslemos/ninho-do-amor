@@ -91,11 +91,11 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
   }, [weddingSlug]);
 
   const fetchGuests = async () => {
-    if (!weddingSlug) return; // Exit early if no weddingSlug
+    if (!weddingSlug) return;
     try {
       const response = await fetch(
         `/api/admin/guests?weddingSlug=${weddingSlug}`
-      ); // Pass weddingSlug
+      );
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
