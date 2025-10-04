@@ -11,6 +11,10 @@ module.exports = {
       fontFamily: {
         josefin: ['Josefin Sans', 'sans-serif'],
         quicksand: ['Quicksand', 'sans-serif'],
+        blancha: ['Blancha', 'sans-serif'], // Primary wedding font
+        quintella: ['Quintella', 'serif'], // For names
+        sacramento: ['Sacramento', 'cursive'], // For invitation text
+        sangbleu: ['SangBleu', 'serif'], // For bible text
       },
       colors: {
         background: 'var(--background)',
@@ -66,11 +70,29 @@ module.exports = {
           900: 'var(--whatsapp-900)',
         },
       },
+      spacing: {
+        'wedding-xs': '0.5rem',
+        'wedding-sm': '1rem',
+        'wedding-md': '1.5rem',
+        'wedding-lg': '2rem',
+        'wedding-xl': '3rem',
+        'wedding-2xl': '4rem',
+      },
+      fontSize: {
+        'wedding-xs': '0.75rem',
+        'wedding-sm': '0.875rem',
+        'wedding-base': '1rem',
+        'wedding-lg': '1.25rem',
+        'wedding-xl': '1.5rem',
+        'wedding-2xl': '2rem',
+        'wedding-3xl': '2.5rem',
+        'wedding-4xl': '3rem',
+      },
       borderRadius: {
-        sm: 'var(--radius-sm)',
-        md: 'var(--radius-md)',
-        lg: 'var(--radius-lg)',
-        xl: 'var(--radius-xl)',
+        sm: 'var(--radius-sm, 0.375rem)',
+        md: 'var(--radius-md, 0.5rem)',
+        lg: 'var(--radius-lg, 0.75rem)',
+        xl: 'var(--radius-xl, 1rem)',
       },
       animation: {
         'slide-in-from-right': 'slide-in-from-right 300ms ease-out',

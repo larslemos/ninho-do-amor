@@ -11,7 +11,9 @@ export default async function WeddingLayout({
   children: React.ReactNode;
   params: { wedding: string; guestId: string };
 }) {
-  const weddingData = await getWeddingBySlug(params.wedding); // Ensure this returns WeddingData
+  // Await params to resolve the dynamic route values
+  const { wedding, guestId } = await params;
+  const weddingData = await getWeddingBySlug(wedding); // Use resolved wedding slug
 
   if (
     !weddingData ||
@@ -19,7 +21,7 @@ export default async function WeddingLayout({
     !weddingData.design_elements.branding
   ) {
     console.error('Wedding data not found or invalid:', {
-      wedding: params.wedding,
+      wedding,
       weddingData,
     });
     return (

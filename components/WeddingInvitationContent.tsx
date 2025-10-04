@@ -163,12 +163,12 @@ export default function WeddingInvitationContent({
                 <h2 className="wedding-text-secondary font-blancha text-xl font-light md:text-2xl">
                   Bem-vindo(a) ao nosso casamento
                 </h2>
-                <h1 className="wedding-names font-quintella space-y-2 text-4xl leading-tight md:text-6xl">
+                <h1 className="wedding-names space-y-2 font-quintella text-4xl leading-tight md:text-6xl">
                   {guest.nome.split(' ').map((word, index) => (
                     <div key={index}>{word.toUpperCase()}</div>
                   ))}
                 </h1>
-                <div className="wedding-text-secondary font-blancha flex items-center justify-center gap-4">
+                <div className="wedding-text-secondary flex items-center justify-center gap-4 font-blancha">
                   <Heart className="wedding-heart-icon h-6 w-6" />
                   <span className="font-sacramento text-lg md:text-2xl">
                     Você está convidado(a) para celebrar nosso amor
@@ -178,7 +178,7 @@ export default function WeddingInvitationContent({
               </div>
 
               {/* Event Details */}
-              <div className="wedding-info-card font-blancha space-y-6 rounded-3xl p-8">
+              <div className="wedding-info-card space-y-6 rounded-3xl p-8 font-blancha">
                 <div className="grid gap-6 md:grid-cols-2">
                   <div className="flex items-center gap-4">
                     <div className="wedding-button flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg">
@@ -257,7 +257,7 @@ export default function WeddingInvitationContent({
 
               {/* Warning Message */}
               {warning && (
-                <div className="wedding-guest-card font-blancha rounded-2xl border-amber-300 bg-amber-50/80 p-6">
+                <div className="wedding-guest-card rounded-2xl border-amber-300 bg-amber-50/80 p-6 font-blancha">
                   <p className="text-lg text-amber-800">⚠️ {warning}</p>
                 </div>
               )}
@@ -266,11 +266,11 @@ export default function WeddingInvitationContent({
               <div className="space-y-6">
                 <button
                   onClick={handleViewInvitation}
-                  className="w-full rounded-2xl bg-amber-500 shadow-xl transition-all duration-300 hover:scale-105 sm:px-8 sm:py-6"
+                  className="w-full rounded-2xl bg-amber-500 px-6 py-4 shadow-xl transition-all duration-300 hover:scale-105 sm:px-8 sm:py-6"
                 >
                   <div className="flex items-center justify-center gap-4">
                     <Heart className="h-6 w-6 sm:h-8 sm:w-8" />
-                    <span className="font-blancha text-lg font-bold text-white sm:text-xl">
+                    <span className="font-blancha text-2xl font-bold text-white sm:text-xl">
                       Ver Convite Completo
                     </span>
                     <ArrowRight className="h-6 w-6 sm:h-8 sm:w-8" />
@@ -296,7 +296,7 @@ export default function WeddingInvitationContent({
                     ) : (
                       <>
                         <Copy className="h-6 w-6 sm:h-8 sm:w-8" />
-                        <span className="font-blancha text-lg font-medium sm:text-xl">
+                        <span className="font-blancha text-2xl font-medium sm:text-xl">
                           Compartilhar Convite
                         </span>
                       </>

@@ -1,4 +1,4 @@
-// app/hooks/use-audio.ts
+// app/hooks/use-audio.tsx
 
 'use client';
 
