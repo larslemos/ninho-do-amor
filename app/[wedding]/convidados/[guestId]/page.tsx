@@ -283,11 +283,11 @@ export default function GuestInvitationPage() {
 
             <JHCountdownSection weddingData={weddingData} />
 
+            <JHGiftSection weddingData={weddingData} />
+
             <JHFelicitationForm weddingData={weddingData} />
 
             <JHFelicitationList weddingData={weddingData} />
-
-            <JHGiftSection weddingData={weddingData} />
 
             <GuestManualPage />
           </>
