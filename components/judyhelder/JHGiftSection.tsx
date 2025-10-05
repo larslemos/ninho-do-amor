@@ -1,8 +1,10 @@
-//
+// app/[wedding]/convidados/[guestId]/page.tsx
 
+// app/components/judyhelder/JHGiftSection.tsx
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Image from 'next/image';
 import { Gift, Waves, Sun } from 'lucide-react';
 import type { WeddingData } from '@/types/wedding';
 
@@ -11,7 +13,46 @@ interface GiftSectionProps {
 }
 
 export default function JHGiftSection({ weddingData }: GiftSectionProps) {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isGiftModalOpen, setIsGiftModalOpen] = useState(false);
+  const [isBankModalOpen, setIsBankModalOpen] = useState(false);
+  const giftModalRef = useRef<HTMLDivElement>(null);
+  const bankModalRef = useRef<HTMLDivElement>(null);
+
+  const handleClickOutside = (
+    event: MouseEvent,
+    modalSetter: (value: boolean) => void,
+    ref: React.RefObject<HTMLDivElement>
+  ) => {
+    if (ref.current && !ref.current.contains(event.target as Node)) {
+      modalSetter(false);
+    }
+  };
+
+  useEffect(() => {
+    if (isGiftModalOpen) {
+      document.addEventListener('mousedown', (e) =>
+        handleClickOutside(e, setIsGiftModalOpen, giftModalRef)
+      );
+    }
+    return () => {
+      document.removeEventListener('mousedown', (e) =>
+        handleClickOutside(e, setIsGiftModalOpen, giftModalRef)
+      );
+    };
+  }, [isGiftModalOpen]);
+
+  useEffect(() => {
+    if (isBankModalOpen) {
+      document.addEventListener('mousedown', (e) =>
+        handleClickOutside(e, setIsBankModalOpen, bankModalRef)
+      );
+    }
+    return () => {
+      document.removeEventListener('mousedown', (e) =>
+        handleClickOutside(e, setIsBankModalOpen, bankModalRef)
+      );
+    };
+  }, [isBankModalOpen]);
 
   return (
     <>
@@ -54,26 +95,116 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               </p>
 
               <button
-                onClick={() => setIsModalOpen(true)}
+                onClick={() => setIsGiftModalOpen(true)}
                 className="wedding-button w-full rounded-2xl px-8 py-4 text-white shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-center justify-center gap-3">
-                  <Gift className="h-5 w-5" />
-                  <span className="font-blancha text-lg font-bold">
-                    Ver Lista de Presentes
-                  </span>
+                  <span className="font-quicksand">Ver Lista de Presentes</span>
                 </div>
               </button>
 
-              <p className="wedding-text-secondary text-center text-sm">
-                Lista de presentes • Transferência bancária
-              </p>
+              <button
+                onClick={() => setIsBankModalOpen(true)}
+                className="wedding-button w-full rounded-2xl px-8 py-4 text-white shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                <div className="flex items-center justify-center gap-3">
+                  <span className="font-sangleu">Detalhes Bancários</span>
+                </div>
+              </button>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Modal would be implemented separately */}
+      {/* Gift Voucher Modal */}
+      {isGiftModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            ref={giftModalRef}
+            className="wedding-hero-card relative w-full max-w-md rounded-2xl p-6 text-center shadow-2xl"
+          >
+            <button
+              onClick={() => setIsGiftModalOpen(false)}
+              className="absolute right-4 top-4 text-white hover:text-gray-300"
+            >
+              ✕
+            </button>
+            <div className="mb-4 flex justify-center">
+              <Image
+                src="/logos/builders_warehouse_logo.png"
+                alt="Builders Warehouse Logo"
+                width={100}
+                height={50}
+                className="object-contain"
+              />
+            </div>
+            <div className="space-y-4">
+              <h3 className="wedding-text-secondary font-blancha text-xl font-bold">
+                Voucher de Presente
+              </h3>
+              <p className="wedding-text-primary font-blancha text-lg">
+                Voucher presente no Builders Super marés
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bank Details Modal */}
+      {isBankModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div
+            ref={bankModalRef}
+            className="wedding-hero-card relative w-full max-w-md rounded-2xl p-6 text-center shadow-2xl"
+          >
+            <button
+              onClick={() => setIsBankModalOpen(false)}
+              className="absolute right-4 top-4 text-white hover:text-gray-300"
+            >
+              ✕
+            </button>
+
+            <div className="space-y-4">
+              <h3 className="wedding-text-secondary font-blancha text-xl font-bold">
+                Detalhes Bancários
+              </h3>
+
+              <Image
+                src="/logos/MBim_logo.png"
+                alt="MBim Logo"
+                width={50}
+                height={50}
+                className="object-contain"
+              />
+              <p className="wedding-text-primary font-blancha text-lg">
+                8498354410001 - Judy Maria de Andrade (BCI)
+              </p>
+
+              <Image
+                src="/logos/BCI_logo.png"
+                alt="BCI Logo"
+                width={50}
+                height={50}
+                className="object-contain"
+              />
+              <p className="wedding-text-primary font-blancha text-lg">
+                248184880 - Judy Maria de Andrade (MBim)
+              </p>
+
+              <Image
+                src="/logos/SB_logo.jpeg"
+                alt="Standard Bank Logo"
+                width={50}
+                height={50}
+                className="object-contain"
+              />
+              <p className="wedding-text-primary font-blancha text-lg">
+                1099424991007 - Judy Maria de Andrade (Standard Bank)
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }
