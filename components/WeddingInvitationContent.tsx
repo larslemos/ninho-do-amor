@@ -145,15 +145,6 @@ export default function WeddingInvitationContent({
                         </div>
                       </div>
                     </div>
-                    <div className="wedding-button absolute -right-3 -top-3 flex h-10 w-10 items-center justify-center rounded-full shadow-lg">
-                      <Heart className="h-5 w-5 text-white" />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex justify-center">
-                  <div className="wedding-button flex h-20 w-20 items-center justify-center rounded-full shadow-xl">
-                    <Mail className="h-10 w-10 text-white" />
                   </div>
                 </div>
               </div>

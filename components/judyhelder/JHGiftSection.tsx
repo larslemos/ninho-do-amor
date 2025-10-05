@@ -99,10 +99,7 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
                 className="wedding-button w-full rounded-2xl px-8 py-4 text-white shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-center justify-center gap-3">
-                  <Gift className="h-5 w-5" />
-                  <span className="font-blancha text-lg font-bold">
-                    Ver Lista de Presentes
-                  </span>
+                  <span className="font-quicksand">Ver Lista de Presentes</span>
                 </div>
               </button>
 
@@ -111,16 +108,9 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
                 className="wedding-button w-full rounded-2xl px-8 py-4 text-white shadow-xl transition-all duration-300 hover:scale-105"
               >
                 <div className="flex items-center justify-center gap-3">
-                  <Gift className="h-5 w-5" />
-                  <span className="font-blancha text-lg font-bold">
-                    Detalhes Bancários
-                  </span>
+                  <span className="font-sangleu">Detalhes Bancários</span>
                 </div>
               </button>
-
-              <p className="wedding-text-secondary text-center text-sm">
-                Lista de presentes • Transferência bancária
-              </p>
             </div>
           </div>
         </div>

@@ -64,12 +64,6 @@ export default function GiftSection({ weddingData }: GiftSectionProps) {
             <Gift className="h-5 w-5" />
             <span>Ver Lista de Presentes</span>
           </button>
-
-          <div className="mt-3 text-xs text-sky-600 sm:text-sm">
-            <p className="font-quicksand">
-              Lista de presentes • Transferência bancária
-            </p>
-          </div>
         </div>
       </div>
 
