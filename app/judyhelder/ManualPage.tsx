@@ -1,8 +1,7 @@
 import LeafDecoration from './LeafDecoration';
 import HeartIcon from './HeartIcon';
-import { useScrollAnimation } from '@/hooks/useScrollAnimation';
-import greendressImage from '@/assets/greendress.webp';
-import suitblImage from '@/assets/suitbl.webp';
+
+import Image from 'next/image';
 
 const ManualPage = () => {
   const handleGiftListClick = () => {
@@ -60,6 +59,12 @@ const ManualPage = () => {
                   alt="Woman in green dress"
                   className="h-full w-full rounded-lg object-contain shadow-sm"
                 />
+                <Image
+                  src={/iamges/deeegnrrss.jpg}
+                  alt="Man in black suite"
+                  width={300}
+                  height={300}
+                />
               </div>
             </div>
 
@@ -70,6 +75,12 @@ const ManualPage = () => {
                   src={suitblImage}
                   alt="Man in tuxedo"
                   className="h-full w-full rounded-lg object-contain shadow-sm"
+                />
+                <Image
+                  src={/iamges/bilstu.jpg}
+                  alt="Man in black suite"
+                  width={300}
+                  height={300}
                 />
               </div>
             </div>

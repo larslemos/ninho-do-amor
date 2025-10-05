@@ -16,6 +16,7 @@ import JHWeddingHero from '@/components/judyhelder/JHWeddingHero';
 import JHFelicitationForm from '@/components/judyhelder/JHFelicitationForm';
 import JHFelicitationList from '@/components/judyhelder/JHFelicitationList';
 import JHGiftSection from '@/components/judyhelder/JHGiftSection';
+import GuestManualPage from '@/app/judyhelder/GuestManual';
 
 export default function GuestInvitationPage() {
   const { wedding, guestId } = useParams() as {
@@ -287,6 +288,8 @@ export default function GuestInvitationPage() {
             <JHFelicitationList weddingData={weddingData} />
 
             <JHGiftSection weddingData={weddingData} />
+
+            <GuestManualPage />
           </>
         )}
       </div>
