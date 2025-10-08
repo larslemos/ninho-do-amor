@@ -21,7 +21,7 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
   const handleClickOutside = (
     event: MouseEvent,
     modalSetter: (value: boolean) => void,
-    ref: React.RefObject<HTMLDivElement>
+    ref: React.RefObject<HTMLDivElement | null>
   ) => {
     if (ref.current && !ref.current.contains(event.target as Node)) {
       modalSetter(false);
