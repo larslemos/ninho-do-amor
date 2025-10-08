@@ -1,5 +1,4 @@
 // components/judyhelder/JHWeddingHero.tsx
-
 'use client';
 
 import {
@@ -14,6 +13,8 @@ import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
 import { getWeddingBySlug } from '@/lib/api-handler';
 import Image from 'next/image';
+import JHWeddingTimeline from './JHWeddingTimeline';
+import JHWeddingReligious from './JHWeddingReligious';
 
 interface JHWeddingHeroProps {
   weddingSlug: string;
@@ -32,6 +33,8 @@ export default function JHWeddingHero({
     initialWeddingData || null
   );
   const [isLoadingWedding, setIsLoadingWedding] = useState(true);
+  const [isTimelineOpen, setIsTimelineOpen] = useState(false);
+  const [isReligiousOpen, setIsReligiousOpen] = useState(false);
 
   useEffect(() => {
     const fetchWeddingData = async () => {
@@ -62,6 +65,7 @@ export default function JHWeddingHero({
     const civilCeremony = weddingData?.ceremony_types?.find(
       (c) => c.type.toLowerCase() === 'civil'
     );
+    setIsTimelineOpen(true);
     if (civilCeremony) {
       console.log('Cerimônia Civil link not implemented');
     }
@@ -71,6 +75,7 @@ export default function JHWeddingHero({
     const religiousCeremony = weddingData?.ceremony_types?.find(
       (c) => c.type.toLowerCase() === 'religious'
     );
+    setIsReligiousOpen(true);
     if (religiousCeremony) {
       console.log('Cerimônia Religiosa link not implemented');
     }
@@ -291,6 +296,13 @@ export default function JHWeddingHero({
                 </span>
               </button>
 
+              {isTimelineOpen && (
+                <JHWeddingTimeline
+                  isOpen={isTimelineOpen}
+                  onClose={() => setIsTimelineOpen(false)}
+                />
+              )}
+
               <button
                 onClick={handleCerimoniaReligiosa}
                 className="wedding-button flex h-24 w-20 flex-col items-center justify-center rounded-2xl shadow-lg transition-all duration-300 hover:scale-105 sm:h-28 sm:w-24 sm:rounded-3xl sm:hover:scale-110 md:h-32 md:w-28"
@@ -303,6 +315,13 @@ export default function JHWeddingHero({
                   Religiosa
                 </span>
               </button>
+
+              {isReligiousOpen && (
+                <JHWeddingReligious
+                  isOpen={isReligiousOpen}
+                  onClose={() => setIsReligiousOpen(false)}
+                />
+              )}
             </div>
 
             <div className="text-center">
