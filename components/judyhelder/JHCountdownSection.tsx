@@ -119,8 +119,8 @@ export default function JHCountdownSection({
             {[
               { value: timeLeft.days, label: 'Dias' },
               { value: timeLeft.hours, label: 'Horas' },
-              { value: timeLeft.minutes, label: 'Minutos' },
-              { value: timeLeft.seconds, label: 'Segundos' },
+              { value: timeLeft.minutes, label: 'Min' },
+              { value: timeLeft.seconds, label: 'Seg' },
             ].map((item, index) => (
               <div
                 key={index}
@@ -129,7 +129,7 @@ export default function JHCountdownSection({
                 <span className="wedding-text-primary block text-xl font-bold md:text-2xl">
                   {item.value.toString().padStart(2, '0')}
                 </span>
-                <span className="wedding-text-secondary font-blancha text-xs uppercase tracking-wide md:text-sm">
+                <span className="wedding-text-secondary font-blancha text-xs tracking-wide md:text-sm">
                   {item.label}
                 </span>
               </div>

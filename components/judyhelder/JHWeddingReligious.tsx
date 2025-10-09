@@ -2,7 +2,7 @@
 'use client';
 
 import { useEffect, useRef } from 'react';
-import { Heart, Church, Pen } from 'lucide-react';
+import { Heart, Church, Pen, MapPin, Clock9Icon } from 'lucide-react';
 
 interface JHWeddingReligiousProps {
   isOpen: boolean;
@@ -51,19 +51,18 @@ export default function JHWeddingReligious({
           Programa do Casamento Religioso
         </h3>
         <div className="overflow-x-auto text-left">
-          <p className="wedding-text-primary font-fira-sans mb-2 text-sm sm:text-base">
-            Casamento de Judy e Hélder
-            <br />
-            Data: 22 de novembro de 2025 (sábado)
-            <br />
-            Horário: 09:00
-            <br />
-            Local: Igreja Universal do Reino de Deus
+          <p className="wedding-text-primary font-fira-sans mb-2 space-y-6 text-sm sm:text-base">
+            <Clock9Icon className="inline h-4 w-4 sm:h-5 sm:w-5" /> 09:00
           </p>
+          <p className="wedding-text-primary font-fira-sans mb-2 space-y-6 text-sm sm:text-base">
+            <MapPin className="inline h-4 w-4 sm:h-5 sm:w-5" /> Igreja Universal
+            do Reino de Deus - Mantendene
+          </p>
+
           <h4 className="wedding-text-secondary font-fira-sans mb-2 mt-4 text-sm font-semibold sm:text-base">
             Ordem da Cerimónia
           </h4>
-          <ul className="wedding-text-primary font-fira-sans space-y-2 text-sm sm:text-base">
+          <ul className="wedding-text-primary font-fira-sans mb-10 space-y-6 text-sm sm:text-base">
             <li className="flex items-center">
               <Church className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Entrada dos
               padrinhos
@@ -91,9 +90,7 @@ export default function JHWeddingReligious({
               saída dos noivos
             </li>
           </ul>
-          <h4 className="wedding-text-secondary font-fira-sans mb-2 mt-4 text-sm font-semibold sm:text-base">
-            Mensagem Final
-          </h4>
+
           <p className="wedding-text-primary font-fira-sans text-sm italic sm:text-base">
             “Assim já não são dois, mas uma só carne. Portanto, o que Deus uniu,
             ninguém o separe.” — Mateus 19:6
