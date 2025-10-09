@@ -114,7 +114,7 @@ export default function CountdownSection({
             { value: timeLeft.days, label: 'Dias' },
             { value: timeLeft.hours, label: 'Horas' },
             { value: timeLeft.minutes, label: 'Minutos' },
-            { value: timeLeft.seconds, label: 'Segundos' },
+            { value: timeLeft.seconds, label: 'S' },
           ].map((item, index) => (
             <div
               key={index}

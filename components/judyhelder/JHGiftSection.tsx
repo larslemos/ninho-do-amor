@@ -134,7 +134,7 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
                 src="/logos/builders_warehouse_logo.png"
                 alt="Builders Warehouse Logo"
                 width={100}
-                height={50}
+                height={30}
                 className="object-contain"
               />
             </div>
@@ -172,8 +172,8 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <Image
                 src="/logos/MBim_logo.png"
                 alt="MBim Logo"
-                width={50}
-                height={50}
+                width={30}
+                height={30}
                 className="object-contain"
               />
               <p className="wedding-text-primary font-blancha text-lg">
@@ -181,10 +181,10 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               </p>
 
               <Image
-                src="/logos/BCI_logo.png"
+                src="/logos/BCIlogo.png"
                 alt="BCI Logo"
-                width={50}
-                height={50}
+                width={30}
+                height={30}
                 className="object-contain"
               />
               <p className="wedding-text-primary font-blancha text-lg">
@@ -194,8 +194,8 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <Image
                 src="/logos/SB_logo.jpeg"
                 alt="Standard Bank Logo"
-                width={50}
-                height={50}
+                width={30}
+                height={30}
                 className="object-contain"
               />
               <p className="wedding-text-primary font-blancha text-lg">
