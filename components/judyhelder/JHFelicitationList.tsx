@@ -1,4 +1,4 @@
-//
+// components/judyhelder/JHFelicitationList.tsx
 
 'use client';
 
@@ -24,17 +24,34 @@ export default function JHFelicitationList({
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const token = new URLSearchParams(window.location.search).get('token');
-    if (token) {
-      fetchFelicitations(token);
+    if (weddingData?.weddingSlug) {
+      fetchFelicitations(weddingData.weddingSlug);
     } else {
-      setLoading(false);
+      const token = new URLSearchParams(window.location.search).get('token');
+      if (token) {
+        fetchFelicitations(null, token);
+      } else {
+        setLoading(false);
+      }
     }
-  }, []);
+  }, [weddingData?.weddingSlug]);
 
-  const fetchFelicitations = async (token: string) => {
+  const fetchFelicitations = async (
+    weddingSlug?: string | null,
+    token?: string
+  ) => {
     try {
-      const response = await fetch(`/api/felicitations?token=${token}`);
+      let url = '/api/felicitations';
+      const params = new URLSearchParams();
+      if (weddingSlug) {
+        params.append('weddingSlug', weddingSlug);
+      } else if (token) {
+        params.append('token', token);
+      }
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+      const response = await fetch(url);
       const data = await response.json();
       if (response.ok) {
         setFelicitations(data || []);
