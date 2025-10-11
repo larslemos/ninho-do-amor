@@ -1,5 +1,5 @@
 // components/ConfirmationSection.tsx
-// components/ConfirmationSection.tsx
+
 'use client';
 
 import { useState, useEffect } from 'react';
