@@ -168,8 +168,6 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <h3 className="wedding-text-secondary font-blancha text-xl font-bold">
                 Detalhes Bancários
               </h3>
-
-
               <Image
                 src="/logos/BCIlogo.png"
                 alt="BCI Logo"
@@ -180,7 +178,6 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <p className="wedding-text-primary font-blancha text-lg">
                 8498354410001 - Judy Maria de Andrade (BCI)
               </p>
-
               <Image
                 src="/logos/MBim_logo.png"
                 alt="MBim Logo"
@@ -191,7 +188,6 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <p className="wedding-text-primary font-blancha text-lg">
                 248184880 - Judy Maria de Andrade (MBim)
               </p>
-
               <Image
                 src="/logos/SB_logo.jpeg"
                 alt="Standard Bank Logo"
@@ -202,7 +198,7 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
               <p className="wedding-text-primary font-blancha text-lg">
                 1099424991007 - Judy Maria de Andrade (Standard Bank)
               </p>
-
+              c
               <Image
                 src="/logos/M-pesa-logo .png"
                 alt="Standard Bank Logo"

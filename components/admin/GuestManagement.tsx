@@ -1,6 +1,5 @@
 //components/admin/GuestManagement.tsx
 
-// components/admin/GuestManagement.tsx
 'use client';
 
 import type React from 'react';
@@ -358,7 +357,7 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
 
   const copyGuestUrl = async (guest: Guest) => {
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
-    const guestUrl = `${baseUrl}/assaeluterio/convidados/${guest.unique_url || guest.token}`;
+    const guestUrl = `${baseUrl}/judyhelder/convidados/${guest.unique_url || guest.token}`;
 
     try {
       await navigator.clipboard.writeText(guestUrl);
@@ -379,7 +378,7 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
 
   const openGuestPage = (guest: Guest) => {
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
-    const guestUrl = `${baseUrl}/assaeluterio/convidados/${guest.unique_url || guest.token}`;
+    const guestUrl = `${baseUrl}/judyhelder/convidados/${guest.unique_url || guest.token}`;
     window.open(guestUrl, '_blank');
   };
 
@@ -417,14 +416,14 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
       groom: '\u{1F935}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}', // 🤵🏾‍♂️
     };
 
-    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\n  Passo 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento 💍✨  \n\n Passo 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌.   ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
+    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\n  Passo 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento 💍✨  \n\n Passo 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌.   ${baseUrl}/judyhelder/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
 
     let encodedMessage;
     try {
       encodedMessage = encodeURIComponent(message);
     } catch (error) {
       console.error('Error encoding message:', error);
-      const fallbackMessage = `Olá ${guest.nome}! :)\n\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: \n\n ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
+      const fallbackMessage = `Olá ${guest.nome}! :)\n\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: \n\n ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
       encodedMessage = encodeURIComponent(fallbackMessage);
       toast({
         variant: 'destructive',

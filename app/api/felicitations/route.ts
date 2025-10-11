@@ -1,38 +1,63 @@
+// app/api/felicitations/route.ts
+
 import { type NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-// GET - Fetch felicitations
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
     const token = searchParams.get('token');
+    const weddingSlug = searchParams.get('weddingSlug');
 
-    if (!token) {
+    if (!token && !weddingSlug) {
       return NextResponse.json(
-        { error: 'Token é obrigatório' },
+        { error: 'Token ou weddingSlug é obrigatório' },
         { status: 400 }
       );
     }
 
-    // Verify guest exists
-    const { data: guest, error: guestError } = await supabase
-      .from('guests')
-      .select('id')
-      .eq('token', token)
-      .single();
-
-    if (guestError || !guest) {
-      return NextResponse.json(
-        { error: 'Convidado não encontrado' },
-        { status: 404 }
-      );
-    }
-
-    // Fetch all felicitations (public for all guests)
-    const { data: felicitations, error } = await supabase
+    let query = supabase
       .from('felicitations')
       .select('id, name, message, created_at')
       .order('created_at', { ascending: false });
+
+    if (token) {
+      // Verify guest exists
+      const { data: guest, error: guestError } = await supabase
+        .from('guests')
+        .select('id, wedding_id')
+        .eq('token', token)
+        .single();
+
+      if (guestError || !guest) {
+        return NextResponse.json(
+          { error: 'Convidado não encontrado' },
+          { status: 404 }
+        );
+      }
+
+      // Filter by guest's wedding_id
+      query = query.eq('wedding_id', guest.wedding_id);
+    } else if (weddingSlug) {
+      // Fetch wedding_id from weddings table
+      const { data: wedding, error: weddingError } = await supabase
+        .from('weddings')
+        .select('id')
+        .eq('slug', weddingSlug)
+        .single();
+
+      if (weddingError || !wedding) {
+        return NextResponse.json(
+          { error: 'Casamento não encontrado' },
+          { status: 404 }
+        );
+      }
+
+      // Filter by wedding_id
+      query = query.eq('wedding_id', wedding.id);
+    }
+
+    const { data: felicitations, error } = await query;
 
     if (error) {
       console.error('Erro ao buscar felicitações:', error);
@@ -42,7 +67,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Format the response
     const formattedFelicitations = felicitations.map((f) => ({
       id: f.id,
       name: f.name,
@@ -60,7 +84,6 @@ export async function GET(request: NextRequest) {
   }
 }
 
-// POST - Create felicitation
 export async function POST(request: NextRequest) {
   try {
     const { token, name, message } = await request.json();
@@ -72,27 +95,28 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Verify guest exists
+    // Verify guest exists and get wedding_id
     const { data: guest, error: guestError } = await supabase
       .from('guests')
-      .select('id, nome')
+      .select('id, wedding_id')
       .eq('token', token)
       .single();
 
-    if (guestError || !guest) {
+    if (guestError || !guest || !guest.wedding_id) {
       return NextResponse.json(
-        { error: 'Convidado não encontrado' },
+        { error: 'Convidado não encontrado ou sem casamento associado' },
         { status: 404 }
       );
     }
 
-    // Create felicitation
+    // Create felicitation with wedding_id
     const { data, error } = await supabase
       .from('felicitations')
       .insert({
         guest_token: token,
         name: name.trim(),
         message: message.trim(),
+        wedding_id: guest.wedding_id,
       })
       .select()
       .single();
