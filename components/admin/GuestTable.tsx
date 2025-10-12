@@ -164,29 +164,29 @@ export default function GuestTable({
                         <button
                           onClick={() => handleSendWhatsApp(guest)}
                           disabled={sendingInvitation === guest.id}
-                          className="p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900 disabled:opacity-50"
+                          className="rounded border border-green-600 p-1.5 text-green-600 duration-300 animate-in slide-in-from-right hover:border-green-900 hover:bg-green-50 hover:text-green-900 disabled:opacity-50"
                           title="Enviar por WhatsApp"
                           aria-label={`Enviar convite por WhatsApp para ${guest.nome}`}
                         >
                           <Image
                             src="/icons/whatsappblue.png"
                             alt="WhatsApp"
-                            width={14}
-                            height={14}
-                            className="h-4 w-4"
+                            width={20}
+                            height={20}
+                            className="h-4 min-h-[16px] w-4 min-w-[16px]"
                           />
                         </button>
                       )}
                       <button
                         onClick={() => copyGuestUrl(guest)}
-                        className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900"
+                        className="rounded border border-blue-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-blue-900 hover:bg-blue-50"
                         title="Copiar link do convite"
                       >
                         <Copy className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() => openGuestPage(guest)}
-                        className="p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900"
+                        className="rounded border border-green-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-green-900 hover:bg-green-50"
                         title="Abrir página do convidado"
                       >
                         <ExternalLink className="h-4 w-4" />
@@ -198,7 +198,7 @@ export default function GuestTable({
                             setShowTemplateSelector(true);
                           }}
                           disabled={sendingInvitation === guest.id}
-                          className="p-1 text-purple-600 duration-300 animate-in slide-in-from-right hover:text-purple-900 disabled:opacity-50"
+                          className="rounded border border-purple-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-purple-900 hover:bg-purple-50 disabled:opacity-50"
                           title="Enviar email"
                         >
                           {sendingInvitation === guest.id ? (
@@ -212,7 +212,7 @@ export default function GuestTable({
                         <button
                           onClick={() => handleSendInvitation(guest.id, 'sms')}
                           disabled={sendingInvitation === guest.id}
-                          className="p-1 text-orange-600 duration-300 animate-in slide-in-from-right hover:text-orange-900 disabled:opacity-50"
+                          className="rounded border border-orange-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-orange-900 hover:bg-orange-50 disabled:opacity-50"
                           title="Enviar por SMS"
                         >
                           <MessageSquare className="h-4 w-4" />
@@ -228,7 +228,7 @@ export default function GuestTable({
                           });
                           toggleEditModal();
                         }}
-                        className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900"
+                        className="rounded border border-blue-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-blue-900 hover:bg-blue-50"
                         title="Editar"
                       >
                         <Edit className="h-4 w-4" />
@@ -239,7 +239,7 @@ export default function GuestTable({
                           toggleDeleteModal();
                         }}
                         disabled={sendingInvitation === guest.id}
-                        className="p-1 text-red-600 duration-300 animate-in slide-in-from-right hover:text-red-900 disabled:opacity-50"
+                        className="rounded border border-red-600 p-1.5 duration-300 animate-in slide-in-from-right hover:border-red-900 hover:bg-red-50 disabled:opacity-50"
                         title="Excluir"
                       >
                         <Trash2 className="h-4 w-4" />
