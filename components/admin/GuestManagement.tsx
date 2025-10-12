@@ -1,4 +1,4 @@
-//components/admin/GuestManagement.tsx
+// app/components/admin/GuestManagement.tsx
 
 'use client';
 
@@ -27,6 +27,7 @@ import EmailTemplateSelector from './EmailTemplateSelector';
 import type { EmailTemplateType } from '@/lib/email-templates';
 import { TrendingUp, BarChart3, PieChart } from 'lucide-react';
 import { env } from '@/env';
+import { WeddingData } from '@/types/wedding';
 
 interface Guest {
   id: string;
@@ -46,9 +47,10 @@ interface Guest {
 
 interface GuestManagementProps {
   weddingSlug: string | null; // Update to allow null
+  weddingData: WeddingData; // Add weddingData for dynamic names
 }
 
-export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
+export default function GuestManagement({ weddingSlug, weddingData }: GuestManagementProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -92,9 +94,7 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
   const fetchGuests = async () => {
     if (!weddingSlug) return;
     try {
-      const response = await fetch(
-        `/api/admin/guests?weddingSlug=${weddingSlug}`
-      );
+      const response = await fetch(`/api/admin/guests?weddingSlug=${weddingSlug}`);
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
@@ -357,7 +357,7 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
 
   const copyGuestUrl = async (guest: Guest) => {
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
-    const guestUrl = `${baseUrl}/judyhelder/convidados/${guest.unique_url || guest.token}`;
+    const guestUrl = `${baseUrl}/${weddingSlug}/convidados/${guest.unique_url || guest.token}`;
 
     try {
       await navigator.clipboard.writeText(guestUrl);
@@ -378,7 +378,7 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
 
   const openGuestPage = (guest: Guest) => {
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
-    const guestUrl = `${baseUrl}/judyhelder/convidados/${guest.unique_url || guest.token}`;
+    const guestUrl = `${baseUrl}/${weddingSlug}/convidados/${guest.unique_url || guest.token}`;
     window.open(guestUrl, '_blank');
   };
 
@@ -392,11 +392,9 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
       });
       return;
     }
-
     const formattedPhone = phoneNumber
       .replace(/[\s()-]/g, '')
       .replace(/^(\+?)/, '+');
-
     if (!/^\+\d{9,15}$/.test(formattedPhone)) {
       toast({
         variant: 'destructive',
@@ -406,35 +404,41 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
       });
       return;
     }
-
     const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
 
+    // Use simple emoji syntax that won't fail
     const emojis = {
-      smile: '\u{1F60A}', // 😊
-      ring: '\u{1F48D}', // 💍
-      bride: '\u{1F470}\u{1F3FD}\u{200D}\u{2640}\u{FE0F}', // 👰🏽‍♀️
-      groom: '\u{1F935}\u{1F3FE}\u{200D}\u{2642}\u{FE0F}', // 🤵🏾‍♂️
+      smile: '😊',
+      ring: '💍',
+      bride: '👰🏽‍♀️',
+      groom: '🤵🏾‍♂️',
     };
 
-    const message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\n  Passo 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento 💍✨  \n\n Passo 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌.   ${baseUrl}/judyhelder/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
+    const inviteUrl = `${baseUrl}/${weddingSlug}/convidados/${guest.unique_url}`;
+    const bride = weddingData.bride || 'Noiva';
+    const groom = weddingData.groom || 'Noivo';
 
-    let encodedMessage;
-    try {
-      encodedMessage = encodeURIComponent(message);
-    } catch (error) {
-      console.error('Error encoding message:', error);
-      const fallbackMessage = `Olá ${guest.nome}! :)\n\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: \n\n ${baseUrl}/?token=${guest.token}\n\nCom carinho,\nOs noivos!`;
-      encodedMessage = encodeURIComponent(fallbackMessage);
-      toast({
-        variant: 'destructive',
-        title: 'Aviso',
-        description: 'Emojis não suportados. Usando texto alternativo.',
-      });
-    }
+    const message = `Olá ${guest.nome}! ${emojis.smile}
 
+Com muito carinho partilhamos o convite para o casamento de ${bride} & ${groom}. ${emojis.bride}${emojis.ring}${emojis.groom}
+
+Por favor, confirmem a vossa presença seguindo estes passos:
+
+*Passo 1:*:1️⃣ Clique no link abaixo para ver o convite completo ${emojis.ring}
+
+*Passo 2:*2️⃣ Na secção "Confirmação de Presença", selecione um dos botões para confirmar ✅ ou recusar ❌
+
+*Link do convite:*
+${inviteUrl}
+
+Com carinho,
+Os noivos!`;
+
+    const encodedMessage = encodeURIComponent(message);
     const whatsappUrl = `https://web.whatsapp.com/send/?phone=${formattedPhone}&text=${encodedMessage}&type=phone_number&app_absent=0`;
 
     window.open(whatsappUrl, '_blank');
+
     toast({
       variant: 'success',
       title: 'WhatsApp Aberto! 📱',
@@ -860,6 +864,21 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
                     </td>
                     <td className="whitespace-nowrap px-6 py-4 text-sm font-medium">
                       <div className="flex gap-1">
+                        {phoneNumber && (
+                          <button
+                            onClick={() => handleSendWhatsApp(guest)}
+                            disabled={sendingInvitation === guest.id}
+                            className="p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900 disabled:opacity-50"
+                            title="Enviar por WhatsApp"
+                            aria-label={`Enviar convite por WhatsApp para ${guest.nome}`}
+                          >
+                            <img
+                              src="/icons/whatsappblue.png"
+                              alt="WhatsApp"
+                              className="h-6 w-6"
+                            />
+                          </button>
+                        )}
                         <button
                           onClick={() => copyGuestUrl(guest)}
                           className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900"
@@ -889,21 +908,6 @@ export default function GuestManagement({ weddingSlug }: GuestManagementProps) {
                             ) : (
                               <Mail className="h-4 w-4" />
                             )}
-                          </button>
-                        )}
-                        {phoneNumber && (
-                          <button
-                            onClick={() => handleSendWhatsApp(guest)}
-                            disabled={sendingInvitation === guest.id}
-                            className="p-1 text-whatsapp-600 duration-300 animate-in slide-in-from-right hover:text-whatsapp-900 disabled:opacity-50"
-                            title="Enviar por WhatsApp"
-                            aria-label={`Enviar convite por WhatsApp para ${guest.nome}`}
-                          >
-                            <img
-                              src="/icons/whatsapp_icon.svg"
-                              alt="WhatsApp"
-                              className="h-6 w-6"
-                            />
                           </button>
                         )}
                         {phoneNumber && (

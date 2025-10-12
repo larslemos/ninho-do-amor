@@ -108,9 +108,9 @@ export async function POST(request: NextRequest) {
 
       let message = '';
       if (action === 'sendWhatsApp') {
-        message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\nPasso 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento ✨  \n\nPasso 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌. \n\n   ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
+        message = `Olá ${guest.nome}! ${emojis.smile}\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. ${emojis.bride}${emojis.ring}${emojis.groom}\n\n Por favor, confirmem a vossa presença acessando: \n\nPasso 1️⃣: Clique no botão **"Ver Convite Completo"** para abrir todos os detalhes do nosso casamento ✨  \n\nPasso 2️⃣: Na secção **"Confirmação de Presença"**, selecione um dos botões para confirmar ✅ ou recusar ❌. \n\n   ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\n Com carinho,\nOs noivos!`;
       } else if (action === 'sendReminder') {
-        message = `Olá ${guest.nome} ! ${emojis.smile}\nLembramos com carinho que aguardamos a vossa confirmação para o casamento de Assa & Eleutério. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem até ${new Date(guest.rsvp_deadline).toLocaleDateString('pt-BR')}: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
+        message = `Olá ${guest.nome} ! ${emojis.smile}\nLembramos com carinho que aguardamos a vossa confirmação para o casamento de Judy & Helder. ${emojis.bride}${emojis.ring}${emojis.groom}\n\nPor favor, confirmem até ${new Date(guest.rsvp_deadline).toLocaleDateString('pt-BR')}: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
       }
 
       let encodedMessage;
@@ -120,8 +120,8 @@ export async function POST(request: NextRequest) {
         console.error('Error encoding message:', error);
         const fallbackMessage =
           action === 'sendWhatsApp'
-            ? `Olá ${guest.nome}! :)\nCom muito carinho partilhamos o convite para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`
-            : `Olá ${guest.nome}! :)\nLembramos com carinho que aguardamos a vossa confirmação para o casamento de Assa & Eleutério. [Noiva][Anel][Noivo]\n\nPor favor, confirmem até ${new Date(guest.rsvp_deadline).toLocaleDateString('pt-BR')}: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
+            ? `Olá ${guest.nome}! :)\nCom muito carinho partilhamos o convite para o casamento de Judy & Helder. [Noiva][Anel][Noivo]\n\nPor favor, confirmem a vossa presença acessando: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`
+            : `Olá ${guest.nome}! :)\nLembramos com carinho que aguardamos a vossa confirmação para o casamento de Judy & Helder. [Noiva][Anel][Noivo]\n\nPor favor, confirmem até ${new Date(guest.rsvp_deadline).toLocaleDateString('pt-BR')}: ${baseUrl}/assaeluterio/convidados/${guest.unique_url}\n\nCom carinho,\nOs noivos!`;
         encodedMessage = encodeURIComponent(fallbackMessage);
       }
 

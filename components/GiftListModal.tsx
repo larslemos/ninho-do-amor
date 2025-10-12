@@ -107,22 +107,20 @@ export default function GiftListModal({
           <nav className="flex">
             <button
               onClick={() => setActiveTab('gifts')}
-              className={`flex-1 px-4 py-4 text-center font-medium transition-colors ${
-                activeTab === 'gifts'
+              className={`flex-1 px-4 py-4 text-center font-medium transition-colors ${activeTab === 'gifts'
                   ? 'border-b-2 border-rose-600 bg-rose-50 text-rose-600'
                   : 'text-gray-500 hover:text-gray-700'
-              }`}
+                }`}
             >
               <Gift className="mr-2 inline h-5 w-5" />
               Lista de Presentes
             </button>
             <button
               onClick={() => setActiveTab('bank')}
-              className={`flex-1 px-4 py-4 text-center font-medium transition-colors ${
-                activeTab === 'bank'
+              className={`flex-1 px-4 py-4 text-center font-medium transition-colors ${activeTab === 'bank'
                   ? 'border-b-2 border-rose-600 bg-rose-50 text-rose-600'
                   : 'text-gray-500 hover:text-gray-700'
-              }`}
+                }`}
             >
               <CreditCard className="mr-2 inline h-5 w-5" />
               Conta Banco

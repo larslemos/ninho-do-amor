@@ -130,16 +130,14 @@ export default function WeddingManagementPage() {
                   <button
                     key={section.id}
                     onClick={() => setActiveSection(section.id)}
-                    className={`flex items-center gap-3 rounded-lg p-4 transition-all duration-200 ${
-                      isActive
+                    className={`flex items-center gap-3 rounded-lg p-4 transition-all duration-200 ${isActive
                         ? 'bg-rose-600 text-white shadow-lg'
                         : 'text-gray-600 hover:bg-gray-50 hover:text-gray-800'
-                    }`}
+                      }`}
                   >
                     <div
-                      className={`flex h-10 w-10 items-center justify-center rounded-lg ${
-                        isActive ? 'bg-white/20' : section.bgColor
-                      }`}
+                      className={`flex h-10 w-10 items-center justify-center rounded-lg ${isActive ? 'bg-white/20' : section.bgColor
+                        }`}
                     >
                       <Icon
                         className={`h-5 w-5 ${isActive ? 'text-white' : section.color}`}
