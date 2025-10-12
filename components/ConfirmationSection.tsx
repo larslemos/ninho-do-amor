@@ -76,10 +76,11 @@ export default function ConfirmationSection({
         setConfirmation(status);
         toast({
           title: 'Confirmação enviada',
-          description: `Você ${status === 'confirmed'
+          description: `Você ${
+            status === 'confirmed'
               ? 'confirmou sua presença'
               : 'indicou que não pode comparecer'
-            } com sucesso!`,
+          } com sucesso!`,
         });
         await fetchGuestData();
       } else {
@@ -170,12 +171,13 @@ export default function ConfirmationSection({
 
             {/* Enhanced RSVP Status */}
             <div
-              className={`status-badge mb-6 ${confirmation === 'confirmed'
+              className={`status-badge mb-6 ${
+                confirmation === 'confirmed'
                   ? 'status-confirmed'
                   : confirmation === 'rejected'
                     ? 'status-rejected'
                     : 'status-pending'
-                } ${animateStatus ? 'status-change-animation' : ''}`}
+              } ${animateStatus ? 'status-change-animation' : ''}`}
             >
               <div className="flex items-center justify-center gap-2">
                 {confirmation === 'confirmed' ? (
@@ -201,12 +203,13 @@ export default function ConfirmationSection({
               <button
                 onClick={() => handleConfirm('confirmed')}
                 disabled={loading || isRsvpExpired}
-                className={`rsvp-button w-full ${confirmation === 'confirmed'
+                className={`rsvp-button w-full ${
+                  confirmation === 'confirmed'
                     ? 'rsvp-confirmed'
                     : loading && confirmation !== 'rejected'
                       ? 'rsvp-loading'
                       : 'rsvp-confirm'
-                  } transition-all duration-300 ease-out`}
+                } transition-all duration-300 ease-out`}
                 aria-label="Confirmar presença no casamento"
               >
                 <div className="flex items-center justify-center gap-3">
@@ -231,12 +234,13 @@ export default function ConfirmationSection({
               <button
                 onClick={() => handleConfirm('rejected')}
                 disabled={loading || isRsvpExpired}
-                className={`rsvp-button w-full ${confirmation === 'rejected'
+                className={`rsvp-button w-full ${
+                  confirmation === 'rejected'
                     ? 'rsvp-rejected'
                     : loading && confirmation !== 'confirmed'
                       ? 'rsvp-loading'
                       : 'rsvp-decline'
-                  } transition-all duration-300 ease-out`}
+                } transition-all duration-300 ease-out`}
                 aria-label="Informar que não pode comparecer"
               >
                 <div className="flex items-center justify-center gap-3">

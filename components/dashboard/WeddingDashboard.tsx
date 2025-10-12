@@ -390,12 +390,13 @@ export default function WeddingDashboard() {
                               {task.deadline}
                             </span>
                             <span
-                              className={`rounded-full px-2 py-1 text-xs font-medium ${task.priority === 'high'
+                              className={`rounded-full px-2 py-1 text-xs font-medium ${
+                                task.priority === 'high'
                                   ? 'bg-red-100 text-red-700'
                                   : task.priority === 'medium'
                                     ? 'bg-yellow-100 text-yellow-700'
                                     : 'bg-gray-100 text-gray-700'
-                                }`}
+                              }`}
                             >
                               {task.priority === 'high'
                                 ? 'Alta'

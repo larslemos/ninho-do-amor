@@ -17,31 +17,31 @@ const designStyles: {
   description: string;
   preview: string;
 }[] = [
-    {
-      value: 'tradicional-mocambicano',
-      name: 'Tradicional Moçambicano',
-      description: 'Padrões de capulana e elementos culturais',
-      preview: 'bg-gradient-to-br from-red-500 via-yellow-500 to-green-500',
-    },
-    {
-      value: 'moderno-minimalista',
-      name: 'Moderno Minimalista',
-      description: 'Design limpo e contemporâneo',
-      preview: 'bg-gradient-to-br from-gray-100 to-white',
-    },
-    {
-      value: 'romantico-classico',
-      name: 'Romântico Clássico',
-      description: 'Elegante com elementos florais',
-      preview: 'bg-gradient-to-br from-pink-200 to-rose-300',
-    },
-    {
-      value: 'cultural-regional',
-      name: 'Cultural Regional',
-      description: 'Adaptado à província de origem',
-      preview: 'bg-gradient-to-br from-orange-400 to-amber-500',
-    },
-  ];
+  {
+    value: 'tradicional-mocambicano',
+    name: 'Tradicional Moçambicano',
+    description: 'Padrões de capulana e elementos culturais',
+    preview: 'bg-gradient-to-br from-red-500 via-yellow-500 to-green-500',
+  },
+  {
+    value: 'moderno-minimalista',
+    name: 'Moderno Minimalista',
+    description: 'Design limpo e contemporâneo',
+    preview: 'bg-gradient-to-br from-gray-100 to-white',
+  },
+  {
+    value: 'romantico-classico',
+    name: 'Romântico Clássico',
+    description: 'Elegante com elementos florais',
+    preview: 'bg-gradient-to-br from-pink-200 to-rose-300',
+  },
+  {
+    value: 'cultural-regional',
+    name: 'Cultural Regional',
+    description: 'Adaptado à província de origem',
+    preview: 'bg-gradient-to-br from-orange-400 to-amber-500',
+  },
+];
 
 const backgroundPatterns = [
   {
@@ -212,10 +212,11 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                   <button
                     key={key}
                     onClick={() => setActiveTab(key as any)}
-                    className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 transition-colors ${activeTab === key
+                    className={`flex w-full items-center gap-3 rounded-lg px-4 py-3 transition-colors ${
+                      activeTab === key
                         ? 'border border-rose-200 bg-rose-100 text-rose-700'
                         : 'hover:bg-gray-50'
-                      }`}
+                    }`}
                   >
                     <Icon className="h-5 w-5" />
                     <span className="font-medium">{label}</span>
@@ -236,10 +237,11 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                   <button
                     key={style.value}
                     onClick={() => updateDesign('style', style.value)}
-                    className={`w-full rounded-lg border-2 p-4 text-left transition-all ${design.style === style.value
+                    className={`w-full rounded-lg border-2 p-4 text-left transition-all ${
+                      design.style === style.value
                         ? 'border-rose-500 bg-rose-50'
                         : 'border-gray-200 hover:border-gray-300'
-                      }`}
+                    }`}
                   >
                     <div
                       className={`h-16 w-full ${style.preview} mb-3 rounded-lg`}
@@ -275,10 +277,11 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                             type,
                           })
                         }
-                        className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${design.background.type === type
+                        className={`rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
+                          design.background.type === type
                             ? 'bg-rose-100 text-rose-700'
                             : 'bg-gray-100 hover:bg-gray-200'
-                          }`}
+                        }`}
                       >
                         {type === 'pattern'
                           ? 'Padrão'
@@ -303,10 +306,11 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                             value: pattern.value,
                           })
                         }
-                        className={`flex w-full items-center gap-3 rounded-lg border p-3 transition-colors ${design.background.value === pattern.value
+                        className={`flex w-full items-center gap-3 rounded-lg border p-3 transition-colors ${
+                          design.background.value === pattern.value
                             ? 'border-rose-500 bg-rose-50'
                             : 'border-gray-200 hover:border-gray-300'
-                          }`}
+                        }`}
                       >
                         <div
                           className={`h-8 w-8 ${pattern.preview} rounded`}
@@ -345,11 +349,12 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                           onClick={() =>
                             updateFonts(key as keyof FontSelection, font.value)
                           }
-                          className={`w-full rounded-lg border p-3 text-left transition-colors ${design.fonts[key as keyof FontSelection] ===
-                              font.value
+                          className={`w-full rounded-lg border p-3 text-left transition-colors ${
+                            design.fonts[key as keyof FontSelection] ===
+                            font.value
                               ? 'border-rose-500 bg-rose-50'
                               : 'border-gray-200 hover:border-gray-300'
-                            }`}
+                          }`}
                         >
                           <div className={`text-lg ${font.preview} mb-1`}>
                             Assa & Eleutério
@@ -377,11 +382,12 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                   <button
                     key={scheme.name}
                     onClick={() => updateColors(scheme.colors)}
-                    className={`w-full rounded-lg border-2 p-4 text-left transition-all ${JSON.stringify(design.colors) ===
-                        JSON.stringify(scheme.colors)
+                    className={`w-full rounded-lg border-2 p-4 text-left transition-all ${
+                      JSON.stringify(design.colors) ===
+                      JSON.stringify(scheme.colors)
                         ? 'border-rose-500 bg-rose-50'
                         : 'border-gray-200 hover:border-gray-300'
-                      }`}
+                    }`}
                   >
                     <div className="mb-2 flex items-center gap-3">
                       <div className="flex gap-1">

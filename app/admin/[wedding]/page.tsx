@@ -3,11 +3,12 @@
 'use client';
 
 import PlatformHeader from '@/components/PlatformHeader';
-import GuestManagement from '@/components/admin/GuestManagement';
+
 import InviteManagement from '@/components/admin/InviteManagement';
 import { useState, useEffect } from 'react';
 import { Users, BarChart3, Settings, Gift, Send } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
+import GuestManagement from '@/components/admin/GuestManagement';
 
 interface Wedding {
   id: string;
@@ -103,10 +104,11 @@ export default function AdminPage() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex-1 border-b-2 px-6 py-4 text-center font-medium transition-colors ${activeTab === tab.id
-                  ? 'border-rose-600 bg-rose-50 text-rose-600'
-                  : 'border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-700'
-                  }`}
+                className={`flex-1 border-b-2 px-6 py-4 text-center font-medium transition-colors ${
+                  activeTab === tab.id
+                    ? 'border-rose-600 bg-rose-50 text-rose-600'
+                    : 'border-transparent text-gray-500 hover:bg-gray-50 hover:text-gray-700'
+                }`}
               >
                 <tab.icon className="mr-2 inline h-5 w-5" />
                 {tab.label}
@@ -118,7 +120,12 @@ export default function AdminPage() {
         {/* Tab Content */}
         <div className="rounded-lg border border-gray-200 bg-white shadow-sm">
           {activeTab === 'guests' && selectedWeddingSlug && (
-            <GuestManagement weddingSlug={selectedWeddingSlug} />
+            <GuestManagement
+              weddingSlug={selectedWeddingSlug}
+              weddingData={
+                weddings.find((w) => w.slug === selectedWeddingSlug) as any
+              }
+            />
           )}
           {activeTab === 'invitations' && selectedWeddingSlug && (
             <InviteManagement weddingSlug={selectedWeddingSlug} />
