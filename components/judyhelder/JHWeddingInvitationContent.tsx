@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Mail, Copy, CheckCircle } from 'lucide-react';
+import { Mail, Copy, CheckCircle, MailOpen, Heart } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import type { GuestData, WeddingData } from '@/types/wedding';
 

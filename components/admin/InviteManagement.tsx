@@ -31,8 +31,6 @@ interface Guest {
   confirm_sent_count: number;
   reminder_count: number;
   whatsapp_delivered_count: number;
-  sms_sent_count: number;
-  sms_delivered_count: number;
   invitation_sent_at?: string;
   rsvp_deadline?: string;
 }
@@ -115,8 +113,6 @@ export default function InviteManagement({
         break;
       case 'invite_sent_count':
       case 'whatsapp_delivered_count':
-      case 'sms_sent_count':
-      case 'sms_delivered_count':
       case 'confirm_sent_count':
       case 'reminder_count':
         aValue = a[sortColumn];
@@ -221,16 +217,6 @@ export default function InviteManagement({
   const getWhatsAppDeliveredStatus = (guest: Guest) => {
     return guest.whatsapp_delivered_count > 0
       ? `✅ x${guest.whatsapp_delivered_count}`
-      : '❌';
-  };
-
-  const getSmsSentStatus = (guest: Guest) => {
-    return guest.sms_sent_count > 0 ? `✅ x${guest.sms_sent_count}` : '❌';
-  };
-
-  const getSmsDeliveredStatus = (guest: Guest) => {
-    return guest.sms_delivered_count > 0
-      ? `✅ x${guest.sms_delivered_count}`
       : '❌';
   };
 
@@ -392,20 +378,7 @@ export default function InviteManagement({
                   className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
                   onClick={() => handleSort('whatsapp_delivered_count')}
                 >
-                  WhatsApp Delivered{' '}
-                  {renderSortIcon('whatsapp_delivered_count')}
-                </th>
-                <th
-                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
-                  onClick={() => handleSort('sms_sent_count')}
-                >
-                  SMS Sent {renderSortIcon('sms_sent_count')}
-                </th>
-                <th
-                  className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
-                  onClick={() => handleSort('sms_delivered_count')}
-                >
-                  SMS Delivered {renderSortIcon('sms_delivered_count')}
+                  WhatsApp Entregue {renderSortIcon('whatsapp_delivered_count')}
                 </th>
                 <th
                   className="font-montserrat cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500 hover:text-rose-600"
@@ -452,12 +425,6 @@ export default function InviteManagement({
                     {getWhatsAppDeliveredStatus(guest)}
                   </td>
                   <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                    {getSmsSentStatus(guest)}
-                  </td>
-                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
-                    {getSmsDeliveredStatus(guest)}
-                  </td>
-                  <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
                     {getConfirmSentStatus(guest)}
                   </td>
                   <td className="font-montserrat whitespace-nowrap px-6 py-4 text-sm text-gray-900">
@@ -475,7 +442,7 @@ export default function InviteManagement({
                         disabled={
                           sendingAction === guest.id || !getPhoneNumber(guest)
                         }
-                        className="p-1 text-whatsapp-600 duration-300 animate-in slide-in-from-right hover:text-whatsapp-900 disabled:opacity-50"
+                        className="border border-gray-300 p-1 text-whatsapp-600 duration-300 animate-in slide-in-from-right hover:text-whatsapp-900 disabled:opacity-50"
                         title="Enviar Convite por WhatsApp"
                       >
                         <MessageCircle className="h-4 w-4" />
@@ -488,37 +455,17 @@ export default function InviteManagement({
                           )
                         }
                         disabled={sendingAction === guest.id}
-                        className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900 disabled:opacity-50"
+                        className="border border-gray-300 p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900 disabled:opacity-50"
                         title="Marcar WhatsApp Entregue"
                       >
                         <Smartphone className="h-4 w-4" />
                       </button>
                       <button
                         onClick={() =>
-                          handleInvitationAction(guest.id, 'markSmsSent')
-                        }
-                        disabled={sendingAction === guest.id}
-                        className="p-1 text-orange-600 duration-300 animate-in slide-in-from-right hover:text-orange-900 disabled:opacity-50"
-                        title="Marcar SMS Enviado"
-                      >
-                        <Send className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'markSmsDelivered')
-                        }
-                        disabled={sendingAction === guest.id}
-                        className="p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900 disabled:opacity-50"
-                        title="Marcar SMS Entregue"
-                      >
-                        <CheckCircle className="h-4 w-4" />
-                      </button>
-                      <button
-                        onClick={() =>
                           handleInvitationAction(guest.id, 'markAsSent')
                         }
                         disabled={sendingAction === guest.id}
-                        className="p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900 disabled:opacity-50"
+                        className="border border-gray-300 p-1 text-blue-600 duration-300 animate-in slide-in-from-right hover:text-blue-900 disabled:opacity-50"
                         title="Marcar como Enviado"
                       >
                         <CheckSquare className="h-4 w-4" />
@@ -530,7 +477,7 @@ export default function InviteManagement({
                         disabled={
                           sendingAction === guest.id || !getPhoneNumber(guest)
                         }
-                        className="p-1 text-orange-600 duration-300 animate-in slide-in-from-right hover:text-orange-900 disabled:opacity-50"
+                        className="border border-gray-300 p-1 text-orange-600 duration-300 animate-in slide-in-from-right hover:text-orange-900 disabled:opacity-50"
                         title="Enviar Lembrete"
                       >
                         <Send className="h-4 w-4" />
@@ -543,7 +490,7 @@ export default function InviteManagement({
                           sendingAction === guest.id ||
                           guest.status === 'confirmed'
                         }
-                        className="p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900 disabled:opacity-50"
+                        className="border border-gray-300 p-1 text-green-600 duration-300 animate-in slide-in-from-right hover:text-green-900 disabled:opacity-50"
                         title="Confirmar Presença"
                       >
                         <CheckCircle className="h-4 w-4" />
