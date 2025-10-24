@@ -174,7 +174,7 @@ export default function InviteManagement({
         }
         if (data.whatsappWebUrl) {
           // Optional: open web version in new tab
-          // window.open(data.whatsappWebUrl, '_blank');
+          window.open(data.whatsappWebUrl, '_blank');
         }
         toast({
           variant: 'success',
