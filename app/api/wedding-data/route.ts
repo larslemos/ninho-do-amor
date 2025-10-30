@@ -1,13 +1,48 @@
 import { NextResponse } from "next/server"
 import { supabase } from "@/lib/supabase"
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    const { data: weddingData, error } = await supabase.from("wedding_data").select("*").single()
+    const { searchParams } = new URL(request.url)
+    const weddingSlug = searchParams.get("slug")
 
-    if (error) {
-      console.error("Erro ao buscar dados do casamento:", error)
-      return NextResponse.json({ error: "Erro ao carregar dados do casamento" }, { status: 500 })
+    let weddingData
+
+    if (weddingSlug) {
+      // Fetch specific wedding by slug
+      const { data: wedding, error: weddingError } = await supabase
+        .from("weddings")
+        .select("id")
+        .eq("slug", weddingSlug)
+        .single()
+
+      if (weddingError || !wedding) {
+        console.error("Wedding not found:", weddingError)
+        return NextResponse.json({ error: "Casamento não encontrado" }, { status: 404 })
+      }
+
+      const { data, error } = await supabase.from("wedding_data").select("*").eq("wedding_id", wedding.id).single()
+
+      if (error) {
+        console.error("Erro ao buscar dados do casamento:", error)
+        return NextResponse.json({ error: "Erro ao carregar dados do casamento" }, { status: 500 })
+      }
+
+      weddingData = data
+    } else {
+      const { data, error } = await supabase
+        .from("wedding_data")
+        .select("*")
+        .order("created_at", { ascending: false })
+        .limit(1)
+        .single()
+
+      if (error) {
+        console.error("Erro ao buscar dados do casamento:", error)
+        return NextResponse.json({ error: "Erro ao carregar dados do casamento" }, { status: 500 })
+      }
+
+      weddingData = data
     }
 
     // Format the response to match the expected structure
