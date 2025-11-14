@@ -244,9 +244,7 @@ export default function ChartsPage() {
                 <PieChart className="h-8 w-8 text-rose-600" />
                 Visualizações Avançadas
               </h1>
-              <p className="mt-1 text-gray-600">
-                Gráficos interactivos e análises visuais
-              </p>
+              <p className="mt-1 text-gray-600">Gráficos interactivos e análises visuais</p>
             </div>
 
             <div className="flex items-center gap-4">
@@ -266,9 +264,7 @@ export default function ChartsPage() {
                 disabled={loading}
                 className="flex items-center gap-2 rounded-lg bg-rose-600 px-4 py-2 text-white transition-colors hover:bg-rose-700 disabled:opacity-50"
               >
-                <RefreshCw
-                  className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`}
-                />
+                <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin' : ''}`} />
                 Actualizar
               </button>
 
@@ -305,14 +301,10 @@ export default function ChartsPage() {
                         isActive ? 'bg-white/20' : 'bg-gray-100'
                       }`}
                     >
-                      <Icon
-                        className={`h-4 w-4 ${isActive ? 'text-white' : chart.color}`}
-                      />
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-white' : chart.color}`} />
                     </div>
                     <h3 className="text-sm font-semibold">{chart.name}</h3>
-                    <p
-                      className={`mt-1 text-xs ${isActive ? 'text-rose-100' : 'text-gray-500'}`}
-                    >
+                    <p className={`mt-1 text-xs ${isActive ? 'text-rose-100' : 'text-gray-500'}`}>
                       {chart.description}
                     </p>
                   </button>
@@ -477,11 +469,7 @@ export default function ChartsPage() {
                     outerRadius="80%"
                     data={chartData.guestDemographics}
                   >
-                    <RadialBar
-                      dataKey="value"
-                      cornerRadius={10}
-                      fill="#8884d8"
-                    />
+                    <RadialBar dataKey="value" cornerRadius={10} fill="#8884d8" />
                     <Tooltip />
                     <Legend />
                   </RadialBarChart>
@@ -494,10 +482,7 @@ export default function ChartsPage() {
                 </h3>
                 <div className="space-y-4">
                   {chartData.provinceDistribution.map((province, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between"
-                    >
+                    <div key={index} className="flex items-center justify-between">
                       <div className="flex items-center gap-3">
                         <MapPin className="h-4 w-4 text-gray-500" />
                         <span className="font-medium">{province.province}</span>
@@ -535,25 +520,19 @@ export default function ChartsPage() {
                       cy="50%"
                       outerRadius={150}
                       dataKey="amount"
-                      label={({ name, percentage }) =>
-                        `${name}: ${percentage}%`
-                      }
+                      label={({ name, percentage }) => `${name}: ${percentage}%`}
                     >
                       {chartData.budgetBreakdown.map((entry, index) => (
                         <Cell key={`cell-${index}`} fill={entry.color} />
                       ))}
                     </Pie>
-                    <Tooltip
-                      formatter={(value) => formatCurrency(value as number)}
-                    />
+                    <Tooltip formatter={(value) => formatCurrency(value as number)} />
                   </RechartsPieChart>
                 </ResponsiveContainer>
               </div>
 
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Detalhes por Categoria
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Detalhes por Categoria</h3>
                 <div className="space-y-4">
                   {chartData.budgetBreakdown.map((item, index) => (
                     <div
@@ -568,12 +547,8 @@ export default function ChartsPage() {
                         <span className="font-medium">{item.category}</span>
                       </div>
                       <div className="text-right">
-                        <div className="font-bold">
-                          {formatCurrency(item.amount)}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {item.percentage}%
-                        </div>
+                        <div className="font-bold">{formatCurrency(item.amount)}</div>
+                        <div className="text-sm text-gray-500">{item.percentage}%</div>
                       </div>
                     </div>
                   ))}
@@ -641,14 +616,9 @@ export default function ChartsPage() {
           {/* Communication Analysis */}
           {selectedChart === 'communication' && (
             <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Eficácia da Comunicação
-              </h3>
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Eficácia da Comunicação</h3>
               <ResponsiveContainer width="100%" height={400}>
-                <BarChart
-                  data={chartData.communicationStats}
-                  layout="horizontal"
-                >
+                <BarChart data={chartData.communicationStats} layout="horizontal">
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis type="number" />
                   <YAxis dataKey="channel" type="category" width={80} />
@@ -666,9 +636,7 @@ export default function ChartsPage() {
           {/* Timeline Analysis */}
           {selectedChart === 'timeline' && (
             <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Progresso do Timeline
-              </h3>
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Progresso do Timeline</h3>
               <div className="space-y-6">
                 {chartData.timelineProgress.map((task, index) => (
                   <div key={index} className="flex items-center gap-4">
@@ -681,12 +649,8 @@ export default function ChartsPage() {
                     </div>
                     <div className="flex-1">
                       <div className="mb-1 flex items-center justify-between">
-                        <span className="text-sm font-medium text-gray-700">
-                          Progresso
-                        </span>
-                        <span className="text-sm font-bold text-gray-900">
-                          {task.progress}%
-                        </span>
+                        <span className="text-sm font-medium text-gray-700">Progresso</span>
+                        <span className="text-sm font-bold text-gray-900">{task.progress}%</span>
                       </div>
                       <div className="h-3 w-full rounded-full bg-gray-200">
                         <div
@@ -713,12 +677,9 @@ export default function ChartsPage() {
         {/* Export Options */}
         <div className="mt-12 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 p-6">
           <div className="text-center">
-            <h3 className="mb-4 text-lg font-bold text-gray-900">
-              📊 Exportar Visualizações
-            </h3>
+            <h3 className="mb-4 text-lg font-bold text-gray-900">📊 Exportar Visualizações</h3>
             <p className="mb-6 text-gray-700">
-              Exporte os gráficos em alta resolução para apresentações e
-              relatórios
+              Exporte os gráficos em alta resolução para apresentações e relatórios
             </p>
             <div className="flex justify-center gap-4">
               <button className="rounded-lg border border-gray-300 bg-white px-6 py-3 font-semibold text-gray-700 transition-colors hover:bg-gray-50">

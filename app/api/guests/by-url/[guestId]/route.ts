@@ -2,27 +2,18 @@
 import { type NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 
-export async function GET(
-  request: NextRequest,
-  context: { params: Promise<{ guestId: string }> }
-) {
+export async function GET(request: NextRequest, context: { params: Promise<{ guestId: string }> }) {
   const params = await context.params; // Await params to resolve
   const { guestId } = params;
   const weddingSlug = request.nextUrl.searchParams.get('weddingSlug') || ''; // Get from query
 
   try {
     if (!guestId) {
-      return NextResponse.json(
-        { error: 'Guest ID é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Guest ID é obrigatório' }, { status: 400 });
     }
 
     if (!weddingSlug) {
-      return NextResponse.json(
-        { error: 'Wedding slug é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Wedding slug é obrigatório' }, { status: 400 });
     }
 
     console.log('Wedding Slug from query:', weddingSlug); // Debug log
@@ -35,10 +26,7 @@ export async function GET(
 
     if (weddingError || !wedding) {
       console.error('Wedding not found:', { weddingSlug, error: weddingError });
-      return NextResponse.json(
-        { error: 'Casamento não encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Casamento não encontrado' }, { status: 404 });
     }
 
     const { data: guest, error } = await supabase
@@ -67,10 +55,7 @@ export async function GET(
         weddingId: wedding.id,
         error,
       });
-      return NextResponse.json(
-        { error: 'Convidado não encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Convidado não encontrado' }, { status: 404 });
     }
 
     const currentDate = new Date('2025-10-04T14:08:00Z'); // Current date and time
@@ -87,9 +72,6 @@ export async function GET(
     return NextResponse.json({ guest });
   } catch (error) {
     console.error('Erro interno:', { guestId, error });
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

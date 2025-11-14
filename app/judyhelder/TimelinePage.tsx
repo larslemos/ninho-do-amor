@@ -11,12 +11,9 @@ const TimelinePage = () => {
     window.open('https://maps.app.goo.gl/MBAvo4C4d6GkvXsG7', '_blank');
   };
 
-  const { elementRef: headerRef, isVisible: headerVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: timelineRef, isVisible: timelineVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: noteRef, isVisible: noteVisible } =
-    useScrollAnimation(0.3);
+  const { elementRef: headerRef, isVisible: headerVisible } = useScrollAnimation(0.3);
+  const { elementRef: timelineRef, isVisible: timelineVisible } = useScrollAnimation(0.3);
+  const { elementRef: noteRef, isVisible: noteVisible } = useScrollAnimation(0.3);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
@@ -85,9 +82,7 @@ const TimelinePage = () => {
               <h3 className="body-font text-script-text text-lg font-semibold sm:text-xl">
                 15 de Novembro de 2025
               </h3>
-              <p className="body-font text-body-text text-base sm:text-lg">
-                Pelas 14:00
-              </p>
+              <p className="body-font text-body-text text-base sm:text-lg">Pelas 14:00</p>
             </div>
           </div>
 
@@ -112,14 +107,10 @@ const TimelinePage = () => {
         <div
           ref={noteRef}
           className={`mt-12 transition-all delay-500 duration-1000 ${
-            noteVisible
-              ? 'translate-y-0 scale-100 opacity-100'
-              : 'translate-y-8 scale-95 opacity-0'
+            noteVisible ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-8 scale-95 opacity-0'
           }`}
         >
-          <p className="body-font text-body-text text-sm italic">
-            clique no ícone para interragir
-          </p>
+          <p className="body-font text-body-text text-sm italic">clique no ícone para interragir</p>
         </div>
       </div>
     </div>

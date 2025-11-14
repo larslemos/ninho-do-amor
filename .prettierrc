@@ -3,5 +3,11 @@
     "semi": true,
     "tabWidth": 2,
     "trailingComma": "es5",
-    "plugins": [ "prettier-plugin-tailwindcss" ]
+    "plugins": [ "prettier-plugin-tailwindcss" ],
+
+    "printWidth": 100,
+
+    "tailwindConfig": "./tailwind.config.js",
+    "tailwindFunctions": [ "clsx", "cva" ]
+
 }

@@ -52,9 +52,7 @@ export default function GuestInvitationPage() {
 
   useEffect(() => {
     if (!isLoading && guest && weddingData) {
-      applyWeddingTheme(
-        (weddingData.theme as WeddingTheme) || 'branco-dourado'
-      );
+      applyWeddingTheme((weddingData.theme as WeddingTheme) || 'branco-dourado');
 
       // Only show envelope animation if not showing full invitation
       if (!showFullInvitation) {
@@ -91,9 +89,7 @@ export default function GuestInvitationPage() {
         cache: 'no-store',
       });
       if (!response.ok) {
-        const errorData = await response
-          .json()
-          .catch(() => ({ error: 'Erro na API' }));
+        const errorData = await response.json().catch(() => ({ error: 'Erro na API' }));
         throw new Error(errorData.error || 'Convidado não encontrado');
       }
       const data = await response.json();
@@ -212,9 +208,7 @@ export default function GuestInvitationPage() {
                 <Heart className="h-10 w-10" />
               </div>
             </div>
-            <h2 className="wedding-names mb-6 font-blancha text-3xl">
-              Convite Não Encontrado
-            </h2>
+            <h2 className="wedding-names mb-6 font-blancha text-3xl">Convite Não Encontrado</h2>
             <p className="wedding-text-secondary mb-8 font-blancha text-lg leading-relaxed">
               {error || 'Este link de convite não é válido ou expirado'}
             </p>
@@ -223,9 +217,7 @@ export default function GuestInvitationPage() {
               className="wedding-button inline-flex items-center gap-3 rounded-2xl px-8 py-4 text-white transition-all duration-300 hover:scale-105"
             >
               <ArrowRight className="h-5 w-5" />
-              <span className="font-blancha font-semibold">
-                Voltar ao Início
-              </span>
+              <span className="font-blancha font-semibold">Voltar ao Início</span>
             </Link>
           </div>
         </div>
@@ -284,11 +276,7 @@ export default function GuestInvitationPage() {
 
             <JHCountdownSection weddingData={weddingData} />
 
-            <JHConfirmationSection
-              guest={guest}
-              token={token}
-              weddingData={weddingData}
-            />
+            <JHConfirmationSection guest={guest} token={token} weddingData={weddingData} />
 
             <JHGiftSection weddingData={weddingData} />
 

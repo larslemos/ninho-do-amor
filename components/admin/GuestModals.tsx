@@ -39,12 +39,7 @@ interface GuestModalsProps {
   weddingData: WeddingData;
   guests: Guest[];
   newGuest: { nome: string; telefone: string; email: string; mesa: string };
-  setNewGuest: (guest: {
-    nome: string;
-    telefone: string;
-    email: string;
-    mesa: string;
-  }) => void;
+  setNewGuest: (guest: { nome: string; telefone: string; email: string; mesa: string }) => void;
   editGuest: Guest | null;
   setEditGuest: (guest: Guest | null) => void;
   guestToDelete: { id: string; nome: string } | null;
@@ -121,9 +116,7 @@ export default function GuestModals({
                   <input
                     type="text"
                     value={newGuest.nome}
-                    onChange={(e) =>
-                      setNewGuest({ ...newGuest, nome: e.target.value })
-                    }
+                    onChange={(e) => setNewGuest({ ...newGuest, nome: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: João Silva"
                   />
@@ -135,9 +128,7 @@ export default function GuestModals({
                   <input
                     type="tel"
                     value={newGuest.telefone}
-                    onChange={(e) =>
-                      setNewGuest({ ...newGuest, telefone: e.target.value })
-                    }
+                    onChange={(e) => setNewGuest({ ...newGuest, telefone: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: +258 84 123 4567"
                   />
@@ -149,9 +140,7 @@ export default function GuestModals({
                   <input
                     type="email"
                     value={newGuest.email}
-                    onChange={(e) =>
-                      setNewGuest({ ...newGuest, email: e.target.value })
-                    }
+                    onChange={(e) => setNewGuest({ ...newGuest, email: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: joao@example.com"
                   />
@@ -163,9 +152,7 @@ export default function GuestModals({
                   <input
                     type="text"
                     value={newGuest.mesa}
-                    onChange={(e) =>
-                      setNewGuest({ ...newGuest, mesa: e.target.value })
-                    }
+                    onChange={(e) => setNewGuest({ ...newGuest, mesa: e.target.value })}
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: Mesa 5"
                   />
@@ -285,10 +272,7 @@ export default function GuestModals({
                     onChange={(e) =>
                       setEditGuest({
                         ...editGuest,
-                        status: e.target.value as
-                          | 'pending'
-                          | 'confirmed'
-                          | 'rejected',
+                        status: e.target.value as 'pending' | 'confirmed' | 'rejected',
                       } as Guest)
                     }
                     className="w-full rounded-lg border border-gray-300 px-3 py-2 font-quicksand focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
@@ -365,15 +349,12 @@ export default function GuestModals({
                 Confirmar Exclusão
               </h3>
               <p className="font-quicksand text-sm text-gray-700">
-                Tem certeza que deseja excluir{' '}
-                <strong>{guestToDelete.nome}</strong>? Esta ação não pode ser
-                desfeita.
+                Tem certeza que deseja excluir <strong>{guestToDelete.nome}</strong>? Esta ação não
+                pode ser desfeita.
               </p>
               <div className="mt-6 flex gap-3">
                 <button
-                  onClick={() =>
-                    handleDeleteGuest(guestToDelete.id, guestToDelete.nome)
-                  }
+                  onClick={() => handleDeleteGuest(guestToDelete.id, guestToDelete.nome)}
                   className="flex-1 rounded-lg bg-red-600 px-4 py-2 font-josefin text-white transition-colors animate-in slide-in-from-right hover:bg-red-700"
                 >
                   Excluir
@@ -397,12 +378,7 @@ export default function GuestModals({
         <EmailTemplateSelector
           guestName={selectedGuestForEmail.nome}
           onSend={(templateType: EmailTemplateType, customMessage?: string) =>
-            handleSendInvitation(
-              selectedGuestForEmail.id,
-              'email',
-              templateType,
-              customMessage
-            )
+            handleSendInvitation(selectedGuestForEmail.id, 'email', templateType, customMessage)
           }
           isLoading={sendingInvitation === selectedGuestForEmail.id}
         />

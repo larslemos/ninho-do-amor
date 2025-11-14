@@ -9,10 +9,7 @@ export async function GET(
     const { token } = await params;
 
     if (!token) {
-      return NextResponse.json(
-        { error: 'Token é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Token é obrigatório' }, { status: 400 });
     }
 
     const { data: guest, error } = await supabase
@@ -23,10 +20,7 @@ export async function GET(
 
     if (error) {
       console.error('Erro ao buscar convidado:', error);
-      return NextResponse.json(
-        { error: 'Convidado não encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Convidado não encontrado' }, { status: 404 });
     }
 
     // Check if invitation is still valid
@@ -42,9 +36,7 @@ export async function GET(
             mesa: guest.mesa,
             unique_url: guest.unique_url,
             token: guest.token,
-            rsvp_deadline: guest.rsvp_deadline
-              ? new Date(guest.rsvp_deadline).toISOString()
-              : null,
+            rsvp_deadline: guest.rsvp_deadline ? new Date(guest.rsvp_deadline).toISOString() : null,
           },
         },
         { status: 410 }
@@ -60,16 +52,11 @@ export async function GET(
         mesa: guest.mesa,
         unique_url: guest.unique_url,
         token: guest.token,
-        rsvp_deadline: guest.rsvp_deadline
-          ? new Date(guest.rsvp_deadline).toISOString()
-          : null,
+        rsvp_deadline: guest.rsvp_deadline ? new Date(guest.rsvp_deadline).toISOString() : null,
       },
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

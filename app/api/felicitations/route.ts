@@ -10,10 +10,7 @@ export async function GET(request: NextRequest) {
     const weddingSlug = searchParams.get('weddingSlug');
 
     if (!token && !weddingSlug) {
-      return NextResponse.json(
-        { error: 'Token ou weddingSlug é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Token ou weddingSlug é obrigatório' }, { status: 400 });
     }
 
     let query = supabase
@@ -30,10 +27,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (guestError || !guest) {
-        return NextResponse.json(
-          { error: 'Convidado não encontrado' },
-          { status: 404 }
-        );
+        return NextResponse.json({ error: 'Convidado não encontrado' }, { status: 404 });
       }
 
       // Filter by guest's wedding_id
@@ -47,10 +41,7 @@ export async function GET(request: NextRequest) {
         .single();
 
       if (weddingError || !wedding) {
-        return NextResponse.json(
-          { error: 'Casamento não encontrado' },
-          { status: 404 }
-        );
+        return NextResponse.json({ error: 'Casamento não encontrado' }, { status: 404 });
       }
 
       // Filter by wedding_id
@@ -61,10 +52,7 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao buscar felicitações:', error);
-      return NextResponse.json(
-        { error: 'Erro ao carregar felicitações' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao carregar felicitações' }, { status: 500 });
     }
 
     const formattedFelicitations = felicitations.map((f) => ({
@@ -77,10 +65,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json(formattedFelicitations);
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -123,10 +108,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao criar felicitação:', error);
-      return NextResponse.json(
-        { error: 'Erro ao enviar felicitação' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao enviar felicitação' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -135,9 +117,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

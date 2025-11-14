@@ -109,8 +109,7 @@ export default function AudioControl() {
     if (!audioRef.current || hasError) {
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível reproduzir a música devido a um erro no arquivo.',
+        description: 'Não foi possível reproduzir a música devido a um erro no arquivo.',
         variant: 'destructive',
       });
       return;
@@ -138,8 +137,7 @@ export default function AudioControl() {
       console.error('Playback failed:', error);
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível reproduzir a música. Tente clicar novamente.',
+        description: 'Não foi possível reproduzir a música. Tente clicar novamente.',
         variant: 'destructive',
       });
     }
@@ -149,8 +147,7 @@ export default function AudioControl() {
     if (!audioRef.current || hasError) {
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível ajustar o som devido a um erro no arquivo.',
+        description: 'Não foi possível ajustar o som devido a um erro no arquivo.',
         variant: 'destructive',
       });
       return;
@@ -240,9 +237,7 @@ export default function AudioControl() {
               ? 'bg-sky-600 text-white shadow-lg'
               : 'bg-sky-100 text-sky-600 hover:bg-sky-200'
           } ${
-            isLoading || hasError
-              ? 'cursor-not-allowed opacity-50'
-              : 'hover:scale-105'
+            isLoading || hasError ? 'cursor-not-allowed opacity-50' : 'hover:scale-105'
           } ${isPlaying ? 'animate-pulse' : ''}`}
           aria-label={isPlaying ? 'Pausar música' : 'Tocar música'}
         >

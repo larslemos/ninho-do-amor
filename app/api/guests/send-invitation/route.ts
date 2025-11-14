@@ -2,10 +2,7 @@ import { type NextRequest, NextResponse } from 'next/server';
 import { supabase } from '@/lib/supabase';
 import { Resend } from 'resend';
 import { env } from '@/env';
-import {
-  getEmailTemplate,
-  type EmailTemplateType,
-} from '@/lib/email-templates';
+import { getEmailTemplate, type EmailTemplateType } from '@/lib/email-templates';
 
 // const resend = new Resend(process.env.RESEND_API_KEY);
 const resend = new Resend('re_2PmdSzyn_ADsepjenqoiJo4bxkQ8CJsxs');
@@ -21,26 +18,15 @@ export async function POST(request: NextRequest) {
 
     // Validate input
     if (!guestId || !method) {
-      return NextResponse.json(
-        { error: 'Guest ID e método são obrigatórios' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Guest ID e método são obrigatórios' }, { status: 400 });
     }
 
     if (method !== 'email' && method !== 'sms') {
-      return NextResponse.json(
-        { error: "Método deve ser 'email' ou 'sms'" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Método deve ser 'email' ou 'sms'" }, { status: 400 });
     }
 
-    if (
-      !['wedding-invitation', 'reminder', 'thank-you'].includes(templateType)
-    ) {
-      return NextResponse.json(
-        { error: 'Tipo de template inválido' },
-        { status: 400 }
-      );
+    if (!['wedding-invitation', 'reminder', 'thank-you'].includes(templateType)) {
+      return NextResponse.json({ error: 'Tipo de template inválido' }, { status: 400 });
     }
 
     // Get guest data
@@ -52,10 +38,7 @@ export async function POST(request: NextRequest) {
 
     if (guestError || !guest) {
       console.error('Erro ao buscar convidado:', guestError);
-      return NextResponse.json(
-        { error: 'Convidado não encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Convidado não encontrado' }, { status: 404 });
     }
 
     // Ensure unique_url is set
@@ -97,10 +80,7 @@ export async function POST(request: NextRequest) {
 
     if (method === 'email') {
       if (!guest.email) {
-        return NextResponse.json(
-          { error: 'Email do convidado não encontrado' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Email do convidado não encontrado' }, { status: 400 });
       }
 
       // Prepare template data
@@ -125,10 +105,7 @@ export async function POST(request: NextRequest) {
       };
 
       // Get email template
-      const emailTemplate = getEmailTemplate(
-        templateType as EmailTemplateType,
-        templateData
-      );
+      const emailTemplate = getEmailTemplate(templateType as EmailTemplateType, templateData);
 
       notificationData.recipient = guest.email;
       notificationData.subject = emailTemplate.subject;

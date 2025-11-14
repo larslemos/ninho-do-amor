@@ -28,18 +28,13 @@ export async function POST() {
     }
 
     // Convert to array of table objects
-    const tablesToInsert = Array.from(tableMap.entries()).map(
-      ([name, capacity]) => ({
-        name,
-        capacity,
-      })
-    );
+    const tablesToInsert = Array.from(tableMap.entries()).map(([name, capacity]) => ({
+      name,
+      capacity,
+    }));
 
     if (tablesToInsert.length === 0) {
-      return NextResponse.json(
-        { message: 'Nenhuma mesa encontrada para criar' },
-        { status: 200 }
-      );
+      return NextResponse.json({ message: 'Nenhuma mesa encontrada para criar' }, { status: 200 });
     }
 
     // Insert or update tables
@@ -75,9 +70,6 @@ export async function POST() {
     });
   } catch (error) {
     console.error('Internal error:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

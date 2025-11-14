@@ -124,8 +124,7 @@ export default function SeatingManagement() {
       toast({
         variant: 'destructive',
         title: 'Erro',
-        description:
-          'Insira um número válido de mesas e capacidade (maior que 0).',
+        description: 'Insira um número válido de mesas e capacidade (maior que 0).',
       });
       return;
     }
@@ -162,11 +161,7 @@ export default function SeatingManagement() {
   };
 
   const handleAddTable = async () => {
-    if (
-      !newTable.name.trim() ||
-      !newTable.capacity ||
-      parseInt(newTable.capacity) <= 0
-    ) {
+    if (!newTable.name.trim() || !newTable.capacity || parseInt(newTable.capacity) <= 0) {
       toast({
         variant: 'destructive',
         title: 'Erro',
@@ -308,9 +303,7 @@ export default function SeatingManagement() {
 
   const handleUnassignGuest = async (guestId: string, guestName: string) => {
     const originalGuests = [...guests];
-    setGuests((prev) =>
-      prev.map((g) => (g.id === guestId ? { ...g, mesa: null } : g))
-    );
+    setGuests((prev) => prev.map((g) => (g.id === guestId ? { ...g, mesa: null } : g)));
 
     try {
       const response = await fetch('/api/admin/guests', {
@@ -360,9 +353,7 @@ export default function SeatingManagement() {
         <div className="place-card-enhanced rounded-lg bg-white/90 p-6 shadow-inner backdrop-blur-sm">
           <div className="flex items-center justify-center">
             <div className="beach-spinner mr-2 h-6 w-6 text-sky-600"></div>
-            <p className="font-quicksand text-sm text-sky-600 sm:text-base">
-              Carregando mesas...
-            </p>
+            <p className="font-quicksand text-sm text-sky-600 sm:text-base">Carregando mesas...</p>
           </div>
         </div>
       </div>
@@ -390,12 +381,8 @@ export default function SeatingManagement() {
           <div className="place-card-enhanced rounded-lg border border-sky-200 bg-white/90 p-4 shadow-inner">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-quicksand text-sm font-medium text-sky-600">
-                  Total de Mesas
-                </p>
-                <p className="font-poppins text-2xl font-bold text-sky-900">
-                  {tables.length}
-                </p>
+                <p className="font-quicksand text-sm font-medium text-sky-600">Total de Mesas</p>
+                <p className="font-poppins text-2xl font-bold text-sky-900">{tables.length}</p>
               </div>
               <Users className="h-8 w-8 text-sky-600" aria-hidden="true" />
             </div>
@@ -403,14 +390,9 @@ export default function SeatingManagement() {
           <div className="place-card-enhanced rounded-lg border border-sky-200 bg-white/90 p-4 shadow-inner">
             <div className="flex items-center justify-between">
               <div>
-                <p className="font-quicksand text-sm font-medium text-sky-600">
-                  Lugares Ocupados
-                </p>
+                <p className="font-quicksand text-sm font-medium text-sky-600">Lugares Ocupados</p>
                 <p className="font-poppins text-2xl font-bold text-sky-900">
-                  {guests.reduce(
-                    (sum, g) => sum + (g.mesa ? 1 + (g.companions || 0) : 0),
-                    0
-                  )}
+                  {guests.reduce((sum, g) => sum + (g.mesa ? 1 + (g.companions || 0) : 0), 0)}
                 </p>
               </div>
               <Users className="h-8 w-8 text-sky-600" aria-hidden="true" />
@@ -423,10 +405,7 @@ export default function SeatingManagement() {
                   Lugares Disponíveis
                 </p>
                 <p className="font-poppins text-2xl font-bold text-sky-900">
-                  {tables.reduce(
-                    (sum, table) => sum + getAvailableSeats(table),
-                    0
-                  )}
+                  {tables.reduce((sum, table) => sum + getAvailableSeats(table), 0)}
                 </p>
               </div>
               <Users className="h-8 w-8 text-sky-600" aria-hidden="true" />
@@ -457,13 +436,9 @@ export default function SeatingManagement() {
         {/* Tables List or Empty State */}
         {tables.length === 0 ? (
           <div className="place-card-enhanced rounded-lg border border-sky-200 bg-white/90 p-8 text-center shadow-inner">
-            <Heart
-              className="mx-auto mb-4 h-12 w-12 text-sky-500"
-              aria-hidden="true"
-            />
+            <Heart className="mx-auto mb-4 h-12 w-12 text-sky-500" aria-hidden="true" />
             <p className="font-quicksand text-sm text-sky-600 sm:text-base">
-              Nenhuma mesa encontrada. Crie ou gere mesas para começar a
-              atribuir convidados.
+              Nenhuma mesa encontrada. Crie ou gere mesas para começar a atribuir convidados.
             </p>
             <div className="mt-4 flex justify-center gap-2">
               <button
@@ -530,20 +505,12 @@ export default function SeatingManagement() {
                           {assignedGuests.length > 0 ? (
                             <ul className="list-disc pl-5">
                               {assignedGuests.map((guest) => (
-                                <li
-                                  key={guest.id}
-                                  className="flex items-center gap-2"
-                                >
+                                <li key={guest.id} className="flex items-center gap-2">
                                   <span className="font-dancing">
-                                    {guest.nome}{' '}
-                                    {guest.companions
-                                      ? `(+${guest.companions})`
-                                      : ''}
+                                    {guest.nome} {guest.companions ? `(+${guest.companions})` : ''}
                                   </span>
                                   <button
-                                    onClick={() =>
-                                      handleUnassignGuest(guest.id, guest.nome)
-                                    }
+                                    onClick={() => handleUnassignGuest(guest.id, guest.nome)}
                                     className="text-red-600 hover:text-red-900"
                                     title={`Remover ${guest.nome} da mesa`}
                                     aria-label={`Remover ${guest.nome} da mesa`}
@@ -572,9 +539,7 @@ export default function SeatingManagement() {
                               <Users className="h-4 w-4" />
                             </button>
                             <button
-                              onClick={() =>
-                                handleDeleteTable(table.id, table.name)
-                              }
+                              onClick={() => handleDeleteTable(table.id, table.name)}
                               className="p-1 text-red-600 duration-300 animate-in slide-in-from-right hover:text-red-900"
                               title={`Excluir ${table.name}`}
                               aria-label={`Excluir ${table.name}`}
@@ -677,9 +642,7 @@ export default function SeatingManagement() {
                     <input
                       type="text"
                       value={newTable.name}
-                      onChange={(e) =>
-                        setNewTable({ ...newTable, name: e.target.value })
-                      }
+                      onChange={(e) => setNewTable({ ...newTable, name: e.target.value })}
                       className="w-full rounded-lg border border-sky-200 bg-white/80 px-3 py-2 font-quicksand text-sm text-sky-600 placeholder-sky-400 focus:border-sky-500 focus:outline-none sm:text-base"
                       placeholder="Ex: Mesa 1"
                       aria-describedby="name-error"
@@ -692,9 +655,7 @@ export default function SeatingManagement() {
                     <input
                       type="number"
                       value={newTable.capacity}
-                      onChange={(e) =>
-                        setNewTable({ ...newTable, capacity: e.target.value })
-                      }
+                      onChange={(e) => setNewTable({ ...newTable, capacity: e.target.value })}
                       className="w-full rounded-lg border border-sky-200 bg-white/80 px-3 py-2 font-quicksand text-sm text-sky-600 placeholder-sky-400 focus:border-sky-500 focus:outline-none sm:text-base"
                       placeholder="Ex: 8"
                       min="1"
@@ -748,13 +709,11 @@ export default function SeatingManagement() {
                           (guest) =>
                             !guest.mesa &&
                             guest.status === 'confirmed' &&
-                            getAvailableSeats(selectedTable) >=
-                              1 + (guest.companions || 0)
+                            getAvailableSeats(selectedTable) >= 1 + (guest.companions || 0)
                         )
                         .map((guest) => (
                           <option key={guest.id} value={guest.id}>
-                            {guest.nome}{' '}
-                            {guest.companions ? `(+${guest.companions})` : ''}
+                            {guest.nome} {guest.companions ? `(+${guest.companions})` : ''}
                           </option>
                         ))}
                     </select>

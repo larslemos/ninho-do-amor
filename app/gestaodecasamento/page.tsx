@@ -1,16 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Wine,
-  Camera,
-  BarChart3,
-  Users,
-  Calendar,
-  Settings,
-  Bell,
-  Download,
-} from 'lucide-react';
+import { Wine, Camera, BarChart3, Users, Calendar, Settings, Bell, Download } from 'lucide-react';
 import BeverageManagement from '@/components/catering/BeverageManagement';
 import PhotoGallerySystem from '@/components/gallery/PhotoGallerySystem';
 import WeddingDashboard from '@/components/dashboard/WeddingDashboard';
@@ -72,32 +63,22 @@ export default function WeddingManagementPage() {
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Gestão de Casamento
-              </h1>
-              <p className="mt-1 text-gray-600">
-                Assa & Eleutério - 30 de Agosto, 2025
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Gestão de Casamento</h1>
+              <p className="mt-1 text-gray-600">Assa & Eleutério - 30 de Agosto, 2025</p>
             </div>
 
             {/* Quick Stats */}
             <div className="flex items-center gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {stats.confirmedGuests}
-                </div>
+                <div className="text-2xl font-bold text-blue-600">{stats.confirmedGuests}</div>
                 <div className="text-xs text-gray-500">Confirmados</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
-                  {stats.totalPhotos}
-                </div>
+                <div className="text-2xl font-bold text-purple-600">{stats.totalPhotos}</div>
                 <div className="text-xs text-gray-500">Fotos</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-rose-600">
-                  {stats.daysUntilWedding}
-                </div>
+                <div className="text-2xl font-bold text-rose-600">{stats.daysUntilWedding}</div>
                 <div className="text-xs text-gray-500">Dias</div>
               </div>
 
@@ -141,15 +122,11 @@ export default function WeddingManagementPage() {
                         isActive ? 'bg-white/20' : section.bgColor
                       }`}
                     >
-                      <Icon
-                        className={`h-5 w-5 ${isActive ? 'text-white' : section.color}`}
-                      />
+                      <Icon className={`h-5 w-5 ${isActive ? 'text-white' : section.color}`} />
                     </div>
                     <div className="text-left">
                       <h3 className="font-semibold">{section.name}</h3>
-                      <p
-                        className={`text-sm ${isActive ? 'text-rose-100' : 'text-gray-500'}`}
-                      >
+                      <p className={`text-sm ${isActive ? 'text-rose-100' : 'text-gray-500'}`}>
                         {section.description}
                       </p>
                     </div>
@@ -161,22 +138,16 @@ export default function WeddingManagementPage() {
         </div>
 
         {/* Section Content */}
-        <div className="transition-all duration-300">
-          {getCurrentComponent()}
-        </div>
+        <div className="transition-all duration-300">{getCurrentComponent()}</div>
 
         {/* Quick Actions Footer */}
         <div className="mt-12 rounded-xl bg-gradient-to-r from-rose-100 to-pink-100 p-6">
-          <h3 className="mb-4 text-lg font-bold text-gray-900">
-            Acções Rápidas
-          </h3>
+          <h3 className="mb-4 text-lg font-bold text-gray-900">Acções Rápidas</h3>
           <div className="grid gap-4 md:grid-cols-4">
             <button className="flex items-center gap-3 rounded-lg bg-white p-4 transition-shadow hover:shadow-md">
               <Users className="h-5 w-5 text-blue-600" />
               <div className="text-left">
-                <div className="font-medium text-gray-900">
-                  Adicionar Convidados
-                </div>
+                <div className="font-medium text-gray-900">Adicionar Convidados</div>
                 <div className="text-sm text-gray-500">Importar lista</div>
               </div>
             </button>

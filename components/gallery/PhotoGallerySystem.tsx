@@ -1,22 +1,8 @@
 'use client';
 
 import { useState, useRef } from 'react';
-import {
-  QrCode,
-  Upload,
-  Download,
-  Eye,
-  Heart,
-  Share2,
-  Filter,
-  Grid,
-  List,
-} from 'lucide-react';
-import type {
-  PhotoGallery,
-  Photo,
-  EventType,
-} from '@/types/mozambique-wedding';
+import { QrCode, Upload, Download, Eye, Heart, Share2, Filter, Grid, List } from 'lucide-react';
+import type { PhotoGallery, Photo, EventType } from '@/types/mozambique-wedding';
 
 const eventTypes = [
   {
@@ -91,15 +77,12 @@ export default function PhotoGallerySystem() {
 
     if (filterTag) {
       photos = photos.filter((photo) =>
-        photo.tags.some((tag) =>
-          tag.toLowerCase().includes(filterTag.toLowerCase())
-        )
+        photo.tags.some((tag) => tag.toLowerCase().includes(filterTag.toLowerCase()))
       );
     }
 
     return photos.sort(
-      (a, b) =>
-        new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
+      (a, b) => new Date(b.uploadedAt).getTime() - new Date(a.uploadedAt).getTime()
     );
   };
 
@@ -123,9 +106,7 @@ export default function PhotoGallerySystem() {
         };
 
         setGalleries((prev) =>
-          prev.map((g) =>
-            g.id === gallery.id ? { ...g, photos: [...g.photos, newPhoto] } : g
-          )
+          prev.map((g) => (g.id === gallery.id ? { ...g, photos: [...g.photos, newPhoto] } : g))
         );
       };
       reader.readAsDataURL(file);
@@ -144,9 +125,7 @@ export default function PhotoGallerySystem() {
           ? {
               ...g,
               photos: g.photos.map((photo) =>
-                photo.id === photoId
-                  ? { ...photo, likes: photo.likes + 1 }
-                  : photo
+                photo.id === photoId ? { ...photo, likes: photo.likes + 1 } : photo
               ),
             }
           : g
@@ -192,12 +171,8 @@ export default function PhotoGallerySystem() {
     <div className="mx-auto max-w-7xl p-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Galeria de Fotos
-          </h1>
-          <p className="text-gray-600">
-            Sistema colaborativo de fotos por QR Code
-          </p>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Galeria de Fotos</h1>
+          <p className="text-gray-600">Sistema colaborativo de fotos por QR Code</p>
         </div>
         <div className="flex gap-3">
           <button
@@ -230,8 +205,7 @@ export default function PhotoGallerySystem() {
           <nav className="flex">
             {eventTypes.map((event) => {
               const gallery = galleries.find((g) => g.eventType === event.type);
-              const photoCount =
-                gallery?.photos.filter((p) => p.approved).length || 0;
+              const photoCount = gallery?.photos.filter((p) => p.approved).length || 0;
 
               return (
                 <button
@@ -244,9 +218,7 @@ export default function PhotoGallerySystem() {
                   }`}
                 >
                   <div className="mb-1 flex items-center justify-center gap-2">
-                    <div
-                      className={`h-3 w-3 ${event.color} rounded-full`}
-                    ></div>
+                    <div className={`h-3 w-3 ${event.color} rounded-full`}></div>
                     <span>{event.name}</span>
                   </div>
                   <div className="text-xs text-gray-500">
@@ -316,12 +288,10 @@ export default function PhotoGallerySystem() {
               <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-200">
                 <Upload className="h-8 w-8 text-gray-400" />
               </div>
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                Nenhuma foto encontrada
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Nenhuma foto encontrada</h3>
               <p className="mb-6 text-gray-600">
-                {filterTag ? 'Tente remover os filtros ou' : ''} Seja o primeiro
-                a partilhar fotos deste evento!
+                {filterTag ? 'Tente remover os filtros ou' : ''} Seja o primeiro a partilhar fotos
+                deste evento!
               </p>
               <button
                 onClick={() => setShowUploadModal(true)}
@@ -389,13 +359,9 @@ export default function PhotoGallerySystem() {
                       </div>
                       <div className="flex-1">
                         <div className="mb-2 flex items-center justify-between">
-                          <span className="font-medium text-gray-900">
-                            {photo.uploadedBy}
-                          </span>
+                          <span className="font-medium text-gray-900">{photo.uploadedBy}</span>
                           <span className="text-sm text-gray-500">
-                            {new Date(photo.uploadedAt).toLocaleDateString(
-                              'pt-BR'
-                            )}
+                            {new Date(photo.uploadedAt).toLocaleDateString('pt-BR')}
                           </span>
                         </div>
                         <div className="flex items-center gap-4 text-sm text-gray-600">
@@ -445,9 +411,7 @@ export default function PhotoGallerySystem() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="w-full max-w-md rounded-xl bg-white shadow-2xl">
             <div className="border-b border-gray-200 p-6">
-              <h3 className="text-xl font-bold text-gray-900">
-                Upload de Fotos
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900">Upload de Fotos</h3>
             </div>
             <div className="p-6">
               <div
@@ -455,15 +419,9 @@ export default function PhotoGallerySystem() {
                 className="cursor-pointer rounded-lg border-2 border-dashed border-gray-300 p-8 text-center transition-colors hover:border-rose-500 hover:bg-rose-50"
               >
                 <Upload className="mx-auto mb-4 h-12 w-12 text-gray-400" />
-                <h4 className="mb-2 text-lg font-semibold text-gray-900">
-                  Selecionar Fotos
-                </h4>
-                <p className="mb-4 text-gray-600">
-                  Clique aqui ou arraste fotos para fazer upload
-                </p>
-                <p className="text-sm text-gray-500">
-                  Formatos suportados: JPG, PNG, HEIC
-                </p>
+                <h4 className="mb-2 text-lg font-semibold text-gray-900">Selecionar Fotos</h4>
+                <p className="mb-4 text-gray-600">Clique aqui ou arraste fotos para fazer upload</p>
+                <p className="text-sm text-gray-500">Formatos suportados: JPG, PNG, HEIC</p>
               </div>
 
               <input
@@ -492,9 +450,7 @@ export default function PhotoGallerySystem() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white shadow-2xl">
             <div className="border-b border-gray-200 p-6">
-              <h3 className="text-xl font-bold text-gray-900">
-                QR Codes para Upload
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900">QR Codes para Upload</h3>
               <p className="text-gray-600">
                 Códigos QR para cada evento - imprima e coloque nas mesas
               </p>
@@ -503,12 +459,8 @@ export default function PhotoGallerySystem() {
               <div className="grid gap-8 md:grid-cols-2">
                 {eventTypes.map((event) => (
                   <div key={event.type} className="text-center">
-                    <div
-                      className={`h-4 w-4 ${event.color} mx-auto mb-2 rounded-full`}
-                    ></div>
-                    <h4 className="mb-4 font-bold text-gray-900">
-                      {event.name}
-                    </h4>
+                    <div className={`h-4 w-4 ${event.color} mx-auto mb-2 rounded-full`}></div>
+                    <h4 className="mb-4 font-bold text-gray-900">{event.name}</h4>
 
                     {/* QR Code Placeholder */}
                     <div className="mx-auto mb-4 flex h-48 w-48 items-center justify-center rounded-lg border-2 border-gray-300 bg-gray-100">

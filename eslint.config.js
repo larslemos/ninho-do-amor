@@ -18,6 +18,14 @@ export default [
       '@typescript-eslint/no-unused-vars': 'warn',
       'react/no-unescaped-entities': 'off',
       '@next/next/no-page-custom-font': 'off',
+      '@next/next/no-html-link-for-pages': 'off',
+      '@typescript-eslint/no-unused-vars': [
+        'warn',
+        {
+          argsIgnorePattern: '^_',
+          varsIgnorePattern: '^_',
+        },
+      ],
     },
   },
   {
@@ -27,6 +35,8 @@ export default [
       'build/',
       '*.config.js',
       '*.config.mjs',
+      'dist/',
+      'coverage/',
     ],
   },
 ];

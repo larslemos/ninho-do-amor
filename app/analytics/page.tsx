@@ -64,17 +64,13 @@ export default function AnalyticsPage() {
                 <TrendingUp className="h-8 w-8 text-rose-600" />
                 Analytics & Relatórios
               </h1>
-              <p className="mt-1 text-gray-600">
-                Insights avançados para o seu casamento
-              </p>
+              <p className="mt-1 text-gray-600">Insights avançados para o seu casamento</p>
             </div>
 
             {/* Summary Stats */}
             <div className="grid grid-cols-4 gap-6">
               <div className="text-center">
-                <div className="text-2xl font-bold text-blue-600">
-                  {summaryStats.totalMetrics}
-                </div>
+                <div className="text-2xl font-bold text-blue-600">{summaryStats.totalMetrics}</div>
                 <div className="text-xs text-gray-500">Métricas</div>
               </div>
               <div className="text-center">
@@ -90,9 +86,7 @@ export default function AnalyticsPage() {
                 <div className="text-xs text-gray-500">Relatórios</div>
               </div>
               <div className="text-center">
-                <div className="text-2xl font-bold text-purple-600">
-                  {summaryStats.dataPoints}
-                </div>
+                <div className="text-2xl font-bold text-purple-600">{summaryStats.dataPoints}</div>
                 <div className="text-xs text-gray-500">Dados</div>
               </div>
             </div>
@@ -124,15 +118,11 @@ export default function AnalyticsPage() {
                         isActive ? 'bg-white/20' : 'bg-gray-100'
                       }`}
                     >
-                      <Icon
-                        className={`h-6 w-6 ${isActive ? 'text-white' : tab.color}`}
-                      />
+                      <Icon className={`h-6 w-6 ${isActive ? 'text-white' : tab.color}`} />
                     </div>
                     <div className="text-left">
                       <h3 className="text-lg font-bold">{tab.name}</h3>
-                      <p
-                        className={`text-sm ${isActive ? 'text-rose-100' : 'text-gray-500'}`}
-                      >
+                      <p className={`text-sm ${isActive ? 'text-rose-100' : 'text-gray-500'}`}>
                         {tab.description}
                       </p>
                     </div>
@@ -144,9 +134,7 @@ export default function AnalyticsPage() {
         </div>
 
         {/* Tab Content */}
-        <div className="transition-all duration-300">
-          {getCurrentComponent()}
-        </div>
+        <div className="transition-all duration-300">{getCurrentComponent()}</div>
 
         {/* Footer Info */}
         <div className="mt-12 rounded-xl bg-gradient-to-r from-blue-100 to-purple-100 p-6">
@@ -155,25 +143,19 @@ export default function AnalyticsPage() {
               📊 Sistema de Analytics Avançado
             </h3>
             <p className="mb-4 text-gray-700">
-              Monitorize todos os aspectos do seu casamento com métricas em
-              tempo real, relatórios detalhados e alertas inteligentes.
+              Monitorize todos os aspectos do seu casamento com métricas em tempo real, relatórios
+              detalhados e alertas inteligentes.
             </p>
             <div className="flex justify-center gap-4">
               <div className="rounded-lg bg-white px-4 py-2">
-                <span className="text-sm font-medium text-gray-600">
-                  Última actualização:
-                </span>
+                <span className="text-sm font-medium text-gray-600">Última actualização:</span>
                 <span className="ml-2 text-sm font-bold text-gray-900">
                   {new Date().toLocaleString('pt-MZ')}
                 </span>
               </div>
               <div className="rounded-lg bg-white px-4 py-2">
-                <span className="text-sm font-medium text-gray-600">
-                  Status:
-                </span>
-                <span className="ml-2 text-sm font-bold text-green-600">
-                  Online
-                </span>
+                <span className="text-sm font-medium text-gray-600">Status:</span>
+                <span className="ml-2 text-sm font-bold text-green-600">Online</span>
               </div>
             </div>
           </div>

@@ -60,9 +60,7 @@ export default function JHWeddingInvitationContent({
             aria-label="Abrir convite"
           >
             <Mail className="wedding-icon h-6 w-6 sm:h-8 sm:w-8 md:h-10 md:w-10" />
-            <span className="text-xs font-bold sm:text-sm md:text-base">
-              Abrir Convite
-            </span>
+            <span className="text-xs font-bold sm:text-sm md:text-base">Abrir Convite</span>
           </button>
         </div>
       </div>
@@ -96,8 +94,7 @@ export default function JHWeddingInvitationContent({
         )}
         <div className="mb-2 sm:mb-3 md:mb-4">
           <p className="wedding-text-primary mb-1 text-sm sm:mb-2 sm:text-base md:mb-3 md:text-lg">
-            Data: {formatDate(weddingData?.date)} (
-            {getDayOfWeek(weddingData?.date)})
+            Data: {formatDate(weddingData?.date)} ({getDayOfWeek(weddingData?.date)})
           </p>
           <p className="wedding-text-primary text-sm sm:text-base md:text-lg">
             Hora: {formatTime(weddingData?.time)}
@@ -109,9 +106,7 @@ export default function JHWeddingInvitationContent({
           aria-label="Ver convite completo"
         >
           <Heart className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-          <span className="text-xs font-bold sm:text-sm md:text-base">
-            Ver Convite Completo
-          </span>
+          <span className="text-xs font-bold sm:text-sm md:text-base">Ver Convite Completo</span>
         </button>
         <button
           onClick={copyInvitationLink}
@@ -121,16 +116,12 @@ export default function JHWeddingInvitationContent({
           {copied ? (
             <>
               <CheckCircle className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-              <span className="text-xs font-bold sm:text-sm md:text-base">
-                Copiado!
-              </span>
+              <span className="text-xs font-bold sm:text-sm md:text-base">Copiado!</span>
             </>
           ) : (
             <>
               <Copy className="h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6" />
-              <span className="text-xs font-bold sm:text-sm md:text-base">
-                Copiar Link
-              </span>
+              <span className="text-xs font-bold sm:text-sm md:text-base">Copiar Link</span>
             </>
           )}
         </button>

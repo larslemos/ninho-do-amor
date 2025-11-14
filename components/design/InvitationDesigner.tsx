@@ -162,9 +162,9 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
     weddingId: 'current-wedding',
   });
 
-  const [activeTab, setActiveTab] = useState<
-    'style' | 'background' | 'fonts' | 'colors' | 'text'
-  >('style');
+  const [activeTab, setActiveTab] = useState<'style' | 'background' | 'fonts' | 'colors' | 'text'>(
+    'style'
+  );
 
   const updateDesign = (field: keyof WeddingDesign, value: any) => {
     setDesign((prev) => ({ ...prev, [field]: value }));
@@ -184,12 +184,8 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
   return (
     <div className="mx-auto max-w-7xl p-6">
       <div className="mb-8 text-center">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Designer de Convites
-        </h1>
-        <p className="text-gray-600">
-          Crie convites personalizados com elementos moçambicanos
-        </p>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Designer de Convites</h1>
+        <p className="text-gray-600">Crie convites personalizados com elementos moçambicanos</p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -243,12 +239,8 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div
-                      className={`h-16 w-full ${style.preview} mb-3 rounded-lg`}
-                    ></div>
-                    <h4 className="mb-1 font-semibold text-gray-900">
-                      {style.name}
-                    </h4>
+                    <div className={`h-16 w-full ${style.preview} mb-3 rounded-lg`}></div>
+                    <h4 className="mb-1 font-semibold text-gray-900">{style.name}</h4>
                     <p className="text-sm text-gray-600">{style.description}</p>
                   </button>
                 ))}
@@ -312,12 +304,8 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                             : 'border-gray-200 hover:border-gray-300'
                         }`}
                       >
-                        <div
-                          className={`h-8 w-8 ${pattern.preview} rounded`}
-                        ></div>
-                        <span className="text-sm font-medium">
-                          {pattern.name}
-                        </span>
+                        <div className={`h-8 w-8 ${pattern.preview} rounded`}></div>
+                        <span className="text-sm font-medium">{pattern.name}</span>
                       </button>
                     ))}
                   </div>
@@ -339,29 +327,20 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                   { key: 'accent', label: 'Fonte de Destaque (Citações)' },
                 ].map(({ key, label }) => (
                   <div key={key}>
-                    <label className="mb-3 block text-sm font-medium text-gray-700">
-                      {label}
-                    </label>
+                    <label className="mb-3 block text-sm font-medium text-gray-700">{label}</label>
                     <div className="space-y-2">
                       {fontOptions.map((font) => (
                         <button
                           key={font.value}
-                          onClick={() =>
-                            updateFonts(key as keyof FontSelection, font.value)
-                          }
+                          onClick={() => updateFonts(key as keyof FontSelection, font.value)}
                           className={`w-full rounded-lg border p-3 text-left transition-colors ${
-                            design.fonts[key as keyof FontSelection] ===
-                            font.value
+                            design.fonts[key as keyof FontSelection] === font.value
                               ? 'border-rose-500 bg-rose-50'
                               : 'border-gray-200 hover:border-gray-300'
                           }`}
                         >
-                          <div className={`text-lg ${font.preview} mb-1`}>
-                            Assa & Eleutério
-                          </div>
-                          <div className="text-sm text-gray-600">
-                            {font.name}
-                          </div>
+                          <div className={`text-lg ${font.preview} mb-1`}>Assa & Eleutério</div>
+                          <div className="text-sm text-gray-600">{font.name}</div>
                         </button>
                       ))}
                     </div>
@@ -383,8 +362,7 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                     key={scheme.name}
                     onClick={() => updateColors(scheme.colors)}
                     className={`w-full rounded-lg border-2 p-4 text-left transition-all ${
-                      JSON.stringify(design.colors) ===
-                      JSON.stringify(scheme.colors)
+                      JSON.stringify(design.colors) === JSON.stringify(scheme.colors)
                         ? 'border-rose-500 bg-rose-50'
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
@@ -404,9 +382,7 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                           style={{ backgroundColor: scheme.colors.accent }}
                         ></div>
                       </div>
-                      <span className="font-medium text-gray-900">
-                        {scheme.name}
-                      </span>
+                      <span className="font-medium text-gray-900">{scheme.name}</span>
                     </div>
                   </button>
                 ))}
@@ -487,10 +463,7 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                   <div className="relative z-10">
                     {/* Header */}
                     <div className="mb-6">
-                      <div
-                        className="mb-2 text-4xl"
-                        style={{ color: design.colors.primary }}
-                      >
+                      <div className="mb-2 text-4xl" style={{ color: design.colors.primary }}>
                         💍
                       </div>
                       <h1
@@ -509,16 +482,10 @@ WhatsApp: [Número] | Link: [URL RSVP]`,
                       >
                         Assa
                       </div>
-                      <div
-                        className="mb-2 text-xl"
-                        style={{ color: design.colors.secondary }}
-                      >
+                      <div className="mb-2 text-xl" style={{ color: design.colors.secondary }}>
                         &
                       </div>
-                      <div
-                        className="text-2xl font-bold"
-                        style={{ color: design.colors.primary }}
-                      >
+                      <div className="text-2xl font-bold" style={{ color: design.colors.primary }}>
                         Eleutério
                       </div>
                     </div>

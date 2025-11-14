@@ -10,9 +10,7 @@ interface CountdownSectionProps {
   weddingData: WeddingData;
 }
 
-export default function CountdownSection({
-  weddingData,
-}: CountdownSectionProps) {
+export default function CountdownSection({ weddingData }: CountdownSectionProps) {
   const targetDate = new Date('2025-08-30T13:00:00').getTime();
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
@@ -30,9 +28,7 @@ export default function CountdownSection({
       if (distance > 0) {
         const newTimeLeft = {
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          ),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         };
@@ -59,10 +55,7 @@ export default function CountdownSection({
   }, [targetDate]);
 
   const isWeddingDay =
-    timeLeft.days === 0 &&
-    timeLeft.hours === 0 &&
-    timeLeft.minutes === 0 &&
-    timeLeft.seconds === 0;
+    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <div className="place-card font-poppins relative mx-auto mt-6 w-full max-w-md rounded-xl p-6 text-center shadow-lg duration-300 animate-in slide-in-from-right sm:mt-8">
@@ -95,8 +88,7 @@ export default function CountdownSection({
             </>
           ) : (
             <>
-              A contagem decrescente já começou — falta pouco para celebrarmos
-              juntos o casamento de{' '}
+              A contagem decrescente já começou — falta pouco para celebrarmos juntos o casamento de{' '}
               <span className="font-dancing text-lg font-semibold text-sky-700">
                 {weddingData.wedding_details.bride}
               </span>{' '}
@@ -134,10 +126,7 @@ export default function CountdownSection({
 
         <div className="place-card-enhanced rounded-lg bg-white/90 p-3 text-sm text-sky-600 shadow-inner backdrop-blur-sm sm:text-base">
           <p className="font-quicksand">
-            📅{' '}
-            <span className="font-semibold text-sky-700">
-              30 de Agosto de 2025
-            </span>
+            📅 <span className="font-semibold text-sky-700">30 de Agosto de 2025</span>
           </p>
           <p className="font-quicksand">
             🕐 <span className="font-semibold text-sky-700">13:00 (1 PM)</span>

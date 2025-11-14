@@ -16,10 +16,7 @@ export async function GET(request: NextRequest) {
   try {
     const weddingSlug = request.nextUrl.searchParams.get('weddingSlug');
     if (!weddingSlug) {
-      return NextResponse.json(
-        { error: 'Wedding slug is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Wedding slug is required' }, { status: 400 });
     }
 
     const { data: wedding, error: weddingError } = await supabase
@@ -40,26 +37,19 @@ export async function GET(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao buscar convidados:', error);
-      return NextResponse.json(
-        { error: 'Erro ao carregar convidados' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao carregar convidados' }, { status: 500 });
     }
 
     return NextResponse.json({ guests });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    const { nome, telefone, email, rsvp_deadline, mesa, weddingSlug } =
-      await request.json();
+    const { nome, telefone, email, rsvp_deadline, mesa, weddingSlug } = await request.json();
 
     if (!nome || !telefone || !weddingSlug) {
       return NextResponse.json(
@@ -122,10 +112,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -196,10 +183,7 @@ export async function PUT(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -248,10 +232,7 @@ export async function PATCH(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -293,9 +274,6 @@ export async function DELETE(request: NextRequest) {
     return NextResponse.json({ message: 'Convidado excluído com sucesso!' });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

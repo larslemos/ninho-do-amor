@@ -1,14 +1,7 @@
 // components/judyhelder/JHWeddingHero.tsx
 'use client';
 
-import {
-  MapPin,
-  FileText,
-  Heart,
-  Loader2,
-  Calendar,
-  Clock,
-} from 'lucide-react';
+import { MapPin, FileText, Heart, Loader2, Calendar, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
 import { getWeddingBySlug } from '@/lib/api-handler';
@@ -29,9 +22,7 @@ export default function JHWeddingHero({
   isLoadingGuest = false,
   weddingData: initialWeddingData,
 }: JHWeddingHeroProps) {
-  const [weddingData, setWeddingData] = useState<WeddingData | null>(
-    initialWeddingData || null
-  );
+  const [weddingData, setWeddingData] = useState<WeddingData | null>(initialWeddingData || null);
   const [isLoadingWedding, setIsLoadingWedding] = useState(true);
   const [isTimelineOpen, setIsTimelineOpen] = useState(false);
   const [isReligiousOpen, setIsReligiousOpen] = useState(false);
@@ -118,10 +109,7 @@ export default function JHWeddingHero({
       <div className="wedding-hero-card relative mx-auto w-full max-w-xs overflow-hidden rounded-3xl shadow-lg sm:max-w-md md:max-w-2xl">
         <div className="relative min-h-[400px] px-2 py-2 sm:min-h-[600px] sm:px-4 sm:py-4 md:min-h-[800px] md:px-6 md:py-6">
           <div className="absolute right-2 top-2 h-12 w-12 opacity-20 sm:right-4 sm:top-4 sm:h-16 sm:w-16 md:right-6 md:top-6 md:h-20 md:w-20">
-            <svg
-              viewBox="0 0 100 100"
-              className="wedding-decorative-svg h-full w-full"
-            >
+            <svg viewBox="0 0 100 100" className="wedding-decorative-svg h-full w-full">
               <circle cx="20" cy="20" r="8" fill="currentColor" />
               <circle cx="35" cy="15" r="6" fill="currentColor" opacity="0.8" />
               <circle cx="25" cy="35" r="5" fill="currentColor" opacity="0.6" />
@@ -134,10 +122,7 @@ export default function JHWeddingHero({
           </div>
 
           <div className="absolute bottom-2 left-2 h-16 w-16 opacity-15 sm:bottom-4 sm:left-4 sm:h-20 sm:w-20 md:bottom-6 md:left-6 md:h-24 md:w-24">
-            <svg
-              viewBox="0 0 100 100"
-              className="wedding-decorative-svg h-full w-full"
-            >
+            <svg viewBox="0 0 100 100" className="wedding-decorative-svg h-full w-full">
               <circle cx="70" cy="70" r="12" fill="currentColor" />
               <circle cx="55" cy="75" r="8" fill="currentColor" opacity="0.8" />
               <circle cx="75" cy="55" r="6" fill="currentColor" opacity="0.6" />
@@ -327,8 +312,7 @@ export default function JHWeddingHero({
             <div className="text-center">
               <div className="wedding-rsvp-badge inline-block rounded-full px-3 py-1 sm:px-4 sm:py-2 md:px-6 md:py-3">
                 <p className="text-sm font-bold tracking-wide sm:text-base md:text-lg">
-                  RSVP:{' '}
-                  {weddingData.rsvp_numbers?.join(' / ') || 'Não disponível'}
+                  RSVP: {weddingData.rsvp_numbers?.join(' / ') || 'Não disponível'}
                 </p>
               </div>
             </div>

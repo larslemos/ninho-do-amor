@@ -29,8 +29,7 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
     {
       id: 'guest-list',
       name: 'Lista Completa de Convidados',
-      description:
-        'Lista detalhada com todos os convidados, contactos e status',
+      description: 'Lista detalhada com todos os convidados, contactos e status',
       icon: Users,
       color: 'text-blue-600',
       bgColor: 'bg-blue-100',
@@ -112,9 +111,7 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
 
   const handleReportToggle = (reportId: string) => {
     setSelectedReports((prev) =>
-      prev.includes(reportId)
-        ? prev.filter((id) => id !== reportId)
-        : [...prev, reportId]
+      prev.includes(reportId) ? prev.filter((id) => id !== reportId) : [...prev, reportId]
     );
   };
 
@@ -169,12 +166,8 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="mb-8">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Gerador de Relatórios
-        </h1>
-        <p className="text-gray-600">
-          Seleccione os relatórios que deseja gerar e exportar
-        </p>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Gerador de Relatórios</h1>
+        <p className="text-gray-600">Seleccione os relatórios que deseja gerar e exportar</p>
       </div>
 
       {/* Filters */}
@@ -186,37 +179,27 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
 
         <div className="grid gap-6 md:grid-cols-3">
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Data de Início
-            </label>
+            <label className="mb-2 block text-sm font-medium text-gray-700">Data de Início</label>
             <input
               type="date"
               value={dateRange.start}
-              onChange={(e) =>
-                setDateRange((prev) => ({ ...prev, start: e.target.value }))
-              }
+              onChange={(e) => setDateRange((prev) => ({ ...prev, start: e.target.value }))}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Data de Fim
-            </label>
+            <label className="mb-2 block text-sm font-medium text-gray-700">Data de Fim</label>
             <input
               type="date"
               value={dateRange.end}
-              onChange={(e) =>
-                setDateRange((prev) => ({ ...prev, end: e.target.value }))
-              }
+              onChange={(e) => setDateRange((prev) => ({ ...prev, end: e.target.value }))}
               className="w-full rounded-lg border border-gray-300 px-3 py-2 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
             />
           </div>
 
           <div>
-            <label className="mb-2 block text-sm font-medium text-gray-700">
-              Formato
-            </label>
+            <label className="mb-2 block text-sm font-medium text-gray-700">Formato</label>
             <select
               value={format}
               onChange={(e) => setFormat(e.target.value as any)}
@@ -233,9 +216,7 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
       {/* Report Selection */}
       <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
         <div className="mb-6 flex items-center justify-between">
-          <h2 className="text-lg font-semibold text-gray-900">
-            Seleccionar Relatórios
-          </h2>
+          <h2 className="text-lg font-semibold text-gray-900">Seleccionar Relatórios</h2>
           <button
             onClick={handleSelectAll}
             className="text-sm font-medium text-rose-600 hover:text-rose-700"
@@ -269,19 +250,13 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
                   </div>
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2">
-                      <h3 className="text-sm font-medium text-gray-900">
-                        {report.name}
-                      </h3>
+                      <h3 className="text-sm font-medium text-gray-900">{report.name}</h3>
                       {isSelected && (
                         <CheckCircle className="h-4 w-4 flex-shrink-0 text-rose-600" />
                       )}
                     </div>
-                    <p className="mt-1 text-xs text-gray-600">
-                      {report.description}
-                    </p>
-                    <p className="mt-2 text-xs text-gray-500">
-                      Tamanho: {report.estimatedSize}
-                    </p>
+                    <p className="mt-1 text-xs text-gray-600">{report.description}</p>
+                    <p className="mt-2 text-xs text-gray-500">Tamanho: {report.estimatedSize}</p>
                   </div>
                 </div>
               </div>
@@ -293,27 +268,17 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
       {/* Generation Summary */}
       {selectedReports.length > 0 && (
         <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-          <h2 className="mb-4 text-lg font-semibold text-gray-900">
-            Resumo da Geração
-          </h2>
+          <h2 className="mb-4 text-lg font-semibold text-gray-900">Resumo da Geração</h2>
 
           <div className="grid gap-6 md:grid-cols-3">
             <div className="text-center">
-              <div className="text-2xl font-bold text-rose-600">
-                {selectedReports.length}
-              </div>
-              <div className="text-sm text-gray-600">
-                Relatórios Seleccionados
-              </div>
+              <div className="text-2xl font-bold text-rose-600">{selectedReports.length}</div>
+              <div className="text-sm text-gray-600">Relatórios Seleccionados</div>
             </div>
 
             <div className="text-center">
-              <div className="text-2xl font-bold text-blue-600">
-                {getTotalSize()} MB
-              </div>
-              <div className="text-sm text-gray-600">
-                Tamanho Total Estimado
-              </div>
+              <div className="text-2xl font-bold text-blue-600">{getTotalSize()} MB</div>
+              <div className="text-sm text-gray-600">Tamanho Total Estimado</div>
             </div>
 
             <div className="text-center">
@@ -352,9 +317,7 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
 
       {/* Recent Reports */}
       <div className="mt-12">
-        <h2 className="mb-6 text-xl font-semibold text-gray-900">
-          Relatórios Recentes
-        </h2>
+        <h2 className="mb-6 text-xl font-semibold text-gray-900">Relatórios Recentes</h2>
 
         <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
           <div className="p-6">
@@ -391,16 +354,10 @@ export default function ReportGenerator({ weddingId }: ReportGeneratorProps) {
                       <FileText className="h-5 w-5 text-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-gray-900">
-                        {report.name}
-                      </h3>
+                      <h3 className="font-medium text-gray-900">{report.name}</h3>
                       <p className="text-sm text-gray-600">
-                        Gerado em{' '}
-                        {new Date(report.generatedAt).toLocaleDateString(
-                          'pt-MZ'
-                        )}{' '}
-                        •{report.size} • {report.format} • {report.downloads}{' '}
-                        downloads
+                        Gerado em {new Date(report.generatedAt).toLocaleDateString('pt-MZ')} •
+                        {report.size} • {report.format} • {report.downloads} downloads
                       </p>
                     </div>
                   </div>

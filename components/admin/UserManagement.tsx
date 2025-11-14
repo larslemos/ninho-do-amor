@@ -1,22 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  User,
-  Shield,
-  Eye,
-  Edit,
-  Trash2,
-  Plus,
-  Mic,
-  Palette,
-  Car,
-} from 'lucide-react';
-import type {
-  SystemUser,
-  UserRole,
-  Permission,
-} from '@/types/mozambique-wedding';
+import { User, Shield, Eye, Edit, Trash2, Plus, Mic, Palette, Car } from 'lucide-react';
+import type { SystemUser, UserRole, Permission } from '@/types/mozambique-wedding';
 
 const roleConfigs = {
   mc: {
@@ -103,9 +89,7 @@ export default function UserManagement() {
       contact: newUser.contact,
       role: newUser.role,
       permissions:
-        newUser.permissions.length > 0
-          ? newUser.permissions
-          : roleConfig.defaultPermissions,
+        newUser.permissions.length > 0 ? newUser.permissions : roleConfig.defaultPermissions,
       weddingId: 'current-wedding',
     };
 
@@ -140,12 +124,8 @@ export default function UserManagement() {
     <div className="p-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="mb-2 text-2xl font-bold text-gray-900">
-            Gestão de Acessos ao Sistema
-          </h1>
-          <p className="text-gray-600">
-            Configure os utilizadores e suas permissões
-          </p>
+          <h1 className="mb-2 text-2xl font-bold text-gray-900">Gestão de Acessos ao Sistema</h1>
+          <p className="text-gray-600">Configure os utilizadores e suas permissões</p>
         </div>
         <button
           onClick={() => setShowAddModal(true)}
@@ -163,10 +143,7 @@ export default function UserManagement() {
           const usersInRole = users.filter((u) => u.role === roleKey).length;
 
           return (
-            <div
-              key={roleKey}
-              className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg"
-            >
+            <div key={roleKey} className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
               <div className="mb-4 flex items-center gap-4">
                 <div
                   className={`h-12 w-12 ${config.color} flex items-center justify-center rounded-lg`}
@@ -179,9 +156,7 @@ export default function UserManagement() {
                 </div>
               </div>
               <div className="flex items-center justify-between">
-                <span className="text-2xl font-bold text-gray-900">
-                  {usersInRole}
-                </span>
+                <span className="text-2xl font-bold text-gray-900">{usersInRole}</span>
                 <span className="text-sm text-gray-500">
                   utilizador{usersInRole !== 1 ? 'es' : ''}
                 </span>
@@ -194,9 +169,7 @@ export default function UserManagement() {
       {/* Users List */}
       <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
         <div className="border-b border-gray-200 p-6">
-          <h2 className="text-lg font-bold text-gray-900">
-            Utilizadores Registados
-          </h2>
+          <h2 className="text-lg font-bold text-gray-900">Utilizadores Registados</h2>
         </div>
 
         {users.length === 0 ? (
@@ -205,9 +178,7 @@ export default function UserManagement() {
             <h3 className="mb-2 text-lg font-semibold text-gray-900">
               Nenhum utilizador registado
             </h3>
-            <p className="mb-6 text-gray-600">
-              Adicione utilizadores para dar acesso ao sistema
-            </p>
+            <p className="mb-6 text-gray-600">Adicione utilizadores para dar acesso ao sistema</p>
             <button
               onClick={() => setShowAddModal(true)}
               className="rounded-lg bg-rose-600 px-6 py-3 font-semibold text-white transition-colors hover:bg-rose-700"
@@ -252,12 +223,8 @@ export default function UserManagement() {
                             <Icon className="h-5 w-5 text-white" />
                           </div>
                           <div>
-                            <div className="text-sm font-medium text-gray-900">
-                              {user.name}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              ID: {user.id}
-                            </div>
+                            <div className="text-sm font-medium text-gray-900">{user.name}</div>
+                            <div className="text-sm text-gray-500">ID: {user.id}</div>
                           </div>
                         </div>
                       </td>
@@ -316,9 +283,7 @@ export default function UserManagement() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-xl bg-white shadow-2xl">
             <div className="border-b border-gray-200 p-6">
-              <h3 className="text-xl font-bold text-gray-900">
-                Adicionar Novo Utilizador
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900">Adicionar Novo Utilizador</h3>
             </div>
 
             <div className="space-y-6 p-6">
@@ -331,17 +296,13 @@ export default function UserManagement() {
                   <input
                     type="text"
                     value={newUser.name}
-                    onChange={(e) =>
-                      setNewUser((prev) => ({ ...prev, name: e.target.value }))
-                    }
+                    onChange={(e) => setNewUser((prev) => ({ ...prev, name: e.target.value }))}
                     className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                     placeholder="Ex: João Silva"
                   />
                 </div>
                 <div>
-                  <label className="mb-2 block text-sm font-medium text-gray-700">
-                    Contacto *
-                  </label>
+                  <label className="mb-2 block text-sm font-medium text-gray-700">Contacto *</label>
                   <input
                     type="text"
                     value={newUser.contact}
@@ -359,9 +320,7 @@ export default function UserManagement() {
 
               {/* Role Selection */}
               <div>
-                <label className="mb-3 block text-sm font-medium text-gray-700">
-                  Função *
-                </label>
+                <label className="mb-3 block text-sm font-medium text-gray-700">Função *</label>
                 <div className="grid gap-4 md:grid-cols-3">
                   {Object.entries(roleConfigs).map(([roleKey, config]) => {
                     const Icon = config.icon;
@@ -384,13 +343,9 @@ export default function UserManagement() {
                           >
                             <Icon className="h-4 w-4 text-white" />
                           </div>
-                          <span className="font-semibold text-gray-900">
-                            {config.name}
-                          </span>
+                          <span className="font-semibold text-gray-900">{config.name}</span>
                         </div>
-                        <p className="text-sm text-gray-600">
-                          {config.description}
-                        </p>
+                        <p className="text-sm text-gray-600">{config.description}</p>
                       </button>
                     );
                   })}
@@ -399,16 +354,11 @@ export default function UserManagement() {
 
               {/* Permissions */}
               <div>
-                <label className="mb-3 block text-sm font-medium text-gray-700">
-                  Permissões
-                </label>
+                <label className="mb-3 block text-sm font-medium text-gray-700">Permissões</label>
                 <div className="rounded-lg bg-gray-50 p-4">
                   <div className="grid gap-3 md:grid-cols-2">
                     {newUser.permissions.map((permission) => (
-                      <label
-                        key={permission}
-                        className="flex cursor-pointer items-start gap-3"
-                      >
+                      <label key={permission} className="flex cursor-pointer items-start gap-3">
                         <input
                           type="checkbox"
                           checked={true}
@@ -461,28 +411,20 @@ export default function UserManagement() {
                   })()}
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-gray-900">
-                    {editingUser.name}
-                  </h3>
-                  <p className="text-gray-600">
-                    {roleConfigs[editingUser.role].name}
-                  </p>
+                  <h3 className="text-xl font-bold text-gray-900">{editingUser.name}</h3>
+                  <p className="text-gray-600">{roleConfigs[editingUser.role].name}</p>
                 </div>
               </div>
             </div>
 
             <div className="p-6">
               <div className="mb-6">
-                <h4 className="mb-3 font-semibold text-gray-900">
-                  Informações de Contacto
-                </h4>
+                <h4 className="mb-3 font-semibold text-gray-900">Informações de Contacto</h4>
                 <p className="text-gray-600">{editingUser.contact}</p>
               </div>
 
               <div>
-                <h4 className="mb-3 font-semibold text-gray-900">
-                  Permissões Atribuídas
-                </h4>
+                <h4 className="mb-3 font-semibold text-gray-900">Permissões Atribuídas</h4>
                 <div className="space-y-3">
                   {editingUser.permissions.map((permission) => (
                     <div

@@ -122,8 +122,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (!audioRef.current || hasError) {
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível reproduzir a música devido a um erro no arquivo.',
+        description: 'Não foi possível reproduzir a música devido a um erro no arquivo.',
         variant: 'destructive',
       });
       return;
@@ -156,8 +155,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     if (!audioRef.current || hasError) {
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível ajustar o som devido a um erro no arquivo.',
+        description: 'Não foi possível ajustar o som devido a um erro no arquivo.',
         variant: 'destructive',
       });
       return;
@@ -211,9 +209,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     setVolume,
   };
 
-  return (
-    <AudioContext.Provider value={value}>{children}</AudioContext.Provider>
-  );
+  return <AudioContext.Provider value={value}>{children}</AudioContext.Provider>;
 }
 
 export function useAudio() {

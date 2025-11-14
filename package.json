@@ -7,10 +7,17 @@
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx .",
+    "lint:fix": "next lint --fix",
+    "lint:strict": "next lint --strict",
     "start": "next start",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
     "format:check": "prettier --check \"**/*.{js,jsx,ts,tsx,json,css,md}\"",
-    "prepare": "husky"
+    "type-check": "tsc --noEmit",
+    "dev:full": "yarn type-check && yarn lint && yarn dev",
+    "prepare": "husky",
+    "dev:setup": "node scripts/dev-setup.js",
+    "clean": "rm -rf .next node_modules/.cache",
+    "fresh": "yarn clean && yarn install && yarn dev:setup"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
@@ -34,7 +41,7 @@
     "@radix-ui/react-select": "2.1.4",
     "@radix-ui/react-separator": "1.1.1",
     "@radix-ui/react-slider": "1.2.2",
-    "@radix-ui/react-slot": "1.1.1",
+    "@radix-ui/react-slot": "^1.2.4",
     "@radix-ui/react-switch": "1.1.2",
     "@radix-ui/react-tabs": "1.1.2",
     "@radix-ui/react-toast": "latest",

@@ -3,10 +3,8 @@ import welcomeImage from '@/assets/welcomepg.webp';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const WelcomePage = () => {
-  const { elementRef: verseRef, isVisible: verseVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: imageRef, isVisible: imageVisible } =
-    useScrollAnimation(0.3);
+  const { elementRef: verseRef, isVisible: verseVisible } = useScrollAnimation(0.3);
+  const { elementRef: imageRef, isVisible: imageVisible } = useScrollAnimation(0.3);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">

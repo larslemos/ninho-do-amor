@@ -10,9 +10,7 @@ interface CountdownSectionProps {
   weddingData: WeddingData;
 }
 
-export default function JHCountdownSection({
-  weddingData,
-}: CountdownSectionProps) {
+export default function JHCountdownSection({ weddingData }: CountdownSectionProps) {
   const targetDate =
     weddingData.date && weddingData.time
       ? new Date(weddingData.date + 'T' + weddingData.time).getTime()
@@ -34,9 +32,7 @@ export default function JHCountdownSection({
       if (distance > 0) {
         setTimeLeft({
           days: Math.floor(distance / (1000 * 60 * 60 * 24)),
-          hours: Math.floor(
-            (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          ),
+          hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
           minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
           seconds: Math.floor((distance % (1000 * 60)) / 1000),
         });
@@ -49,10 +45,7 @@ export default function JHCountdownSection({
   }, [targetDate]);
 
   const isWeddingDay =
-    timeLeft.days === 0 &&
-    timeLeft.hours === 0 &&
-    timeLeft.minutes === 0 &&
-    timeLeft.seconds === 0;
+    timeLeft.days === 0 && timeLeft.hours === 0 && timeLeft.minutes === 0 && timeLeft.seconds === 0;
 
   return (
     <div className="mx-auto mt-8 w-full max-w-3xl px-4">
@@ -99,8 +92,8 @@ export default function JHCountdownSection({
                 </>
               ) : (
                 <>
-                  A contagem decrescente já começou — falta pouco para
-                  celebrarmos juntos o casamento de{' '}
+                  A contagem decrescente já começou — falta pouco para celebrarmos juntos o
+                  casamento de{' '}
                   <span className="wedding-names font-sacramento text-xl md:text-2xl">
                     {weddingData?.bride || 'Noiva'}
                   </span>{' '}

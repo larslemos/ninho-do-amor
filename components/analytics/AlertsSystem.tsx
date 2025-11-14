@@ -53,8 +53,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
       type: 'deadline-approaching',
       severity: 'high',
       title: 'Prazo RSVP Aproximando',
-      message:
-        '45 convidados ainda não responderam ao convite. O prazo limite é em 7 dias.',
+      message: '45 convidados ainda não responderam ao convite. O prazo limite é em 7 dias.',
       metric: 'rsvp_deadline',
       threshold: 7,
       currentValue: 7,
@@ -91,8 +90,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
       type: 'low-engagement',
       severity: 'low',
       title: 'Baixa Taxa de Abertura de Emails',
-      message:
-        'A taxa de abertura de emails está em 45%, abaixo da média recomendada de 60%.',
+      message: 'A taxa de abertura de emails está em 45%, abaixo da média recomendada de 60%.',
       metric: 'email_open_rate',
       threshold: 60,
       currentValue: 45,
@@ -110,8 +108,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
       type: 'capacity-exceeded',
       severity: 'critical',
       title: 'Capacidade do Local Excedida',
-      message:
-        'O número de confirmações (89) excede a capacidade máxima do salão (85 pessoas).',
+      message: 'O número de confirmações (89) excede a capacidade máxima do salão (85 pessoas).',
       metric: 'venue_capacity',
       threshold: 85,
       currentValue: 89,
@@ -182,9 +179,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
 
   const handleAcknowledge = (alertId: string) => {
     setAlerts((prev) =>
-      prev.map((alert) =>
-        alert.id === alertId ? { ...alert, acknowledged: true } : alert
-      )
+      prev.map((alert) => (alert.id === alertId ? { ...alert, acknowledged: true } : alert))
     );
   };
 
@@ -217,9 +212,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
             <Bell className="h-8 w-8 text-rose-600" />
             Sistema de Alertas
           </h1>
-          <p className="mt-1 text-gray-600">
-            Monitorização em tempo real do seu casamento
-          </p>
+          <p className="mt-1 text-gray-600">Monitorização em tempo real do seu casamento</p>
         </div>
         <button
           onClick={() => setShowSettings(true)}
@@ -238,9 +231,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
               <Bell className="h-6 w-6 text-blue-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">
-                {alerts.length}
-              </p>
+              <p className="text-2xl font-bold text-gray-900">{alerts.length}</p>
               <p className="text-sm text-gray-600">Total de Alertas</p>
             </div>
           </div>
@@ -264,9 +255,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
               <AlertTriangle className="h-6 w-6 text-red-600" />
             </div>
             <div>
-              <p className="text-2xl font-bold text-gray-900">
-                {criticalCount}
-              </p>
+              <p className="text-2xl font-bold text-gray-900">{criticalCount}</p>
               <p className="text-sm text-gray-600">Críticos</p>
             </div>
           </div>
@@ -304,12 +293,8 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
         {filteredAlerts.length === 0 ? (
           <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-lg">
             <Bell className="mx-auto mb-4 h-16 w-16 text-gray-300" />
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Nenhum alerta encontrado
-            </h3>
-            <p className="text-gray-600">
-              Não há alertas para os filtros seleccionados.
-            </p>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900">Nenhum alerta encontrado</h3>
+            <p className="text-gray-600">Não há alertas para os filtros seleccionados.</p>
           </div>
         ) : (
           filteredAlerts.map((alert) => {
@@ -356,9 +341,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="mb-1 flex items-center gap-2">
-                          <h3 className="font-semibold text-gray-900">
-                            {alert.title}
-                          </h3>
+                          <h3 className="font-semibold text-gray-900">{alert.title}</h3>
                           <span
                             className={`rounded-full px-2 py-1 text-xs font-medium ${getSeverityColor(alert.severity)}`}
                           >
@@ -376,14 +359,11 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                         </div>
                         <p className="mb-2 text-gray-700">{alert.message}</p>
                         <p className="text-sm text-gray-500">
-                          {new Date(alert.createdAt).toLocaleDateString(
-                            'pt-MZ'
-                          )}{' '}
-                          às{' '}
-                          {new Date(alert.createdAt).toLocaleTimeString(
-                            'pt-MZ',
-                            { hour: '2-digit', minute: '2-digit' }
-                          )}
+                          {new Date(alert.createdAt).toLocaleDateString('pt-MZ')} às{' '}
+                          {new Date(alert.createdAt).toLocaleTimeString('pt-MZ', {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                          })}
                         </p>
                       </div>
 
@@ -411,9 +391,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                     <div className="mt-4 rounded-lg bg-gray-50 p-3">
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">Valor Atual:</span>
-                        <span className="font-medium">
-                          {alert.currentValue}
-                        </span>
+                        <span className="font-medium">{alert.currentValue}</span>
                       </div>
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-gray-600">Limite:</span>
@@ -422,25 +400,24 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                     </div>
 
                     {/* Suggested Actions */}
-                    {alert.suggestedActions &&
-                      alert.suggestedActions.length > 0 && (
-                        <div className="mt-4">
-                          <h4 className="mb-2 text-sm font-medium text-gray-900">
-                            Acções Sugeridas:
-                          </h4>
-                          <ul className="space-y-1">
-                            {alert.suggestedActions.map((action, index) => (
-                              <li
-                                key={index}
-                                className="flex items-center gap-2 text-sm text-gray-700"
-                              >
-                                <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-rose-500"></div>
-                                {action}
-                              </li>
-                            ))}
-                          </ul>
-                        </div>
-                      )}
+                    {alert.suggestedActions && alert.suggestedActions.length > 0 && (
+                      <div className="mt-4">
+                        <h4 className="mb-2 text-sm font-medium text-gray-900">
+                          Acções Sugeridas:
+                        </h4>
+                        <ul className="space-y-1">
+                          {alert.suggestedActions.map((action, index) => (
+                            <li
+                              key={index}
+                              className="flex items-center gap-2 text-sm text-gray-700"
+                            >
+                              <div className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-rose-500"></div>
+                              {action}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -455,9 +432,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
           <div className="max-h-[80vh] w-full max-w-md overflow-y-auto rounded-xl bg-white shadow-xl">
             <div className="p-6">
               <div className="mb-6 flex items-center justify-between">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Configurações de Alertas
-                </h3>
+                <h3 className="text-lg font-semibold text-gray-900">Configurações de Alertas</h3>
                 <button
                   onClick={() => setShowSettings(false)}
                   className="text-gray-400 hover:text-gray-600"
@@ -468,9 +443,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
 
               <div className="space-y-6">
                 <div>
-                  <h4 className="mb-3 font-medium text-gray-900">
-                    Tipos de Alertas
-                  </h4>
+                  <h4 className="mb-3 font-medium text-gray-900">Tipos de Alertas</h4>
                   <div className="space-y-3">
                     {[
                       {
@@ -495,13 +468,8 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                         enabled: true,
                       },
                     ].map((alertType) => (
-                      <div
-                        key={alertType.id}
-                        className="flex items-center justify-between"
-                      >
-                        <span className="text-sm text-gray-700">
-                          {alertType.name}
-                        </span>
+                      <div key={alertType.id} className="flex items-center justify-between">
+                        <span className="text-sm text-gray-700">{alertType.name}</span>
                         <input
                           type="checkbox"
                           checked={alertType.enabled}
@@ -514,9 +482,7 @@ export default function AlertsSystem({ weddingId }: AlertsSystemProps) {
                 </div>
 
                 <div>
-                  <h4 className="mb-3 font-medium text-gray-900">
-                    Notificações
-                  </h4>
+                  <h4 className="mb-3 font-medium text-gray-900">Notificações</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between">
                       <span className="text-sm text-gray-700">Email</span>

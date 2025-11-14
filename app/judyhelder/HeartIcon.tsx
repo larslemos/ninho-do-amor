@@ -7,10 +7,7 @@ interface HeartIconProps {
 
 const HeartIcon = ({ className = '', onClick }: HeartIconProps) => {
   return (
-    <div
-      className={`inline-block cursor-pointer ${className}`}
-      onClick={onClick}
-    >
+    <div className={`inline-block cursor-pointer ${className}`} onClick={onClick}>
       <img
         src={goldenHeart}
         alt="Golden Heart"

@@ -132,9 +132,7 @@ export default function GuestInvitationPage() {
         </div>
         <div className="confirmation-section relative z-10 rounded-2xl p-8 text-center shadow-xl">
           <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-sky-500"></div>
-          <p className="font-poppins text-sky-600">
-            Carregando seu convite personalizado...
-          </p>
+          <p className="font-poppins text-sky-600">Carregando seu convite personalizado...</p>
         </div>
       </div>
     );
@@ -209,8 +207,7 @@ export default function GuestInvitationPage() {
                 envelopeOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
               }`}
               style={{
-                background:
-                  'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%)',
+                background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%)',
                 borderRadius: '20px',
                 boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
               }}
@@ -283,9 +280,7 @@ export default function GuestInvitationPage() {
                     <p className="font-poppins mb-2 text-lg text-sky-700">
                       Seu convite está chegando...
                     </p>
-                    <p className="font-quicksand text-sm text-sky-600">
-                      Clique para abrir
-                    </p>
+                    <p className="font-quicksand text-sm text-sky-600">Clique para abrir</p>
                   </div>
                 </div>
               </div>
@@ -294,9 +289,7 @@ export default function GuestInvitationPage() {
             {/* Invitation Content */}
             <div
               className={`transform transition-all duration-1000 ${
-                showInvite
-                  ? 'translate-y-0 opacity-100'
-                  : 'translate-y-8 opacity-0'
+                showInvite ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
               }`}
             >
               <div className="confirmation-section relative overflow-hidden p-8 md:p-12">
@@ -316,8 +309,7 @@ export default function GuestInvitationPage() {
                       <div
                         className="border-3 flex h-28 w-28 items-center justify-center rounded-full shadow-2xl ring-4 ring-sky-100/50 md:h-36 md:w-36"
                         style={{
-                          background:
-                            'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+                          background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
                           borderColor: 'white',
                         }}
                       >
@@ -325,9 +317,7 @@ export default function GuestInvitationPage() {
                           <div className="font-poppins mb-1 text-xs font-medium uppercase tracking-wider text-sky-700 md:text-sm">
                             Assa & Eleutério
                           </div>
-                          <div className="font-dancing text-3xl text-sky-800 md:text-4xl">
-                            A&E
-                          </div>
+                          <div className="font-dancing text-3xl text-sky-800 md:text-4xl">A&E</div>
                           <div className="font-poppins text-xs font-medium text-sky-600 md:text-sm">
                             30.08.2025
                           </div>
@@ -338,8 +328,7 @@ export default function GuestInvitationPage() {
                       <div
                         className="absolute -right-2 -top-2 flex h-8 w-8 items-center justify-center rounded-full shadow-lg"
                         style={{
-                          background:
-                            'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
+                          background: 'linear-gradient(135deg, #f472b6 0%, #ec4899 100%)',
                         }}
                       >
                         <Heart className="h-4 w-4 fill-current text-white" />
@@ -351,8 +340,7 @@ export default function GuestInvitationPage() {
                     <div
                       className="flex h-16 w-16 items-center justify-center rounded-full shadow-lg"
                       style={{
-                        background:
-                          'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
+                        background: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
                       }}
                     >
                       <Mail className="h-8 w-8 text-white" />
@@ -388,8 +376,7 @@ export default function GuestInvitationPage() {
                       <div
                         className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-md"
                         style={{
-                          background:
-                            'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
+                          background: 'linear-gradient(135deg, #0ea5e9 0%, #06b6d4 100%)',
                         }}
                       >
                         <Calendar className="h-5 w-5" />
@@ -398,9 +385,7 @@ export default function GuestInvitationPage() {
                         <div className="font-poppins font-semibold text-slate-700">
                           30 de Agosto, 2025
                         </div>
-                        <div className="font-quicksand text-xs text-slate-500">
-                          Sábado às 13:00
-                        </div>
+                        <div className="font-quicksand text-xs text-slate-500">Sábado às 13:00</div>
                       </div>
                     </div>
 
@@ -408,8 +393,7 @@ export default function GuestInvitationPage() {
                       <div
                         className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-md"
                         style={{
-                          background:
-                            'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+                          background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
                         }}
                       >
                         <MapPin className="h-5 w-5" />
@@ -429,8 +413,7 @@ export default function GuestInvitationPage() {
                         <div
                           className="flex h-10 w-10 items-center justify-center rounded-full text-white shadow-md"
                           style={{
-                            background:
-                              'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
+                            background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
                           }}
                         >
                           <User className="h-5 w-5" />
@@ -487,9 +470,7 @@ export default function GuestInvitationPage() {
                         'linear-gradient(135deg, rgba(254, 243, 199, 0.8), rgba(253, 230, 138, 0.8))',
                     }}
                   >
-                    <p className="font-poppins text-sm text-amber-800">
-                      ⚠️ {warning}
-                    </p>
+                    <p className="font-poppins text-sm text-amber-800">⚠️ {warning}</p>
                   </div>
                 )}
 
@@ -514,8 +495,7 @@ export default function GuestInvitationPage() {
                     style={
                       !copied
                         ? {
-                            background:
-                              'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
+                            background: 'linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%)',
                             color: '#475569',
                             borderColor: '#cbd5e1',
                           }
@@ -531,9 +511,7 @@ export default function GuestInvitationPage() {
                       ) : (
                         <>
                           <Copy className="icon h-5 w-5" />
-                          <span className="font-medium">
-                            Compartilhar Convite
-                          </span>
+                          <span className="font-medium">Compartilhar Convite</span>
                         </>
                       )}
                     </div>
@@ -548,14 +526,11 @@ export default function GuestInvitationPage() {
                       <p className="font-poppins text-sm text-slate-600">
                         Por favor, confirme até{' '}
                         <span className="font-semibold text-amber-700">
-                          {new Date(guest.rsvp_deadline).toLocaleDateString(
-                            'pt-BR',
-                            {
-                              day: 'numeric',
-                              month: 'long',
-                              year: 'numeric',
-                            }
-                          )}
+                          {new Date(guest.rsvp_deadline).toLocaleDateString('pt-BR', {
+                            day: 'numeric',
+                            month: 'long',
+                            year: 'numeric',
+                          })}
                         </span>
                       </p>
                     </div>
@@ -571,9 +546,7 @@ export default function GuestInvitationPage() {
               showInvite ? 'opacity-100' : 'opacity-0'
             }`}
           >
-            <p className="font-quicksand text-sm text-sky-600/80">
-              Com amor, Assa & Eleutério 💙
-            </p>
+            <p className="font-quicksand text-sm text-sky-600/80">Com amor, Assa & Eleutério 💙</p>
             <p className="font-poppins mt-2 text-xs text-slate-400">
               © 2025 PingDigital - Plataforma de Gestão de Casamentos
             </p>

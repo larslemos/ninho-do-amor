@@ -52,12 +52,7 @@ export type Language =
   | 'Tsonga'
   | 'Nyanja';
 
-export type ReligiousTradition =
-  | 'Católica'
-  | 'Protestante'
-  | 'Islâmica'
-  | 'Tradicional'
-  | 'Outras';
+export type ReligiousTradition = 'Católica' | 'Protestante' | 'Islâmica' | 'Tradicional' | 'Outras';
 
 export interface WeddingEvent {
   id: string;
@@ -72,11 +67,7 @@ export interface WeddingEvent {
   enabled: boolean;
 }
 
-export type EventType =
-  | 'copo-agua'
-  | 'cerimonia-civil'
-  | 'cerimonia-religiosa'
-  | 'festa-casamento';
+export type EventType = 'copo-agua' | 'cerimonia-civil' | 'cerimonia-religiosa' | 'festa-casamento';
 
 export interface EventLocation {
   name: string;
@@ -137,18 +128,9 @@ export interface Guest {
   weddingId: string;
 }
 
-export type GuestRelationship =
-  | 'Família'
-  | 'Amigo'
-  | 'Trabalho'
-  | 'Vizinho'
-  | 'Igreja';
+export type GuestRelationship = 'Família' | 'Amigo' | 'Trabalho' | 'Vizinho' | 'Igreja';
 
-export type GuestPriority =
-  | 'VIP'
-  | 'Família Próxima'
-  | 'Família Alargada'
-  | 'Amigos';
+export type GuestPriority = 'VIP' | 'Família Próxima' | 'Família Alargada' | 'Amigos';
 
 export type RSVPStatus = 'confirmado' | 'pendente' | 'recusado';
 
@@ -238,11 +220,7 @@ export interface Beverage {
   weddingId: string;
 }
 
-export type BeverageCategory =
-  | 'alcoholic'
-  | 'non-alcoholic'
-  | 'traditional'
-  | 'hot-drinks';
+export type BeverageCategory = 'alcoholic' | 'non-alcoholic' | 'traditional' | 'hot-drinks';
 
 export interface PhotoGallery {
   id: string;

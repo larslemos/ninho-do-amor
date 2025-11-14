@@ -45,13 +45,9 @@ interface AnalyticsDashboardProps {
   weddingId: string;
 }
 
-export default function AnalyticsDashboard({
-  weddingId,
-}: AnalyticsDashboardProps) {
+export default function AnalyticsDashboard({ weddingId }: AnalyticsDashboardProps) {
   const [loading, setLoading] = useState(true);
-  const [selectedPeriod, setSelectedPeriod] = useState<
-    '7d' | '30d' | '90d' | 'all'
-  >('30d');
+  const [selectedPeriod, setSelectedPeriod] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
   const [activeTab, setActiveTab] = useState('overview');
   const [analytics, setAnalytics] = useState<any>(null);
 
@@ -214,12 +210,8 @@ export default function AnalyticsDashboard({
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Analytics & Relatórios
-              </h1>
-              <p className="mt-1 text-gray-600">
-                Insights detalhados do seu casamento
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Analytics & Relatórios</h1>
+              <p className="mt-1 text-gray-600">Insights detalhados do seu casamento</p>
             </div>
             <div className="flex items-center gap-4">
               <select
@@ -245,9 +237,7 @@ export default function AnalyticsDashboard({
         {/* Alerts */}
         {analytics.alerts.length > 0 && (
           <div className="mb-8">
-            <h2 className="mb-4 text-lg font-semibold text-gray-900">
-              Alertas Importantes
-            </h2>
+            <h2 className="mb-4 text-lg font-semibold text-gray-900">Alertas Importantes</h2>
             <div className="grid gap-4">
               {analytics.alerts.map((alert: any) => (
                 <div
@@ -260,8 +250,7 @@ export default function AnalyticsDashboard({
                       <h3 className="font-semibold">{alert.title}</h3>
                       <p className="mt-1 text-sm">{alert.message}</p>
                       <p className="mt-2 text-xs opacity-75">
-                        {new Date(alert.createdAt).toLocaleDateString('pt-MZ')}{' '}
-                        às{' '}
+                        {new Date(alert.createdAt).toLocaleDateString('pt-MZ')} às{' '}
                         {new Date(alert.createdAt).toLocaleTimeString('pt-MZ', {
                           hour: '2-digit',
                           minute: '2-digit',
@@ -319,17 +308,13 @@ export default function AnalyticsDashboard({
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Total Convidados
-                    </p>
+                    <p className="text-sm font-medium text-gray-600">Total Convidados</p>
                     <p className="text-3xl font-bold text-gray-900">
                       {analytics.overview.totalGuests}
                     </p>
                     <div className="mt-2 flex items-center gap-1">
                       {getChangeIcon(12)}
-                      <span
-                        className={`text-sm font-medium ${getChangeColor(12)}`}
-                      >
+                      <span className={`text-sm font-medium ${getChangeColor(12)}`}>
                         +12 esta semana
                       </span>
                     </div>
@@ -343,17 +328,13 @@ export default function AnalyticsDashboard({
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Taxa de Resposta
-                    </p>
+                    <p className="text-sm font-medium text-gray-600">Taxa de Resposta</p>
                     <p className="text-3xl font-bold text-gray-900">
                       {analytics.overview.responseRate}%
                     </p>
                     <div className="mt-2 flex items-center gap-1">
                       {getChangeIcon(5)}
-                      <span
-                        className={`text-sm font-medium ${getChangeColor(5)}`}
-                      >
+                      <span className={`text-sm font-medium ${getChangeColor(5)}`}>
                         +5% este mês
                       </span>
                     </div>
@@ -367,17 +348,13 @@ export default function AnalyticsDashboard({
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Visitas ao Site
-                    </p>
+                    <p className="text-sm font-medium text-gray-600">Visitas ao Site</p>
                     <p className="text-3xl font-bold text-gray-900">
                       {analytics.overview.websiteVisits}
                     </p>
                     <div className="mt-2 flex items-center gap-1">
                       {getChangeIcon(234)}
-                      <span
-                        className={`text-sm font-medium ${getChangeColor(234)}`}
-                      >
+                      <span className={`text-sm font-medium ${getChangeColor(234)}`}>
                         +234 esta semana
                       </span>
                     </div>
@@ -391,14 +368,10 @@ export default function AnalyticsDashboard({
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-sm font-medium text-gray-600">
-                      Orçamento Usado
-                    </p>
+                    <p className="text-sm font-medium text-gray-600">Orçamento Usado</p>
                     <p className="text-3xl font-bold text-gray-900">
                       {Math.round(
-                        (analytics.overview.spentAmount /
-                          analytics.overview.totalBudget) *
-                          100
+                        (analytics.overview.spentAmount / analytics.overview.totalBudget) * 100
                       )}
                       %
                     </p>
@@ -437,9 +410,7 @@ export default function AnalyticsDashboard({
                     />
                     <YAxis />
                     <Tooltip
-                      labelFormatter={(value) =>
-                        new Date(value).toLocaleDateString('pt-MZ')
-                      }
+                      labelFormatter={(value) => new Date(value).toLocaleDateString('pt-MZ')}
                       formatter={(value, name) => [
                         value,
                         name === 'confirmed'
@@ -480,9 +451,7 @@ export default function AnalyticsDashboard({
 
               {/* Engagement Trend */}
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Engagement do Site
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Engagement do Site</h3>
                 <ResponsiveContainer width="100%" height={300}>
                   <LineChart data={analytics.trends.engagementTrend}>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -497,9 +466,7 @@ export default function AnalyticsDashboard({
                     />
                     <YAxis />
                     <Tooltip
-                      labelFormatter={(value) =>
-                        new Date(value).toLocaleDateString('pt-MZ')
-                      }
+                      labelFormatter={(value) => new Date(value).toLocaleDateString('pt-MZ')}
                       formatter={(value, name) => [
                         value,
                         name === 'visits'
@@ -510,24 +477,14 @@ export default function AnalyticsDashboard({
                       ]}
                     />
                     <Legend />
-                    <Line
-                      type="monotone"
-                      dataKey="visits"
-                      stroke="#3B82F6"
-                      strokeWidth={2}
-                    />
+                    <Line type="monotone" dataKey="visits" stroke="#3B82F6" strokeWidth={2} />
                     <Line
                       type="monotone"
                       dataKey="uniqueVisitors"
                       stroke="#8B5CF6"
                       strokeWidth={2}
                     />
-                    <Line
-                      type="monotone"
-                      dataKey="pageViews"
-                      stroke="#06B6D4"
-                      strokeWidth={2}
-                    />
+                    <Line type="monotone" dataKey="pageViews" stroke="#06B6D4" strokeWidth={2} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
@@ -537,9 +494,7 @@ export default function AnalyticsDashboard({
             <div className="grid gap-8 lg:grid-cols-3">
               {/* By Relationship */}
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Por Relacionamento
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Por Relacionamento</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
@@ -551,11 +506,9 @@ export default function AnalyticsDashboard({
                       paddingAngle={5}
                       dataKey="value"
                     >
-                      {analytics.demographics.byRelationship.map(
-                        (entry: any, index: number) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        )
-                      )}
+                      {analytics.demographics.byRelationship.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
                     </Pie>
                     <Tooltip />
                     <Legend />
@@ -565,14 +518,9 @@ export default function AnalyticsDashboard({
 
               {/* By Province */}
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Por Província
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Por Província</h3>
                 <ResponsiveContainer width="100%" height={250}>
-                  <BarChart
-                    data={analytics.demographics.byProvince}
-                    layout="horizontal"
-                  >
+                  <BarChart data={analytics.demographics.byProvince} layout="horizontal">
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis type="number" />
                     <YAxis dataKey="name" type="category" width={80} />
@@ -584,9 +532,7 @@ export default function AnalyticsDashboard({
 
               {/* By Side */}
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Por Lado
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Por Lado</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
@@ -596,11 +542,9 @@ export default function AnalyticsDashboard({
                       outerRadius={100}
                       dataKey="value"
                     >
-                      {analytics.demographics.bySide.map(
-                        (entry: any, index: number) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
-                        )
-                      )}
+                      {analytics.demographics.bySide.map((entry: any, index: number) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
                     </Pie>
                     <Tooltip />
                     <Legend />
@@ -688,43 +632,33 @@ export default function AnalyticsDashboard({
             {/* Detailed Guest Analytics */}
             <div className="grid gap-8 lg:grid-cols-2">
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Análise Demográfica
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Análise Demográfica</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <MapPin className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">
-                        Convidados de Maputo
-                      </span>
+                      <span className="text-sm text-gray-600">Convidados de Maputo</span>
                     </div>
                     <span className="font-semibold">78 (52%)</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Phone className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">
-                        Com WhatsApp
-                      </span>
+                      <span className="text-sm text-gray-600">Com WhatsApp</span>
                     </div>
                     <span className="font-semibold">142 (95%)</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Utensils className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">
-                        Restrições Alimentares
-                      </span>
+                      <span className="text-sm text-gray-600">Restrições Alimentares</span>
                     </div>
                     <span className="font-semibold">12 (8%)</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
                       <Users className="h-4 w-4 text-gray-500" />
-                      <span className="text-sm text-gray-600">
-                        Média de Acompanhantes
-                      </span>
+                      <span className="text-sm text-gray-600">Média de Acompanhantes</span>
                     </div>
                     <span className="font-semibold">1.8</span>
                   </div>
@@ -732,41 +666,28 @@ export default function AnalyticsDashboard({
               </div>
 
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-                <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                  Performance RSVP
-                </h3>
+                <h3 className="mb-4 text-lg font-semibold text-gray-900">Performance RSVP</h3>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Taxa de Resposta
-                    </span>
+                    <span className="text-sm text-gray-600">Taxa de Resposta</span>
                     <span className="font-semibold text-green-600">70%</span>
                   </div>
                   <div className="h-2 w-full rounded-full bg-gray-200">
-                    <div
-                      className="h-2 rounded-full bg-green-500"
-                      style={{ width: '70%' }}
-                    ></div>
+                    <div className="h-2 rounded-full bg-green-500" style={{ width: '70%' }}></div>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Tempo Médio de Resposta
-                    </span>
+                    <span className="text-sm text-gray-600">Tempo Médio de Resposta</span>
                     <span className="font-semibold">3.2 dias</span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Lembretes Enviados
-                    </span>
+                    <span className="text-sm text-gray-600">Lembretes Enviados</span>
                     <span className="font-semibold">67</span>
                   </div>
 
                   <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">
-                      Eficácia dos Lembretes
-                    </span>
+                    <span className="text-sm text-gray-600">Eficácia dos Lembretes</span>
                     <span className="font-semibold text-blue-600">85%</span>
                   </div>
                 </div>
@@ -779,12 +700,8 @@ export default function AnalyticsDashboard({
         {activeTab === 'engagement' && (
           <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-lg">
             <Heart className="mx-auto mb-4 h-16 w-16 text-rose-600" />
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Analytics de Engagement
-            </h3>
-            <p className="text-gray-600">
-              Métricas detalhadas de engagement em desenvolvimento...
-            </p>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900">Analytics de Engagement</h3>
+            <p className="text-gray-600">Métricas detalhadas de engagement em desenvolvimento...</p>
           </div>
         )}
 
@@ -829,8 +746,7 @@ export default function AnalyticsDashboard({
                     <p className="text-sm text-gray-600">Restante</p>
                     <p className="text-2xl font-bold text-gray-900">
                       {formatCurrency(
-                        analytics.overview.totalBudget -
-                          analytics.overview.spentAmount
+                        analytics.overview.totalBudget - analytics.overview.spentAmount
                       )}
                     </p>
                   </div>
@@ -840,17 +756,13 @@ export default function AnalyticsDashboard({
 
             {/* Budget Trend */}
             <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
-              <h3 className="mb-4 text-lg font-semibold text-gray-900">
-                Evolução do Orçamento
-              </h3>
+              <h3 className="mb-4 text-lg font-semibold text-gray-900">Evolução do Orçamento</h3>
               <ResponsiveContainer width="100%" height={400}>
                 <AreaChart data={analytics.trends.budgetTrend}>
                   <CartesianGrid strokeDasharray="3 3" />
                   <XAxis dataKey="month" />
                   <YAxis tickFormatter={(value) => `${value / 1000}k MT`} />
-                  <Tooltip
-                    formatter={(value) => formatCurrency(value as number)}
-                  />
+                  <Tooltip formatter={(value) => formatCurrency(value as number)} />
                   <Legend />
                   <Area
                     type="monotone"
@@ -879,9 +791,7 @@ export default function AnalyticsDashboard({
         {activeTab === 'photos' && (
           <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-lg">
             <Camera className="mx-auto mb-4 h-16 w-16 text-purple-600" />
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Analytics de Fotos
-            </h3>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900">Analytics de Fotos</h3>
             <p className="text-gray-600">
               Métricas de galeria e engagement de fotos em desenvolvimento...
             </p>
@@ -891,9 +801,7 @@ export default function AnalyticsDashboard({
         {activeTab === 'communication' && (
           <div className="rounded-xl border border-gray-200 bg-white p-8 text-center shadow-lg">
             <MessageSquare className="mx-auto mb-4 h-16 w-16 text-blue-600" />
-            <h3 className="mb-2 text-xl font-semibold text-gray-900">
-              Analytics de Comunicação
-            </h3>
+            <h3 className="mb-2 text-xl font-semibold text-gray-900">Analytics de Comunicação</h3>
             <p className="text-gray-600">
               Métricas de emails, SMS e WhatsApp em desenvolvimento...
             </p>

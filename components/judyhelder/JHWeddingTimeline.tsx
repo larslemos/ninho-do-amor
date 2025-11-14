@@ -9,17 +9,11 @@ interface JHWeddingTimelineProps {
   onClose: () => void;
 }
 
-export default function JHWeddingTimeline({
-  isOpen,
-  onClose,
-}: JHWeddingTimelineProps) {
+export default function JHWeddingTimeline({ isOpen, onClose }: JHWeddingTimelineProps) {
   const timelineRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (event: MouseEvent) => {
-    if (
-      timelineRef.current &&
-      !timelineRef.current.contains(event.target as Node)
-    ) {
+    if (timelineRef.current && !timelineRef.current.contains(event.target as Node)) {
       onClose();
     }
   };
@@ -74,8 +68,8 @@ export default function JHWeddingTimeline({
                   13:30
                 </td>
                 <td className="wedding-text-primary font-fira-sans flex items-center py-2 text-xs sm:text-base">
-                  <Church className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Início da
-                  cerimónia civil (jardim)
+                  <Church className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Início da cerimónia civil
+                  (jardim)
                 </td>
               </tr>
               <tr className="border-b border-gray-200">
@@ -243,8 +237,8 @@ export default function JHWeddingTimeline({
                   21:30
                 </td>
                 <td className="wedding-text-primary font-fira-sans flex items-center py-2 text-xs sm:text-base">
-                  <Cake className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Corte do bolo,
-                  entrega dos brindes e saída dos noivos
+                  <Cake className="mr-2 h-4 w-4 sm:h-5 sm:w-5" /> Corte do bolo, entrega dos brindes
+                  e saída dos noivos
                 </td>
               </tr>
               <tr className="border-b border-gray-200">

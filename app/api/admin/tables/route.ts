@@ -21,19 +21,13 @@ export async function GET() {
 
     if (error) {
       console.error('Erro ao buscar convidados:', error);
-      return NextResponse.json(
-        { error: 'Erro ao carregar convidados' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao carregar convidados' }, { status: 500 });
     }
 
     return NextResponse.json({ guests });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -42,10 +36,7 @@ export async function POST(request: NextRequest) {
     const { nome, telefone, email, rsvp_deadline, mesa } = await request.json();
 
     if (!nome || !telefone) {
-      return NextResponse.json(
-        { error: 'Nome e telefone são obrigatórios' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Nome e telefone são obrigatórios' }, { status: 400 });
     }
 
     const token = `guest-token-${Date.now()}-${Math.random().toString(36).substring(2, 8)}`;
@@ -91,10 +82,7 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -103,10 +91,7 @@ export async function DELETE(request: NextRequest) {
     const { guestId } = await request.json();
 
     if (!guestId) {
-      return NextResponse.json(
-        { error: 'Guest ID é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Guest ID é obrigatório' }, { status: 400 });
     }
 
     const { error } = await supabase.from('guests').delete().eq('id', guestId);
@@ -124,10 +109,7 @@ export async function DELETE(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }
 
@@ -136,10 +118,7 @@ export async function PATCH(request: NextRequest) {
     const { guestId, mesa } = await request.json();
 
     if (!guestId) {
-      return NextResponse.json(
-        { error: 'Guest ID é obrigatório' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Guest ID é obrigatório' }, { status: 400 });
     }
 
     const updateData = { mesa: mesa || null };
@@ -165,9 +144,6 @@ export async function PATCH(request: NextRequest) {
     });
   } catch (error) {
     console.error('Internal error:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

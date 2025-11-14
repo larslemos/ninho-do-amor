@@ -8,10 +8,7 @@ export async function POST(request: NextRequest) {
     const { token, status } = await request.json();
 
     if (!token || !status) {
-      return NextResponse.json(
-        { error: 'Token e status são obrigatórios' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Token e status são obrigatórios' }, { status: 400 });
     }
 
     if (!['confirmed', 'rejected'].includes(status)) {
@@ -26,10 +23,7 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (fetchError || !existingGuest) {
-      return NextResponse.json(
-        { error: 'Convidado não encontrado' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Convidado não encontrado' }, { status: 404 });
     }
 
     // Update the guest status
@@ -45,10 +39,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       console.error('Erro ao atualizar status:', error);
-      return NextResponse.json(
-        { error: 'Erro ao confirmar presença' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao confirmar presença' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -60,9 +51,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

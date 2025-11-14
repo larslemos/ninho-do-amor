@@ -1,14 +1,7 @@
 // components/WeddingHero.tsx
 'use client';
 
-import {
-  MapPin,
-  FileText,
-  Heart,
-  Loader2,
-  Calendar,
-  Clock,
-} from 'lucide-react';
+import { MapPin, FileText, Heart, Loader2, Calendar, Clock } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import type { Guest, WeddingData } from '@/types/wedding';
 import { getWeddingBySlug } from '@/lib/api-handler';
@@ -27,9 +20,7 @@ export default function WeddingHero({
   isLoadingGuest = false,
   weddingData: initialWeddingData,
 }: WeddingHeroProps) {
-  const [weddingData, setWeddingData] = useState<WeddingData | null>(
-    initialWeddingData || null
-  );
+  const [weddingData, setWeddingData] = useState<WeddingData | null>(initialWeddingData || null);
   const [isLoadingWedding, setIsLoadingWedding] = useState(true);
 
   useEffect(() => {
@@ -112,10 +103,7 @@ export default function WeddingHero({
       <div className="wedding-hero-card relative mx-auto w-full max-w-xs overflow-hidden rounded-3xl shadow-2xl sm:max-w-md md:max-w-2xl">
         <div className="relative min-h-[500px] px-4 py-6 sm:min-h-[700px] sm:px-6 sm:py-8 md:min-h-[900px] md:px-10 md:py-10">
           <div className="absolute right-2 top-2 h-16 w-16 opacity-20 sm:right-4 sm:top-4 sm:h-20 sm:w-20 md:right-6 md:top-6 md:h-28 md:w-28">
-            <svg
-              viewBox="0 0 100 100"
-              className="wedding-decorative-svg h-full w-full"
-            >
+            <svg viewBox="0 0 100 100" className="wedding-decorative-svg h-full w-full">
               <circle cx="20" cy="20" r="8" fill="currentColor" />
               <circle cx="35" cy="15" r="6" fill="currentColor" opacity="0.8" />
               <circle cx="25" cy="35" r="5" fill="currentColor" opacity="0.6" />
@@ -128,10 +116,7 @@ export default function WeddingHero({
           </div>
 
           <div className="absolute bottom-2 left-2 h-20 w-20 opacity-15 sm:bottom-4 sm:left-4 sm:h-24 sm:w-24 md:bottom-6 md:left-6 md:h-36 md:w-36">
-            <svg
-              viewBox="0 0 100 100"
-              className="wedding-decorative-svg h-full w-full"
-            >
+            <svg viewBox="0 0 100 100" className="wedding-decorative-svg h-full w-full">
               <circle cx="70" cy="70" r="12" fill="currentColor" />
               <circle cx="55" cy="75" r="8" fill="currentColor" opacity="0.8" />
               <circle cx="75" cy="55" r="6" fill="currentColor" opacity="0.6" />
@@ -307,8 +292,7 @@ export default function WeddingHero({
             <div className="text-center">
               <div className="wedding-rsvp-badge inline-block rounded-full px-4 py-2 sm:px-6 sm:py-3 md:px-8 md:py-4">
                 <p className="text-sm font-bold tracking-wide sm:text-base md:text-lg">
-                  RSVP:{' '}
-                  {weddingData.rsvp_numbers?.join(' / ') || 'Não disponível'}
+                  RSVP: {weddingData.rsvp_numbers?.join(' / ') || 'Não disponível'}
                 </p>
               </div>
             </div>

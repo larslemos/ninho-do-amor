@@ -36,9 +36,7 @@ const Navigation = ({ currentPage, onPageChange }: NavigationProps) => {
 
       {/* Navigation hint */}
       <div className="mt-2 text-center">
-        <p className="text-body-text/70 text-xs">
-          Use ← → ou espaço para navegar
-        </p>
+        <p className="text-body-text/70 text-xs">Use ← → ou espaço para navegar</p>
       </div>
     </div>
   );

@@ -108,9 +108,7 @@ export default function WeddingInvitationContent({
                   <h3 className="wedding-names wedding-text-primary font-blancha text-2xl">
                     Seu convite está chegando...
                   </h3>
-                  <p className="wedding-text-secondary font-blancha text-lg">
-                    Clique para abrir
-                  </p>
+                  <p className="wedding-text-secondary font-blancha text-lg">Clique para abrir</p>
                 </div>
               </div>
             </div>
@@ -180,8 +178,7 @@ export default function WeddingInvitationContent({
                         {formatDate(weddingData?.date)}
                       </div>
                       <div className="wedding-text-secondary text-sm">
-                        {getDayOfWeek(weddingData?.date)} às{' '}
-                        {formatTime(weddingData?.time)}
+                        {getDayOfWeek(weddingData?.date)} às {formatTime(weddingData?.time)}
                       </div>
                     </div>
                   </div>
@@ -194,9 +191,7 @@ export default function WeddingInvitationContent({
                       <div className="wedding-text-primary text-lg font-bold">
                         {weddingData?.venue || 'Local do Casamento'}
                       </div>
-                      <div className="wedding-text-secondary text-sm">
-                        Maputo, Moçambique
-                      </div>
+                      <div className="wedding-text-secondary text-sm">Maputo, Moçambique</div>
                     </div>
                   </div>
 
@@ -209,9 +204,7 @@ export default function WeddingInvitationContent({
                         <div className="wedding-text-primary text-lg font-bold">
                           Mesa {guest.mesa}
                         </div>
-                        <div className="wedding-text-secondary text-sm">
-                          Seu lugar reservado
-                        </div>
+                        <div className="wedding-text-secondary text-sm">Seu lugar reservado</div>
                       </div>
                     </div>
                   )}
@@ -219,9 +212,7 @@ export default function WeddingInvitationContent({
                   <div className="flex items-center gap-4">
                     <div
                       className={`flex h-12 w-12 items-center justify-center rounded-full text-white shadow-lg ${
-                        guest.status === 'confirmed'
-                          ? 'wedding-button'
-                          : 'bg-amber-500'
+                        guest.status === 'confirmed' ? 'wedding-button' : 'bg-amber-500'
                       }`}
                     >
                       {guest.status === 'confirmed' ? (
@@ -232,9 +223,7 @@ export default function WeddingInvitationContent({
                     </div>
                     <div className="space-y-1">
                       <div className="wedding-text-primary text-lg font-bold">
-                        {guest.status === 'confirmed'
-                          ? 'Confirmado ✨'
-                          : 'Aguardando Confirmação'}
+                        {guest.status === 'confirmed' ? 'Confirmado ✨' : 'Aguardando Confirmação'}
                       </div>
                       <div className="wedding-text-secondary text-sm">
                         {guest.status === 'confirmed'

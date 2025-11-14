@@ -3,9 +3,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { logRequest } from '@/lib/logger';
 
-export function withLogging(
-  handler: (req: NextRequest) => Promise<NextResponse | Response>
-) {
+export function withLogging(handler: (req: NextRequest) => Promise<NextResponse | Response>) {
   return async (req: NextRequest): Promise<NextResponse | Response> => {
     const startTime = Date.now();
     const requestLogger = logRequest(req, startTime);
@@ -36,10 +34,7 @@ export function withLogging(
       requestLogger.error('Request failed', error);
 
       // Return error response
-      const errorResponse = NextResponse.json(
-        { error: 'Internal Server Error' },
-        { status: 500 }
-      );
+      const errorResponse = NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
 
       requestLogger.complete(500, { error: true });
 
