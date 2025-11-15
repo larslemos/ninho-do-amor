@@ -3,17 +3,11 @@ import { supabase } from '@/lib/supabase';
 
 export async function GET() {
   try {
-    const { data: weddingData, error } = await supabase
-      .from('wedding_data')
-      .select('*')
-      .single();
+    const { data: weddingData, error } = await supabase.from('wedding_data').select('*').single();
 
     if (error) {
       console.error('Erro ao buscar dados do casamento:', error);
-      return NextResponse.json(
-        { error: 'Erro ao carregar dados do casamento' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Erro ao carregar dados do casamento' }, { status: 500 });
     }
 
     // Format the response to match the expected structure
@@ -38,9 +32,6 @@ export async function GET() {
     return NextResponse.json(formattedData);
   } catch (error) {
     console.error('Erro interno:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Erro interno do servidor' }, { status: 500 });
   }
 }

@@ -1,11 +1,7 @@
 import { AudioProvider } from '@/hooks/use-audio';
 import AudioControl from '@/components/AudioControl';
 
-export default function GuestInvitationLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function GuestInvitationLayout({ children }: { children: React.ReactNode }) {
   return (
     <AudioProvider>
       <AudioControl />

@@ -224,8 +224,7 @@
   --wedding-decorative: #f472b6;
 
   /* Typography */
-  --wedding-font-primary:
-    'Blancha', -apple-system, BlinkMacSystemFont, sans-serif;
+  --wedding-font-primary: 'Blancha', -apple-system, BlinkMacSystemFont, sans-serif;
   --wedding-font-secondary: 'Quintella', 'Dancing Script', serif;
   --wedding-font-body: 'Blancha', 'Quicksand', sans-serif;
   --wedding-font-accent: 'Sacramento', 'Crimson Text', serif;
@@ -351,11 +350,7 @@
 
 /* Date Badge */
 .wedding-date-badge {
-  background: linear-gradient(
-    135deg,
-    var(--wedding-primary) 0%,
-    var(--wedding-secondary) 100%
-  );
+  background: linear-gradient(135deg, var(--wedding-primary) 0%, var(--wedding-secondary) 100%);
   color: white;
   font-family: var(--wedding-font-primary);
   font-weight: 900;
@@ -403,11 +398,7 @@
 
 /* Buttons */
 .wedding-button {
-  background: linear-gradient(
-    135deg,
-    var(--wedding-primary) 0%,
-    var(--wedding-primary-hover) 100%
-  );
+  background: linear-gradient(135deg, var(--wedding-primary) 0%, var(--wedding-primary-hover) 100%);
   color: white;
   font-family: var(--wedding-font-primary);
   font-weight: 700;

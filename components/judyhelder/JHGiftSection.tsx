@@ -83,15 +83,10 @@ export default function JHGiftSection({ weddingData }: GiftSectionProps) {
             <div className="wedding-info-card space-y-6 rounded-3xl p-8">
               <p className="wedding-text-secondary text-center font-blancha text-lg leading-relaxed">
                 Queridos amigos e familiares, caso queiram presentear{' '}
-                <span className="wedding-names font-sacramento text-2xl">
-                  {weddingData.bride}
-                </span>{' '}
+                <span className="wedding-names font-sacramento text-2xl">{weddingData.bride}</span>{' '}
                 &{' '}
-                <span className="wedding-names font-sacramento text-2xl">
-                  {weddingData.groom}
-                </span>
-                , temos uma lista de sugestões e transferência bancária
-                disponível.
+                <span className="wedding-names font-sacramento text-2xl">{weddingData.groom}</span>,
+                temos uma lista de sugestões e transferência bancária disponível.
               </p>
 
               <button

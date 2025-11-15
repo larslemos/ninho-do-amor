@@ -20,9 +20,7 @@ export default function FelicitationList() {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [animateNewFelicitation, setAnimateNewFelicitation] = useState<
-    string | null
-  >(null);
+  const [animateNewFelicitation, setAnimateNewFelicitation] = useState<string | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -97,9 +95,7 @@ export default function FelicitationList() {
       const data = await response.json();
 
       if (response.ok) {
-        setFelicitations((prev) =>
-          prev.map((f) => (f.id === newFelicitation.id ? data : f))
-        );
+        setFelicitations((prev) => prev.map((f) => (f.id === newFelicitation.id ? data : f)));
         setName('');
         setMessage('');
         toast({
@@ -111,13 +107,10 @@ export default function FelicitationList() {
       }
     } catch (err) {
       console.error('Erro ao enviar felicitação:', err);
-      setFelicitations((prev) =>
-        prev.filter((f) => f.id !== newFelicitation.id)
-      );
+      setFelicitations((prev) => prev.filter((f) => f.id !== newFelicitation.id));
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível enviar sua felicitação. Tente novamente.',
+        description: 'Não foi possível enviar sua felicitação. Tente novamente.',
         variant: 'destructive',
       });
     } finally {
@@ -144,9 +137,7 @@ export default function FelicitationList() {
     return (
       <div className="place-card font-poppins relative mx-auto mt-6 w-full max-w-md rounded-xl p-6 text-center shadow-lg duration-300 animate-in slide-in-from-right">
         <div className="place-card-enhanced rounded-lg border border-red-200 bg-red-50 p-6 shadow-inner">
-          <p className="font-quicksand text-sm text-red-700 sm:text-base">
-            {error}
-          </p>
+          <p className="font-quicksand text-sm text-red-700 sm:text-base">{error}</p>
         </div>
       </div>
     );
@@ -206,10 +197,7 @@ export default function FelicitationList() {
             ))
           ) : (
             <div className="place-card-enhanced p-8 text-center">
-              <Heart
-                className="mx-auto mb-2 h-10 w-10 text-sky-500"
-                aria-hidden="true"
-              />
+              <Heart className="mx-auto mb-2 h-10 w-10 text-sky-500" aria-hidden="true" />
               <p className="font-quicksand text-sm text-sky-600 sm:text-base">
                 Ainda não há felicitações.
                 <br />

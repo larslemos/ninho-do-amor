@@ -53,13 +53,7 @@ if (isBrowser) {
       asObject: true,
       write: (o) => {
         const level =
-          o.level === 30
-            ? 'info'
-            : o.level === 40
-              ? 'warn'
-              : o.level === 50
-                ? 'error'
-                : 'debug';
+          o.level === 30 ? 'info' : o.level === 40 ? 'warn' : o.level === 50 ? 'error' : 'debug';
 
         const args = [o.msg, o];
         if (level === 'error') {
@@ -96,10 +90,7 @@ if (isBrowser) {
 }
 
 // Enhanced logging methods
-export const createLogger = (
-  module?: string,
-  context?: Record<string, any>
-) => {
+export const createLogger = (module?: string, context?: Record<string, any>) => {
   const childContext = { ...context };
   if (module) {
     childContext.module = module;
@@ -127,28 +118,18 @@ export interface RequestLogContext {
   userAgent?: string;
 }
 
-export const logRequest = (
-  req: Request | RequestLogContext,
-  startTime: number = Date.now()
-) => {
+export const logRequest = (req: Request | RequestLogContext, startTime: number = Date.now()) => {
   // For browser environment, use a simple logger
   if (isBrowser) {
     const simpleLogger = createLogger('request');
     return {
-      info: (msg: string, extra?: object) =>
-        simpleLogger.info({ ...extra }, msg),
-      error: (msg: string, error?: Error | object) =>
-        simpleLogger.error({ error }, msg),
-      warn: (msg: string, extra?: object) =>
-        simpleLogger.warn({ ...extra }, msg),
-      debug: (msg: string, extra?: object) =>
-        simpleLogger.debug({ ...extra }, msg),
+      info: (msg: string, extra?: object) => simpleLogger.info({ ...extra }, msg),
+      error: (msg: string, error?: Error | object) => simpleLogger.error({ error }, msg),
+      warn: (msg: string, extra?: object) => simpleLogger.warn({ ...extra }, msg),
+      debug: (msg: string, extra?: object) => simpleLogger.debug({ ...extra }, msg),
       complete: (statusCode: number, extra?: object) => {
         const duration = Date.now() - startTime;
-        simpleLogger.info(
-          { statusCode, duration, ...extra },
-          `Request completed in ${duration}ms`
-        );
+        simpleLogger.info({ statusCode, duration, ...extra }, `Request completed in ${duration}ms`);
       },
     };
   }
@@ -159,8 +140,7 @@ export const logRequest = (
           method: req.method,
           url: req.url,
           headers: Object.fromEntries(req.headers.entries()),
-          ip:
-            req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip'),
+          ip: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip'),
           userAgent: req.headers.get('user-agent'),
         }
       : req;
@@ -176,14 +156,12 @@ export const logRequest = (
     error: (msg: string, error?: Error | object) =>
       childLogger.error(
         {
-          error:
-            error instanceof Error ? pino.stdSerializers.err(error) : error,
+          error: error instanceof Error ? pino.stdSerializers.err(error) : error,
         },
         msg
       ),
     warn: (msg: string, extra?: object) => childLogger.warn({ ...extra }, msg),
-    debug: (msg: string, extra?: object) =>
-      childLogger.debug({ ...extra }, msg),
+    debug: (msg: string, extra?: object) => childLogger.debug({ ...extra }, msg),
     complete: (statusCode: number, extra?: object) => {
       const duration = Date.now() - startTime;
       childLogger.info(
@@ -200,11 +178,7 @@ export const logRequest = (
 };
 
 // Server-only logging utilities (these won't work in browser)
-export const logDatabase = (
-  operation: string,
-  table?: string,
-  extra?: Record<string, any>
-) => {
+export const logDatabase = (operation: string, table?: string, extra?: Record<string, any>) => {
   if (isBrowser) return createLogger('database');
   return dbLogger.child({
     operation,
@@ -213,11 +187,7 @@ export const logDatabase = (
   });
 };
 
-export const logAuth = (
-  userId?: string,
-  action?: string,
-  extra?: Record<string, any>
-) => {
+export const logAuth = (userId?: string, action?: string, extra?: Record<string, any>) => {
   if (isBrowser) return createLogger('auth');
   return authLogger.child({
     userId,
@@ -226,11 +196,7 @@ export const logAuth = (
   });
 };
 
-export const logEmail = (
-  to: string,
-  template?: string,
-  extra?: Record<string, any>
-) => {
+export const logEmail = (to: string, template?: string, extra?: Record<string, any>) => {
   if (isBrowser) return createLogger('email');
   return emailLogger.child({
     to,

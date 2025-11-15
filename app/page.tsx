@@ -69,9 +69,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-rose-50 to-pink-100 font-serif">
         <div className="w-[400px] rounded-xl border border-rose-200 bg-white p-6 text-center shadow-lg">
           <div className="mb-4 text-4xl">⚠️</div>
-          <h2 className="mb-4 text-xl font-semibold text-rose-700">
-            Erro ao Carregar
-          </h2>
+          <h2 className="mb-4 text-xl font-semibold text-rose-700">Erro ao Carregar</h2>
           <p className="text-rose-600">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -89,9 +87,7 @@ export default function Home() {
       <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-rose-50 via-pink-50 to-rose-100 font-serif">
         <div className="w-[400px] rounded-xl bg-white p-6 text-center shadow-lg">
           <div className="mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-b-2 border-rose-600"></div>
-          <h2 className="mb-4 text-xl font-semibold text-rose-700">
-            Preparando o convite...
-          </h2>
+          <h2 className="mb-4 text-xl font-semibold text-rose-700">Preparando o convite...</h2>
           <p className="text-rose-500">Aguarde um momento</p>
         </div>
       </div>
@@ -127,12 +123,9 @@ export default function Home() {
         {!token && (
           <div className="mt-6 w-[400px] rounded-xl border border-rose-200 bg-rose-100 p-6 text-center shadow-lg">
             <div className="mb-3 text-3xl">💌</div>
-            <h3 className="mb-2 text-lg font-semibold text-rose-700">
-              Acesso Personalizado
-            </h3>
+            <h3 className="mb-2 text-lg font-semibold text-rose-700">Acesso Personalizado</h3>
             <p className="mb-4 text-sm text-rose-600">
-              Convidados com link personalizado podem confirmar presença e
-              deixar felicitações.
+              Convidados com link personalizado podem confirmar presença e deixar felicitações.
             </p>
             <div className="space-y-1 text-xs text-rose-500">
               <p>• ✅ Confirmação de presença</p>

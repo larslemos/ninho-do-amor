@@ -54,12 +54,9 @@ export default function GuestManualPage({ weddingData }: GuestManualPageProps) {
     console.log('Confirmar presença clicked');
   };
 
-  const { elementRef: titleRef, isVisible: titleVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: contentRef, isVisible: contentVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: interactiveRef, isVisible: interactiveVisible } =
-    useScrollAnimation(0.3);
+  const { elementRef: titleRef, isVisible: titleVisible } = useScrollAnimation(0.3);
+  const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation(0.3);
+  const { elementRef: interactiveRef, isVisible: interactiveVisible } = useScrollAnimation(0.3);
 
   const guidelines = [
     { text: 'Confirme sua presença', icon: CheckCircle },

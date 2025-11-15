@@ -17,9 +17,7 @@ interface FelicitationListProps {
   weddingData?: WeddingData;
 }
 
-export default function JHFelicitationList({
-  weddingData,
-}: FelicitationListProps) {
+export default function JHFelicitationList({ weddingData }: FelicitationListProps) {
   const [felicitations, setFelicitations] = useState<Felicitation[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -36,10 +34,7 @@ export default function JHFelicitationList({
     }
   }, [weddingData?.weddingSlug]);
 
-  const fetchFelicitations = async (
-    weddingSlug?: string | null,
-    token?: string
-  ) => {
+  const fetchFelicitations = async (weddingSlug?: string | null, token?: string) => {
     try {
       let url = '/api/felicitations';
       const params = new URLSearchParams();

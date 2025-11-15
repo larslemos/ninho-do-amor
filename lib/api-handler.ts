@@ -17,25 +17,18 @@ export function withApiLogging(handler: ApiHandler) {
       const response = await handler(req, params);
 
       const duration = Date.now() - startTime;
-      console.log(
-        `API Response: ${req.method} ${req.url} - ${response.status} (${duration}ms)`
-      );
+      console.log(`API Response: ${req.method} ${req.url} - ${response.status} (${duration}ms)`);
 
       return response;
     } catch (error) {
       console.error(`API Error: ${req.method} ${req.url}`, error);
 
-      return NextResponse.json(
-        { error: 'Internal server error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
   };
 }
 
-export async function getWeddingBySlug(
-  slug: string
-): Promise<WeddingData | null> {
+export async function getWeddingBySlug(slug: string): Promise<WeddingData | null> {
   const { data: wedding, error: weddingError } = await supabase
     .from('weddings')
     .select('id')

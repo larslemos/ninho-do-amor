@@ -1,15 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Wine,
-  Coffee,
-  Droplets,
-  Plus,
-  Calculator,
-  ShoppingCart,
-  TrendingUp,
-} from 'lucide-react';
+import { Wine, Coffee, Droplets, Plus, Calculator, ShoppingCart, TrendingUp } from 'lucide-react';
 import type { Beverage, BeverageCategory } from '@/types/mozambique-wedding';
 
 const beverageCategories = [
@@ -238,16 +230,13 @@ export default function BeverageManagement() {
     }))
   );
   const [guestCount, setGuestCount] = useState(150);
-  const [activeCategory, setActiveCategory] =
-    useState<BeverageCategory>('alcoholic');
+  const [activeCategory, setActiveCategory] = useState<BeverageCategory>('alcoholic');
   const [showCalculator, setShowCalculator] = useState(false);
 
   const updateQuantity = (beverageId: string, quantity: number) => {
     setBeverages((prev) =>
       prev.map((bev) =>
-        bev.id === beverageId
-          ? { ...bev, quantityNeeded: Math.max(0, quantity) }
-          : bev
+        bev.id === beverageId ? { ...bev, quantityNeeded: Math.max(0, quantity) } : bev
       )
     );
   };
@@ -298,10 +287,7 @@ export default function BeverageManagement() {
   };
 
   const getTotalCost = () => {
-    return beverages.reduce(
-      (total, bev) => total + bev.quantityNeeded * bev.pricePerUnit,
-      0
-    );
+    return beverages.reduce((total, bev) => total + bev.quantityNeeded * bev.pricePerUnit, 0);
   };
 
   const getCategoryBeverages = (category: BeverageCategory) => {
@@ -341,12 +327,8 @@ export default function BeverageManagement() {
     <div className="mx-auto max-w-7xl p-6">
       <div className="mb-8 flex items-center justify-between">
         <div>
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Gestão de Bebidas
-          </h1>
-          <p className="text-gray-600">
-            Planeie e calcule as bebidas para o seu casamento
-          </p>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Gestão de Bebidas</h1>
+          <p className="text-gray-600">Planeie e calcule as bebidas para o seu casamento</p>
         </div>
         <div className="flex gap-3">
           <button
@@ -370,15 +352,11 @@ export default function BeverageManagement() {
       <div className="mb-8 rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
         <div className="flex items-center justify-between">
           <div>
-            <h3 className="mb-2 text-lg font-bold text-gray-900">
-              Número de Convidados
-            </h3>
+            <h3 className="mb-2 text-lg font-bold text-gray-900">Número de Convidados</h3>
             <p className="text-gray-600">Base para cálculo das quantidades</p>
           </div>
           <div className="flex items-center gap-4">
-            <label className="text-sm font-medium text-gray-700">
-              Convidados:
-            </label>
+            <label className="text-sm font-medium text-gray-700">Convidados:</label>
             <input
               type="number"
               value={guestCount}
@@ -414,11 +392,8 @@ export default function BeverageManagement() {
                     <span>{category.name}</span>
                   </div>
                   <div className="text-xs text-gray-500">
-                    {
-                      categoryBeverages.filter((b) => b.quantityNeeded > 0)
-                        .length
-                    }{' '}
-                    itens • {categoryCost.toLocaleString()} MT
+                    {categoryBeverages.filter((b) => b.quantityNeeded > 0).length} itens •{' '}
+                    {categoryCost.toLocaleString()} MT
                   </div>
                 </button>
               );
@@ -430,18 +405,11 @@ export default function BeverageManagement() {
         <div className="p-6">
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {getCategoryBeverages(activeCategory).map((beverage) => (
-              <div
-                key={beverage.id}
-                className="rounded-lg border border-gray-200 p-4"
-              >
+              <div key={beverage.id} className="rounded-lg border border-gray-200 p-4">
                 <div className="mb-3 flex items-start justify-between">
                   <div>
-                    <h4 className="mb-1 font-semibold text-gray-900">
-                      {beverage.name}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      {beverage.subcategory}
-                    </p>
+                    <h4 className="mb-1 font-semibold text-gray-900">{beverage.name}</h4>
+                    <p className="text-sm text-gray-600">{beverage.subcategory}</p>
                   </div>
                   <div className="text-right">
                     <div className="text-sm font-medium text-gray-900">
@@ -452,9 +420,7 @@ export default function BeverageManagement() {
                 </div>
 
                 <div className="mb-3">
-                  <div className="mb-1 text-xs text-gray-500">
-                    Fornecedor: {beverage.supplier}
-                  </div>
+                  <div className="mb-1 text-xs text-gray-500">Fornecedor: {beverage.supplier}</div>
                 </div>
 
                 <div className="flex items-center gap-3">
@@ -465,12 +431,7 @@ export default function BeverageManagement() {
                     <input
                       type="number"
                       value={beverage.quantityNeeded}
-                      onChange={(e) =>
-                        updateQuantity(
-                          beverage.id,
-                          parseInt(e.target.value) || 0
-                        )
-                      }
+                      onChange={(e) => updateQuantity(beverage.id, parseInt(e.target.value) || 0)}
                       className="w-full rounded-lg border border-gray-300 px-3 py-2 text-center focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                       min="0"
                     />
@@ -478,10 +439,7 @@ export default function BeverageManagement() {
                   <div className="text-right">
                     <div className="mb-1 text-xs text-gray-500">Total</div>
                     <div className="font-bold text-gray-900">
-                      {(
-                        beverage.quantityNeeded * beverage.pricePerUnit
-                      ).toLocaleString()}{' '}
-                      MT
+                      {(beverage.quantityNeeded * beverage.pricePerUnit).toLocaleString()} MT
                     </div>
                   </div>
                 </div>
@@ -496,9 +454,7 @@ export default function BeverageManagement() {
         {/* Cost Summary */}
         <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
           <div className="border-b border-gray-200 p-6">
-            <h3 className="text-lg font-bold text-gray-900">
-              Resumo de Custos
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900">Resumo de Custos</h3>
           </div>
           <div className="p-6">
             <div className="space-y-4">
@@ -507,23 +463,16 @@ export default function BeverageManagement() {
                 const Icon = category.icon;
 
                 return (
-                  <div
-                    key={category.category}
-                    className="flex items-center justify-between"
-                  >
+                  <div key={category.category} className="flex items-center justify-between">
                     <div className="flex items-center gap-3">
                       <div
                         className={`h-8 w-8 ${category.color} flex items-center justify-center rounded-lg`}
                       >
                         <Icon className="h-4 w-4 text-white" />
                       </div>
-                      <span className="font-medium text-gray-900">
-                        {category.name}
-                      </span>
+                      <span className="font-medium text-gray-900">{category.name}</span>
                     </div>
-                    <span className="font-bold text-gray-900">
-                      {cost.toLocaleString()} MT
-                    </span>
+                    <span className="font-bold text-gray-900">{cost.toLocaleString()} MT</span>
                   </div>
                 );
               })}
@@ -543,9 +492,7 @@ export default function BeverageManagement() {
         {/* Shopping List */}
         <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
           <div className="flex items-center justify-between border-b border-gray-200 p-6">
-            <h3 className="text-lg font-bold text-gray-900">
-              Lista de Compras
-            </h3>
+            <h3 className="text-lg font-bold text-gray-900">Lista de Compras</h3>
             <button className="flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-green-700">
               <ShoppingCart className="h-4 w-4" />
               Exportar
@@ -560,19 +507,12 @@ export default function BeverageManagement() {
                 </h4>
                 <div className="space-y-2">
                   {items.map((item, index) => (
-                    <div
-                      key={index}
-                      className="flex items-center justify-between text-sm"
-                    >
+                    <div key={index} className="flex items-center justify-between text-sm">
                       <div>
                         <span className="font-medium">{item.name}</span>
-                        <span className="ml-2 text-gray-500">
-                          x{item.quantity}
-                        </span>
+                        <span className="ml-2 text-gray-500">x{item.quantity}</span>
                       </div>
-                      <span className="font-medium">
-                        {item.total.toLocaleString()} MT
-                      </span>
+                      <span className="font-medium">{item.total.toLocaleString()} MT</span>
                     </div>
                   ))}
                 </div>
@@ -580,10 +520,7 @@ export default function BeverageManagement() {
                   <div className="flex justify-between text-sm font-bold">
                     <span>Subtotal {supplier}:</span>
                     <span>
-                      {items
-                        .reduce((sum, item) => sum + item.total, 0)
-                        .toLocaleString()}{' '}
-                      MT
+                      {items.reduce((sum, item) => sum + item.total, 0).toLocaleString()} MT
                     </span>
                   </div>
                 </div>
@@ -598,16 +535,12 @@ export default function BeverageManagement() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
           <div className="w-full max-w-2xl rounded-xl bg-white shadow-2xl">
             <div className="border-b border-gray-200 p-6">
-              <h3 className="text-xl font-bold text-gray-900">
-                Calculadora de Bebidas
-              </h3>
+              <h3 className="text-xl font-bold text-gray-900">Calculadora de Bebidas</h3>
             </div>
             <div className="p-6">
               <div className="grid gap-6 md:grid-cols-2">
                 <div>
-                  <h4 className="mb-4 font-semibold text-gray-900">
-                    Recomendações por Pessoa
-                  </h4>
+                  <h4 className="mb-4 font-semibold text-gray-900">Recomendações por Pessoa</h4>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span>Cervejas:</span>
@@ -632,33 +565,23 @@ export default function BeverageManagement() {
                   </div>
                 </div>
                 <div>
-                  <h4 className="mb-4 font-semibold text-gray-900">
-                    Para {guestCount} Convidados
-                  </h4>
+                  <h4 className="mb-4 font-semibold text-gray-900">Para {guestCount} Convidados</h4>
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span>Cervejas:</span>
-                      <span className="font-medium">
-                        {guestCount * 3} unidades
-                      </span>
+                      <span className="font-medium">{guestCount * 3} unidades</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Refrigerantes:</span>
-                      <span className="font-medium">
-                        {guestCount * 2} unidades
-                      </span>
+                      <span className="font-medium">{guestCount * 2} unidades</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Água:</span>
-                      <span className="font-medium">
-                        {guestCount * 2} unidades
-                      </span>
+                      <span className="font-medium">{guestCount * 2} unidades</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Vinho:</span>
-                      <span className="font-medium">
-                        {Math.ceil(guestCount * 0.5)} garrafas
-                      </span>
+                      <span className="font-medium">{Math.ceil(guestCount * 0.5)} garrafas</span>
                     </div>
                     <div className="flex justify-between">
                       <span>Sumos:</span>

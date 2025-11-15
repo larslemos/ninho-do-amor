@@ -3,10 +3,8 @@ import lastPageImage from '@/assets/lastpage.webp';
 import { useScrollAnimation } from '@/hooks/useScrollAnimation';
 
 const LastPage = () => {
-  const { elementRef: imageRef, isVisible: imageVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: messageRef, isVisible: messageVisible } =
-    useScrollAnimation(0.3);
+  const { elementRef: imageRef, isVisible: imageVisible } = useScrollAnimation(0.3);
+  const { elementRef: messageRef, isVisible: messageVisible } = useScrollAnimation(0.3);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">

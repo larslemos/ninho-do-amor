@@ -152,10 +152,7 @@ export class EmailTemplateService {
     `;
   }
 
-  private static getWeddingDetails(
-    data: TemplateData,
-    showMesa = true
-  ): string {
+  private static getWeddingDetails(data: TemplateData, showMesa = true): string {
     return `
       <div class="details">
         <h3>📅 Detalhes do Casamento</h3>
@@ -651,10 +648,7 @@ export type EmailTemplateType =
   | 'save-the-date'
   | 'last-minute-update';
 
-export function getEmailTemplate(
-  type: EmailTemplateType,
-  data: TemplateData
-): EmailTemplate {
+export function getEmailTemplate(type: EmailTemplateType, data: TemplateData): EmailTemplate {
   switch (type) {
     case 'wedding-invitation':
       return EmailTemplateService.getWeddingInvitation(data);

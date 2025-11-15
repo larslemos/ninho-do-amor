@@ -73,32 +73,20 @@ export async function POST(request: NextRequest) {
 
     if (updateError) {
       console.error('Error updating guest:', updateError);
-      return NextResponse.json(
-        { error: 'Error updating guest' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Error updating guest' }, { status: 500 });
     }
 
     // Generate WhatsApp URLs for sendWhatsApp and sendReminder
     if (action === 'sendWhatsApp' || action === 'sendReminder') {
-      const phoneNumber =
-        guest.telefone || guest.phone || guest.telephone || '';
+      const phoneNumber = guest.telefone || guest.phone || guest.telephone || '';
       if (!phoneNumber) {
-        return NextResponse.json(
-          { error: 'Phone number not available' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Phone number not available' }, { status: 400 });
       }
 
-      const formattedPhone = phoneNumber
-        .replace(/[\s()-]/g, '')
-        .replace(/^(\+?)/, '+');
+      const formattedPhone = phoneNumber.replace(/[\s()-]/g, '').replace(/^(\+?)/, '+');
 
       if (!/^\+\d{9,15}$/.test(formattedPhone)) {
-        return NextResponse.json(
-          { error: 'Invalid phone number format' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Invalid phone number format' }, { status: 400 });
       }
 
       const baseUrl = env.NEXT_PUBLIC_BASE_URL || 'https://pingdigital.online';
@@ -144,9 +132,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Internal error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

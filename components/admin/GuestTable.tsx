@@ -3,14 +3,7 @@
 'use client';
 
 import type React from 'react';
-import {
-  Edit,
-  Trash2,
-  Mail,
-  MessageSquare,
-  Copy,
-  ExternalLink,
-} from 'lucide-react';
+import { Edit, Trash2, Mail, MessageSquare, Copy, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 
 interface Guest {
@@ -125,13 +118,9 @@ export default function GuestTable({
                     </div>
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">
-                    <div className="font-quicksand text-sm text-gray-900">
-                      {phoneNumber}
-                    </div>
+                    <div className="font-quicksand text-sm text-gray-900">{phoneNumber}</div>
                     {guest.email && (
-                      <div className="font-quicksand text-sm text-gray-500">
-                        {guest.email}
-                      </div>
+                      <div className="font-quicksand text-sm text-gray-500">{guest.email}</div>
                     )}
                   </td>
                   <td className="whitespace-nowrap px-6 py-4">

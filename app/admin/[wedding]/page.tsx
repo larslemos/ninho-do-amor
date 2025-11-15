@@ -21,9 +21,7 @@ export default function AdminPage() {
     'guests' | 'invitations' | 'analytics' | 'settings' | 'gifts'
   >('guests');
   const [weddings, setWeddings] = useState<Wedding[]>([]);
-  const [selectedWeddingSlug, setSelectedWeddingSlug] = useState<string | null>(
-    null
-  );
+  const [selectedWeddingSlug, setSelectedWeddingSlug] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWeddings = async () => {
@@ -64,9 +62,7 @@ export default function AdminPage() {
       <div className="mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="mb-2 text-3xl font-bold text-gray-900">
-            Painel Administrativo
-          </h1>
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">Painel Administrativo</h1>
           <p className="text-gray-600">
             Gerencie todos os aspectos do seu casamento em um só lugar
           </p>
@@ -74,10 +70,7 @@ export default function AdminPage() {
 
         {/* Wedding Selector */}
         <div className="mb-8">
-          <label
-            htmlFor="wedding-select"
-            className="block text-sm font-medium text-gray-700"
-          >
+          <label htmlFor="wedding-select" className="block text-sm font-medium text-gray-700">
             Selecionar Casamento
           </label>
           <select
@@ -122,9 +115,7 @@ export default function AdminPage() {
           {activeTab === 'guests' && selectedWeddingSlug && (
             <GuestManagement
               weddingSlug={selectedWeddingSlug}
-              weddingData={
-                weddings.find((w) => w.slug === selectedWeddingSlug) as any
-              }
+              weddingData={weddings.find((w) => w.slug === selectedWeddingSlug) as any}
             />
           )}
           {activeTab === 'invitations' && selectedWeddingSlug && (
@@ -133,9 +124,7 @@ export default function AdminPage() {
           {activeTab === 'analytics' && (
             <div className="p-8 text-center">
               <BarChart3 className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                Relatórios e Analytics
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Relatórios e Analytics</h3>
               <p className="text-gray-600">Funcionalidade em desenvolvimento</p>
             </div>
           )}
@@ -151,9 +140,7 @@ export default function AdminPage() {
           {activeTab === 'settings' && (
             <div className="p-8 text-center">
               <Settings className="mx-auto mb-4 h-16 w-16 text-gray-400" />
-              <h3 className="mb-2 text-lg font-semibold text-gray-900">
-                Configurações do Evento
-              </h3>
+              <h3 className="mb-2 text-lg font-semibold text-gray-900">Configurações do Evento</h3>
               <p className="text-gray-600">Funcionalidade em desenvolvimento</p>
             </div>
           )}

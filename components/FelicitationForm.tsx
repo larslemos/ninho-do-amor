@@ -15,9 +15,7 @@ interface FelicitationFormProps {
   }) => void;
 }
 
-export default function FelicitationForm({
-  onFelicitationAdded,
-}: FelicitationFormProps) {
+export default function FelicitationForm({ onFelicitationAdded }: FelicitationFormProps) {
   const [name, setName] = useState('');
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -101,8 +99,7 @@ export default function FelicitationForm({
       console.error('Erro ao enviar mensagem:', err);
       toast({
         title: 'Erro',
-        description:
-          'Não foi possível enviar sua felicitação. Tente novamente.',
+        description: 'Não foi possível enviar sua felicitação. Tente novamente.',
         variant: 'destructive',
       });
       // Revert optimistic update

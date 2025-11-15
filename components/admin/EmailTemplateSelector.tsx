@@ -1,15 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Mail,
-  Calendar,
-  Heart,
-  Clock,
-  ThumbsUp,
-  Bell,
-  AlertTriangle,
-} from 'lucide-react';
+import { Mail, Calendar, Heart, Clock, ThumbsUp, Bell, AlertTriangle } from 'lucide-react';
 import type { EmailTemplateType } from '@/lib/email-templates';
 
 interface EmailTemplateSelectorProps {
@@ -82,8 +74,7 @@ export default function EmailTemplateSelector({
   isLoading,
   guestName,
 }: EmailTemplateSelectorProps) {
-  const [selectedTemplate, setSelectedTemplate] =
-    useState<EmailTemplateType>('wedding-invitation');
+  const [selectedTemplate, setSelectedTemplate] = useState<EmailTemplateType>('wedding-invitation');
   const [customMessage, setCustomMessage] = useState('');
   const [showCustomMessage, setShowCustomMessage] = useState(false);
 
@@ -91,21 +82,15 @@ export default function EmailTemplateSelector({
     onSend(selectedTemplate, customMessage.trim() || undefined);
   };
 
-  const selectedTemplateData = templates.find(
-    (t) => t.type === selectedTemplate
-  );
+  const selectedTemplateData = templates.find((t) => t.type === selectedTemplate);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 p-4">
       <div className="max-h-[90vh] w-full max-w-4xl overflow-hidden rounded-xl bg-white shadow-2xl">
         {/* Header */}
         <div className="bg-gradient-to-r from-rose-600 to-pink-600 p-6 text-white">
-          <h3 className="mb-2 text-xl font-bold">
-            📧 Selecionar Template de Email
-          </h3>
-          <p className="text-rose-100">
-            Escolha o template apropriado para {guestName}
-          </p>
+          <h3 className="mb-2 text-xl font-bold">📧 Selecionar Template de Email</h3>
+          <p className="text-rose-100">Escolha o template apropriado para {guestName}</p>
         </div>
 
         <div className="max-h-[calc(90vh-200px)] overflow-y-auto p-6">
@@ -132,15 +117,9 @@ export default function EmailTemplateSelector({
                       <Icon className="h-5 w-5 text-white" />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <h4 className="mb-1 font-semibold text-gray-900">
-                        {template.name}
-                      </h4>
-                      <p className="mb-2 text-sm text-gray-600">
-                        {template.description}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {template.preview}
-                      </p>
+                      <h4 className="mb-1 font-semibold text-gray-900">{template.name}</h4>
+                      <p className="mb-2 text-sm text-gray-600">{template.description}</p>
+                      <p className="text-xs text-gray-500">{template.preview}</p>
                     </div>
                   </div>
                 </button>
@@ -157,9 +136,7 @@ export default function EmailTemplateSelector({
                   Template Selecionado: {selectedTemplateData.name}
                 </h4>
               </div>
-              <p className="mb-3 text-sm text-gray-600">
-                {selectedTemplateData.preview}
-              </p>
+              <p className="mb-3 text-sm text-gray-600">{selectedTemplateData.preview}</p>
 
               {/* Custom Message Option */}
               <div className="space-y-3">
@@ -190,9 +167,7 @@ export default function EmailTemplateSelector({
 
           {/* Template Features */}
           <div className="mb-6 rounded-lg bg-blue-50 p-4">
-            <h4 className="mb-2 font-semibold text-blue-900">
-              ✨ Recursos dos Templates:
-            </h4>
+            <h4 className="mb-2 font-semibold text-blue-900">✨ Recursos dos Templates:</h4>
             <ul className="space-y-1 text-sm text-blue-800">
               <li>• Design responsivo para todos os dispositivos</li>
               <li>• Personalização automática com dados do convidado</li>

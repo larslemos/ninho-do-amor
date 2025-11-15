@@ -62,11 +62,7 @@ const bankAccount: BankAccount = {
   currency: 'MZN',
 };
 
-export default function GiftListModal({
-  isOpen,
-  onClose,
-  weddingData,
-}: GiftListModalProps) {
+export default function GiftListModal({ isOpen, onClose, weddingData }: GiftListModalProps) {
   const [activeTab, setActiveTab] = useState<'gifts' | 'bank'>('gifts');
   const [copiedText, setCopiedText] = useState<string | null>(null);
 
@@ -135,12 +131,9 @@ export default function GiftListModal({
           {activeTab === 'gifts' && (
             <div className="space-y-6">
               <div className="mb-8 text-center">
-                <h3 className="mb-2 text-lg font-semibold text-gray-800">
-                  Sugestões de Presentes
-                </h3>
+                <h3 className="mb-2 text-lg font-semibold text-gray-800">Sugestões de Presentes</h3>
                 <p className="text-sm text-gray-600">
-                  Aqui estão algumas sugestões de presentes que gostaríamos de
-                  receber
+                  Aqui estão algumas sugestões de presentes que gostaríamos de receber
                 </p>
               </div>
 
@@ -158,10 +151,7 @@ export default function GiftListModal({
                     </h4>
                     <ul className="space-y-2">
                       {category.items.map((item, itemIndex) => (
-                        <li
-                          key={itemIndex}
-                          className="flex items-start text-sm text-gray-700"
-                        >
+                        <li key={itemIndex} className="flex items-start text-sm text-gray-700">
                           <span className="mr-2 mt-1 h-2 w-2 flex-shrink-0 rounded-full bg-rose-400"></span>
                           {item}
                         </li>
@@ -173,8 +163,8 @@ export default function GiftListModal({
 
               <div className="mt-8 rounded-xl bg-rose-50 p-6 text-center">
                 <p className="text-sm text-rose-700">
-                  💝 Estas são apenas sugestões! Qualquer presente dado com
-                  carinho será muito bem recebido.
+                  💝 Estas são apenas sugestões! Qualquer presente dado com carinho será muito bem
+                  recebido.
                 </p>
               </div>
             </div>
@@ -183,12 +173,9 @@ export default function GiftListModal({
           {activeTab === 'bank' && (
             <div className="space-y-6">
               <div className="mb-8 text-center">
-                <h3 className="mb-2 text-lg font-semibold text-gray-800">
-                  Transferência Bancária
-                </h3>
+                <h3 className="mb-2 text-lg font-semibold text-gray-800">Transferência Bancária</h3>
                 <p className="text-sm text-gray-600">
-                  Prefere fazer uma transferência? Utilize a conta bancária
-                  abaixo.
+                  Prefere fazer uma transferência? Utilize a conta bancária abaixo.
                 </p>
               </div>
 
@@ -198,12 +185,8 @@ export default function GiftListModal({
                     <CreditCard className="h-6 w-6 text-rose-600" />
                   </div>
                   <div>
-                    <h4 className="text-lg font-bold text-gray-800">
-                      {bankAccount.bank}
-                    </h4>
-                    <p className="text-sm text-gray-600">
-                      Titular: {bankAccount.accountHolder}
-                    </p>
+                    <h4 className="text-lg font-bold text-gray-800">{bankAccount.bank}</h4>
+                    <p className="text-sm text-gray-600">Titular: {bankAccount.accountHolder}</p>
                   </div>
                 </div>
 
@@ -218,9 +201,7 @@ export default function GiftListModal({
                           {bankAccount.accountNumber}
                         </code>
                         <button
-                          onClick={() =>
-                            handleCopy(bankAccount.accountNumber, 'account')
-                          }
+                          onClick={() => handleCopy(bankAccount.accountNumber, 'account')}
                           className="ml-2 rounded p-1 transition-colors hover:bg-gray-200"
                           title="Copiar Número da Conta"
                         >
@@ -289,21 +270,13 @@ export default function GiftListModal({
               </div>
 
               <div className="mt-6 rounded-xl bg-blue-50 p-6">
-                <h4 className="mb-2 font-semibold text-blue-800">
-                  📝 Como fazer a transferência:
-                </h4>
+                <h4 className="mb-2 font-semibold text-blue-800">📝 Como fazer a transferência:</h4>
                 <ol className="list-inside list-decimal space-y-1 text-sm text-blue-700">
                   <li>Copie o NIB da conta acima</li>
                   <li>Acesse o seu app bancário ou internet banking</li>
-                  <li>
-                    Selecione &quot;Nova Transferência&quot; ou
-                    &quot;Pagamento&quot;
-                  </li>
+                  <li>Selecione &quot;Nova Transferência&quot; ou &quot;Pagamento&quot;</li>
                   <li>Cole o NIB e o nome do titular</li>
-                  <li>
-                    Adicione uma referência: &quot;Presente Casamento Assa &
-                    Eleutério&quot;
-                  </li>
+                  <li>Adicione uma referência: &quot;Presente Casamento Assa & Eleutério&quot;</li>
                 </ol>
               </div>
             </div>
@@ -313,8 +286,7 @@ export default function GiftListModal({
         {/* Footer */}
         <div className="bg-gray-50 px-6 py-4 text-center">
           <p className="text-sm text-gray-600">
-            ❤️ O seu carinho e presença são os melhores presentes que podemos
-            receber!
+            ❤️ O seu carinho e presença são os melhores presentes que podemos receber!
           </p>
         </div>
       </div>

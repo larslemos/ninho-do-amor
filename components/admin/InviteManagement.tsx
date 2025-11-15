@@ -40,16 +40,12 @@ interface InviteManagementProps {
   weddingSlug: string;
 }
 
-export default function InviteManagement({
-  weddingSlug,
-}: InviteManagementProps) {
+export default function InviteManagement({ weddingSlug }: InviteManagementProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [sendingAction, setSendingAction] = useState<string | null>(null);
-  const [sortColumn, setSortColumn] = useState<
-    keyof Guest | 'whatsapp_click' | 'confirmado'
-  >('id');
+  const [sortColumn, setSortColumn] = useState<keyof Guest | 'whatsapp_click' | 'confirmado'>('id');
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
   const { toast } = useToast();
 
@@ -61,9 +57,7 @@ export default function InviteManagement({
 
   const fetchGuests = async () => {
     try {
-      const response = await fetch(
-        `/api/admin/guests?weddingSlug=${weddingSlug}`
-      );
+      const response = await fetch(`/api/admin/guests?weddingSlug=${weddingSlug}`);
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
@@ -128,19 +122,15 @@ export default function InviteManagement({
         bValue = b.id.toLowerCase();
     }
 
-    if (aValue === '' || aValue === null)
-      return sortDirection === 'asc' ? 1 : -1;
-    if (bValue === '' || bValue === null)
-      return sortDirection === 'asc' ? -1 : 1;
+    if (aValue === '' || aValue === null) return sortDirection === 'asc' ? 1 : -1;
+    if (bValue === '' || bValue === null) return sortDirection === 'asc' ? -1 : 1;
 
     if (aValue < bValue) return sortDirection === 'asc' ? -1 : 1;
     if (aValue > bValue) return sortDirection === 'asc' ? 1 : -1;
     return 0;
   });
 
-  const handleSort = (
-    column: keyof Guest | 'whatsapp_click' | 'confirmado'
-  ) => {
+  const handleSort = (column: keyof Guest | 'whatsapp_click' | 'confirmado') => {
     if (sortColumn === column) {
       setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
     } else {
@@ -210,9 +200,7 @@ export default function InviteManagement({
   };
 
   const getConfirmSentStatus = (guest: Guest) => {
-    return guest.confirm_sent_count > 0
-      ? `Yes x${guest.confirm_sent_count}`
-      : 'No';
+    return guest.confirm_sent_count > 0 ? `Yes x${guest.confirm_sent_count}` : 'No';
   };
 
   const getConfirmedStatus = (guest: Guest) => {
@@ -220,14 +208,10 @@ export default function InviteManagement({
   };
 
   const getWhatsAppDeliveredStatus = (guest: Guest) => {
-    return guest.whatsapp_delivered_count > 0
-      ? `Yes x${guest.whatsapp_delivered_count}`
-      : 'No';
+    return guest.whatsapp_delivered_count > 0 ? `Yes x${guest.whatsapp_delivered_count}` : 'No';
   };
 
-  const renderSortIcon = (
-    column: keyof Guest | 'whatsapp_click' | 'confirmado'
-  ) => {
+  const renderSortIcon = (column: keyof Guest | 'whatsapp_click' | 'confirmado') => {
     if (sortColumn !== column) return null;
     return sortDirection === 'asc' ? (
       <ArrowUp className="ml-1 inline h-4 w-4" />
@@ -248,9 +232,7 @@ export default function InviteManagement({
   if (!weddingSlug) {
     return (
       <div className="font-montserrat p-6 text-center">
-        <p className="text-gray-600">
-          Selecione um casamento para gerenciar os convites.
-        </p>
+        <p className="text-gray-600">Selecione um casamento para gerenciar os convites.</p>
       </div>
     );
   }
@@ -262,9 +244,7 @@ export default function InviteManagement({
         <div className="place-card rounded-lg border border-blue-200 bg-blue-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="!font-montserrat text-sm font-medium text-blue-600">
-                Total Convidados
-              </p>
+              <p className="!font-montserrat text-sm font-medium text-blue-600">Total Convidados</p>
               <p className="text-2xl font-bold text-blue-900">{stats.total}</p>
             </div>
             <Users className="h-8 w-8 text-blue-600" />
@@ -274,12 +254,8 @@ export default function InviteManagement({
         <div className="place-card rounded-lg border border-green-200 bg-green-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-green-600">
-                Convites WhatsApp
-              </p>
-              <p className="text-2xl font-bold text-green-900">
-                {stats.whatsappSent}
-              </p>
+              <p className="text-sm font-medium text-green-600">Convites WhatsApp</p>
+              <p className="text-2xl font-bold text-green-900">{stats.whatsappSent}</p>
             </div>
             <div className="relative h-8 w-8">
               <Image
@@ -296,12 +272,8 @@ export default function InviteManagement({
         <div className="place-card rounded-lg border border-purple-200 bg-purple-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-purple-600">
-                Confirmações Manuais
-              </p>
-              <p className="text-2xl font-bold text-purple-900">
-                {stats.manualConfirmations}
-              </p>
+              <p className="text-sm font-medium text-purple-600">Confirmações Manuais</p>
+              <p className="text-2xl font-bold text-purple-900">{stats.manualConfirmations}</p>
             </div>
             <CheckSquare className="h-8 w-8 text-purple-600" />
           </div>
@@ -310,12 +282,8 @@ export default function InviteManagement({
         <div className="place-card rounded-lg border border-orange-200 bg-orange-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-orange-600">
-                Lembretes Enviados
-              </p>
-              <p className="text-2xl font-bold text-orange-900">
-                {stats.remindersSent}
-              </p>
+              <p className="text-sm font-medium text-orange-600">Lembretes Enviados</p>
+              <p className="text-2xl font-bold text-orange-900">{stats.remindersSent}</p>
             </div>
             <Bell className="h-8 w-8 text-orange-600" />
           </div>
@@ -325,9 +293,7 @@ export default function InviteManagement({
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-teal-600">Confirmados</p>
-              <p className="text-2xl font-bold text-teal-900">
-                {stats.confirmed}
-              </p>
+              <p className="text-2xl font-bold text-teal-900">{stats.confirmed}</p>
             </div>
             <CheckCircle className="h-8 w-8 text-teal-600" />
           </div>
@@ -446,12 +412,8 @@ export default function InviteManagement({
                     <div className="flex gap-1">
                       {/* Mobile WhatsApp (Blue) */}
                       <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'sendWhatsApp')
-                        }
-                        disabled={
-                          sendingAction === guest.id || !getPhoneNumber(guest)
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'sendWhatsApp')}
+                        disabled={sendingAction === guest.id || !getPhoneNumber(guest)}
                         className="rounded border border-blue-300 p-1 hover:bg-blue-50 disabled:opacity-50"
                         title="WhatsApp Mobile"
                       >
@@ -468,12 +430,8 @@ export default function InviteManagement({
 
                       {/* Web WhatsApp (Green) */}
                       <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'sendWhatsApp')
-                        }
-                        disabled={
-                          sendingAction === guest.id || !getPhoneNumber(guest)
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'sendWhatsApp')}
+                        disabled={sendingAction === guest.id || !getPhoneNumber(guest)}
                         className="rounded border border-green-300 p-1 hover:bg-green-50 disabled:opacity-50"
                         title="WhatsApp Web"
                       >
@@ -489,12 +447,7 @@ export default function InviteManagement({
                       </button>
 
                       <button
-                        onClick={() =>
-                          handleInvitationAction(
-                            guest.id,
-                            'markWhatsAppDelivered'
-                          )
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'markWhatsAppDelivered')}
                         disabled={sendingAction === guest.id}
                         className="rounded border border-gray-300 p-1 hover:bg-gray-50 disabled:opacity-50"
                         title="Marcar Entregue"
@@ -503,9 +456,7 @@ export default function InviteManagement({
                       </button>
 
                       <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'markAsSent')
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'markAsSent')}
                         disabled={sendingAction === guest.id}
                         className="rounded border border-gray-300 p-1 hover:bg-gray-50 disabled:opacity-50"
                         title="Marcar Enviado"
@@ -514,12 +465,8 @@ export default function InviteManagement({
                       </button>
 
                       <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'sendReminder')
-                        }
-                        disabled={
-                          sendingAction === guest.id || !getPhoneNumber(guest)
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'sendReminder')}
+                        disabled={sendingAction === guest.id || !getPhoneNumber(guest)}
                         className="rounded border border-gray-300 p-1 hover:bg-gray-50 disabled:opacity-50"
                         title="Lembrete"
                       >
@@ -527,13 +474,8 @@ export default function InviteManagement({
                       </button>
 
                       <button
-                        onClick={() =>
-                          handleInvitationAction(guest.id, 'confirm')
-                        }
-                        disabled={
-                          sendingAction === guest.id ||
-                          guest.status === 'confirmed'
-                        }
+                        onClick={() => handleInvitationAction(guest.id, 'confirm')}
+                        disabled={sendingAction === guest.id || guest.status === 'confirmed'}
                         className="rounded border border-gray-300 p-1 hover:bg-gray-50 disabled:opacity-50"
                         title="Confirmar"
                       >

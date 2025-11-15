@@ -112,18 +112,12 @@ export default function WeddingDashboard() {
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                Painel de Controlo
-              </h1>
-              <p className="mt-1 text-gray-600">
-                Casamento de Assa & Eleutério
-              </p>
+              <h1 className="text-3xl font-bold text-gray-900">Painel de Controlo</h1>
+              <p className="mt-1 text-gray-600">Casamento de Assa & Eleutério</p>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right">
-                <div className="text-2xl font-bold text-rose-600">
-                  {stats.daysUntilWedding}
-                </div>
+                <div className="text-2xl font-bold text-rose-600">{stats.daysUntilWedding}</div>
                 <div className="text-sm text-gray-500">dias restantes</div>
               </div>
               <div className="flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br from-rose-500 to-pink-500">
@@ -140,12 +134,8 @@ export default function WeddingDashboard() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Total de Convidados
-                </p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {stats.totalGuests}
-                </p>
+                <p className="text-sm font-medium text-gray-600">Total de Convidados</p>
+                <p className="text-3xl font-bold text-gray-900">{stats.totalGuests}</p>
               </div>
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-blue-100">
                 <Users className="h-6 w-6 text-blue-600" />
@@ -160,12 +150,8 @@ export default function WeddingDashboard() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Confirmações
-                </p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {stats.confirmedGuests}
-                </p>
+                <p className="text-sm font-medium text-gray-600">Confirmações</p>
+                <p className="text-3xl font-bold text-gray-900">{stats.confirmedGuests}</p>
               </div>
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-green-100">
                 <CheckCircle className="h-6 w-6 text-green-600" />
@@ -182,12 +168,8 @@ export default function WeddingDashboard() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Fotos Partilhadas
-                </p>
-                <p className="text-3xl font-bold text-gray-900">
-                  {stats.totalPhotos}
-                </p>
+                <p className="text-sm font-medium text-gray-600">Fotos Partilhadas</p>
+                <p className="text-3xl font-bold text-gray-900">{stats.totalPhotos}</p>
               </div>
               <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-purple-100">
                 <Camera className="h-6 w-6 text-purple-600" />
@@ -202,9 +184,7 @@ export default function WeddingDashboard() {
           <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-lg">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">
-                  Orçamento Total
-                </p>
+                <p className="text-sm font-medium text-gray-600">Orçamento Total</p>
                 <p className="text-3xl font-bold text-gray-900">
                   {stats.totalCost.toLocaleString()} MT
                 </p>
@@ -226,21 +206,15 @@ export default function WeddingDashboard() {
             {/* Progress dos Eventos */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="border-b border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Progresso dos Eventos
-                </h2>
+                <h2 className="text-xl font-bold text-gray-900">Progresso dos Eventos</h2>
               </div>
               <div className="p-6">
                 <div className="space-y-6">
                   {eventProgress.map((event, index) => (
                     <div key={index}>
                       <div className="mb-2 flex items-center justify-between">
-                        <span className="font-medium text-gray-900">
-                          {event.event}
-                        </span>
-                        <span className="text-sm text-gray-500">
-                          {event.progress}%
-                        </span>
+                        <span className="font-medium text-gray-900">{event.event}</span>
+                        <span className="text-sm text-gray-500">{event.progress}%</span>
                       </div>
                       <div className="h-2 w-full rounded-full bg-gray-200">
                         <div
@@ -257,9 +231,7 @@ export default function WeddingDashboard() {
             {/* Confirmações RSVP */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="border-b border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Status das Confirmações
-                </h2>
+                <h2 className="text-xl font-bold text-gray-900">Status das Confirmações</h2>
               </div>
               <div className="p-6">
                 <div className="grid gap-6 md:grid-cols-3">
@@ -267,27 +239,21 @@ export default function WeddingDashboard() {
                     <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-green-100">
                       <CheckCircle className="h-10 w-10 text-green-600" />
                     </div>
-                    <div className="text-2xl font-bold text-green-600">
-                      {stats.confirmedGuests}
-                    </div>
+                    <div className="text-2xl font-bold text-green-600">{stats.confirmedGuests}</div>
                     <div className="text-sm text-gray-500">Confirmados</div>
                   </div>
                   <div className="text-center">
                     <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-yellow-100">
                       <Clock className="h-10 w-10 text-yellow-600" />
                     </div>
-                    <div className="text-2xl font-bold text-yellow-600">
-                      {stats.pendingGuests}
-                    </div>
+                    <div className="text-2xl font-bold text-yellow-600">{stats.pendingGuests}</div>
                     <div className="text-sm text-gray-500">Pendentes</div>
                   </div>
                   <div className="text-center">
                     <div className="mx-auto mb-3 flex h-20 w-20 items-center justify-center rounded-full bg-red-100">
                       <AlertTriangle className="h-10 w-10 text-red-600" />
                     </div>
-                    <div className="text-2xl font-bold text-red-600">
-                      {stats.rejectedGuests}
-                    </div>
+                    <div className="text-2xl font-bold text-red-600">{stats.rejectedGuests}</div>
                     <div className="text-sm text-gray-500">Recusados</div>
                   </div>
                 </div>
@@ -297,9 +263,7 @@ export default function WeddingDashboard() {
             {/* Galeria de Fotos Recentes */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="flex items-center justify-between border-b border-gray-200 p-6">
-                <h2 className="text-xl font-bold text-gray-900">
-                  Fotos Recentes
-                </h2>
+                <h2 className="text-xl font-bold text-gray-900">Fotos Recentes</h2>
                 <button className="text-sm font-medium text-rose-600 hover:text-rose-700">
                   Ver Todas
                 </button>
@@ -307,10 +271,7 @@ export default function WeddingDashboard() {
               <div className="p-6">
                 <div className="grid grid-cols-4 gap-4">
                   {[1, 2, 3, 4, 5, 6, 7, 8].map((i) => (
-                    <div
-                      key={i}
-                      className="aspect-square overflow-hidden rounded-lg bg-gray-200"
-                    >
+                    <div key={i} className="aspect-square overflow-hidden rounded-lg bg-gray-200">
                       <img
                         src={`/placeholder.svg?height=150&width=150&query=wedding photo ${i}`}
                         alt={`Foto ${i}`}
@@ -328,9 +289,7 @@ export default function WeddingDashboard() {
             {/* Actividade Recente */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="border-b border-gray-200 p-6">
-                <h2 className="text-lg font-bold text-gray-900">
-                  Actividade Recente
-                </h2>
+                <h2 className="text-lg font-bold text-gray-900">Actividade Recente</h2>
               </div>
               <div className="p-6">
                 <div className="space-y-4">
@@ -344,12 +303,8 @@ export default function WeddingDashboard() {
                           <Icon className={`h-4 w-4 ${activity.color}`} />
                         </div>
                         <div className="min-w-0 flex-1">
-                          <p className="text-sm text-gray-900">
-                            {activity.message}
-                          </p>
-                          <p className="text-xs text-gray-500">
-                            {activity.time}
-                          </p>
+                          <p className="text-sm text-gray-900">{activity.message}</p>
+                          <p className="text-xs text-gray-500">{activity.time}</p>
                         </div>
                       </div>
                     );
@@ -361,9 +316,7 @@ export default function WeddingDashboard() {
             {/* Tarefas Pendentes */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="border-b border-gray-200 p-6">
-                <h2 className="text-lg font-bold text-gray-900">
-                  Tarefas Pendentes
-                </h2>
+                <h2 className="text-lg font-bold text-gray-900">Tarefas Pendentes</h2>
               </div>
               <div className="p-6">
                 <div className="space-y-3">
@@ -386,9 +339,7 @@ export default function WeddingDashboard() {
                             {task.task}
                           </p>
                           <div className="mt-1 flex items-center gap-2">
-                            <span className="text-xs text-gray-500">
-                              {task.deadline}
-                            </span>
+                            <span className="text-xs text-gray-500">{task.deadline}</span>
                             <span
                               className={`rounded-full px-2 py-1 text-xs font-medium ${
                                 task.priority === 'high'
@@ -416,35 +367,25 @@ export default function WeddingDashboard() {
             {/* Acções Rápidas */}
             <div className="rounded-xl border border-gray-200 bg-white shadow-lg">
               <div className="border-b border-gray-200 p-6">
-                <h2 className="text-lg font-bold text-gray-900">
-                  Acções Rápidas
-                </h2>
+                <h2 className="text-lg font-bold text-gray-900">Acções Rápidas</h2>
               </div>
               <div className="p-6">
                 <div className="space-y-3">
                   <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-gray-50">
                     <Download className="h-5 w-5 text-blue-600" />
-                    <span className="font-medium text-gray-900">
-                      Exportar Lista de Convidados
-                    </span>
+                    <span className="font-medium text-gray-900">Exportar Lista de Convidados</span>
                   </button>
                   <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-gray-50">
                     <Share2 className="h-5 w-5 text-green-600" />
-                    <span className="font-medium text-gray-900">
-                      Partilhar Convite
-                    </span>
+                    <span className="font-medium text-gray-900">Partilhar Convite</span>
                   </button>
                   <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-gray-50">
                     <Eye className="h-5 w-5 text-purple-600" />
-                    <span className="font-medium text-gray-900">
-                      Pré-visualizar Site
-                    </span>
+                    <span className="font-medium text-gray-900">Pré-visualizar Site</span>
                   </button>
                   <button className="flex w-full items-center gap-3 rounded-lg p-3 text-left transition-colors hover:bg-gray-50">
                     <Settings className="h-5 w-5 text-gray-600" />
-                    <span className="font-medium text-gray-900">
-                      Configurações
-                    </span>
+                    <span className="font-medium text-gray-900">Configurações</span>
                   </button>
                 </div>
               </div>

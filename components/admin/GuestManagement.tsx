@@ -48,10 +48,7 @@ interface GuestManagementProps {
   weddingData: WeddingData;
 }
 
-export default function GuestManagement({
-  weddingSlug,
-  weddingData,
-}: GuestManagementProps) {
+export default function GuestManagement({ weddingSlug, weddingData }: GuestManagementProps) {
   const [guests, setGuests] = useState<Guest[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,9 +58,7 @@ export default function GuestManagement({
     email: '',
     mesa: '',
   });
-  const [sendingInvitation, setSendingInvitation] = useState<string | null>(
-    null
-  );
+  const [sendingInvitation, setSendingInvitation] = useState<string | null>(null);
   const [schemaError, setSchemaError] = useState<string | null>(null);
   const [emailInfo, setEmailInfo] = useState<string | null>(null);
   const [showAddModal, setShowAddModal] = useState(false);
@@ -74,8 +69,7 @@ export default function GuestManagement({
     id: string;
     nome: string;
   } | null>(null);
-  const [selectedGuestForEmail, setSelectedGuestForEmail] =
-    useState<Guest | null>(null);
+  const [selectedGuestForEmail, setSelectedGuestForEmail] = useState<Guest | null>(null);
   const [showTemplateSelector, setShowTemplateSelector] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { toast } = useToast();
@@ -87,17 +81,13 @@ export default function GuestManagement({
       setGuests([]);
       setLoading(false);
     }
-    setEmailInfo(
-      'Emails são enviados usando o domínio padrão do Resend (onboarding@resend.dev)'
-    );
+    setEmailInfo('Emails são enviados usando o domínio padrão do Resend (onboarding@resend.dev)');
   }, [weddingSlug]);
 
   const fetchGuests = async () => {
     if (!weddingSlug) return;
     try {
-      const response = await fetch(
-        `/api/admin/guests?weddingSlug=${weddingSlug}`
-      );
+      const response = await fetch(`/api/admin/guests?weddingSlug=${weddingSlug}`);
       if (response.ok) {
         const data = await response.json();
         setGuests(data.guests || []);
@@ -105,9 +95,7 @@ export default function GuestManagement({
       } else {
         const errorData = await response.json();
         if (errorData.error?.includes('telefone')) {
-          setSchemaError(
-            'Base de dados precisa ser atualizada. Execute a migração SQL.'
-          );
+          setSchemaError('Base de dados precisa ser atualizada. Execute a migração SQL.');
         }
       }
     } catch (error) {
@@ -128,8 +116,7 @@ export default function GuestManagement({
       guest.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
       phoneNumber.includes(searchTerm) ||
       guest.status.includes(searchTerm.toLowerCase()) ||
-      (guest.email &&
-        guest.email.toLowerCase().includes(searchTerm.toLowerCase()))
+      (guest.email && guest.email.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
 
@@ -194,8 +181,7 @@ export default function GuestManagement({
           toast({
             variant: 'destructive',
             title: 'Erro de Base de Dados',
-            description:
-              'Execute a migração SQL para corrigir a estrutura da base de dados',
+            description: 'Execute a migração SQL para corrigir a estrutura da base de dados',
           });
         } else {
           toast({
@@ -397,16 +383,13 @@ export default function GuestManagement({
     }
 
     // Format phone number
-    const formattedPhone = phoneNumber
-      .replace(/[\s()-]/g, '')
-      .replace(/^(\+?)/, '+');
+    const formattedPhone = phoneNumber.replace(/[\s()-]/g, '').replace(/^(\+?)/, '+');
 
     if (!/^\+\d{9,15}$/.test(formattedPhone)) {
       toast({
         variant: 'destructive',
         title: 'Erro',
-        description:
-          'Número de telefone inválido. Verifique o formato (ex: +258841234567)',
+        description: 'Número de telefone inválido. Verifique o formato (ex: +258841234567)',
       });
       return;
     }
@@ -460,9 +443,7 @@ Os noivos! 💕`;
         const line = lines[i].trim();
         if (!line) continue;
 
-        const [nome, telefone, email, mesa] = line
-          .split(',')
-          .map((s) => s.trim());
+        const [nome, telefone, email, mesa] = line.split(',').map((s) => s.trim());
         if (nome && telefone) {
           newGuests.push({
             nome,
@@ -504,8 +485,7 @@ Os noivos! 💕`;
     const csvContent = [
       'Nome,Telefone,Email,Status,Mesa,URL Única,Convite Enviado,Data de Criação',
       ...guests.map((guest) => {
-        const phoneNumber =
-          guest.telefone || guest.phone || guest.telephone || '';
+        const phoneNumber = guest.telefone || guest.phone || guest.telephone || '';
         return [
           guest.nome,
           phoneNumber,
@@ -572,9 +552,7 @@ Os noivos! 💕`;
   if (!weddingSlug) {
     return (
       <div className="p-6 text-center">
-        <p className="text-gray-600">
-          Selecione um casamento para gerenciar os convidados.
-        </p>
+        <p className="text-gray-600">Selecione um casamento para gerenciar os convidados.</p>
       </div>
     );
   }
@@ -586,13 +564,11 @@ Os noivos! 💕`;
           <div className="flex items-center gap-2 text-yellow-800">
             <AlertTriangle className="h-5 w-5" />
             <div>
-              <h3 className="font-semibold">
-                Atenção: Base de Dados Precisa ser Atualizada
-              </h3>
+              <h3 className="font-semibold">Atenção: Base de Dados Precisa ser Atualizada</h3>
               <p className="mt-1 text-sm">{schemaError}</p>
               <p className="mt-2 text-sm">
-                Execute o script SQL <code>fix-guest-schema.sql</code> para
-                adicionar a coluna telefone.
+                Execute o script SQL <code>fix-guest-schema.sql</code> para adicionar a coluna
+                telefone.
               </p>
             </div>
           </div>
@@ -604,13 +580,11 @@ Os noivos! 💕`;
           <div className="flex items-center gap-2 text-blue-800">
             <Info className="h-5 w-5" />
             <div>
-              <h3 className="font-semibold">
-                Informação sobre Envio de Emails
-              </h3>
+              <h3 className="font-semibold">Informação sobre Envio de Emails</h3>
               <p className="mt-1 text-sm">{emailInfo}</p>
               <p className="mt-2 text-sm">
-                Para usar um domínio personalizado, configure-o no painel do
-                Resend e atualize o código.
+                Para usar um domínio personalizado, configure-o no painel do Resend e atualize o
+                código.
               </p>
             </div>
           </div>
@@ -631,9 +605,7 @@ Os noivos! 💕`;
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-green-600">Confirmados</p>
-              <p className="text-2xl font-bold text-green-900">
-                {stats.confirmed}
-              </p>
+              <p className="text-2xl font-bold text-green-900">{stats.confirmed}</p>
             </div>
             <CheckCircle className="h-8 w-8 text-green-600" />
           </div>
@@ -642,9 +614,7 @@ Os noivos! 💕`;
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-yellow-600">Pendentes</p>
-              <p className="text-2xl font-bold text-yellow-900">
-                {stats.pending}
-              </p>
+              <p className="text-2xl font-bold text-yellow-900">{stats.pending}</p>
             </div>
             <Clock className="h-8 w-8 text-yellow-600" />
           </div>
@@ -653,9 +623,7 @@ Os noivos! 💕`;
           <div className="flex items-center justify-between">
             <div>
               <p className="text-sm font-medium text-red-600">Rejeitados</p>
-              <p className="text-2xl font-bold text-red-900">
-                {stats.rejected}
-              </p>
+              <p className="text-2xl font-bold text-red-900">{stats.rejected}</p>
             </div>
             <XCircle className="h-8 w-8 text-red-600" />
           </div>
@@ -663,12 +631,8 @@ Os noivos! 💕`;
         <div className="rounded-lg border border-purple-200 bg-purple-50 p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-purple-600">
-                Convites Enviados
-              </p>
-              <p className="text-2xl font-bold text-purple-900">
-                {stats.invitationsSent}
-              </p>
+              <p className="text-sm font-medium text-purple-600">Convites Enviados</p>
+              <p className="text-2xl font-bold text-purple-900">{stats.invitationsSent}</p>
             </div>
             <Mail className="h-8 w-8 text-purple-600" />
           </div>
@@ -690,27 +654,19 @@ Os noivos! 💕`;
             <div className="rounded-lg bg-blue-50 p-4 text-center">
               <TrendingUp className="mx-auto mb-2 h-8 w-8 text-blue-600" />
               <div className="text-2xl font-bold text-blue-900">
-                {stats.total > 0
-                  ? Math.round((stats.confirmed / stats.total) * 100)
-                  : 0}
-                %
+                {stats.total > 0 ? Math.round((stats.confirmed / stats.total) * 100) : 0}%
               </div>
               <div className="text-sm text-blue-700">Taxa de Confirmação</div>
             </div>
             <div className="rounded-lg bg-green-50 p-4 text-center">
               <PieChart className="mx-auto mb-2 h-8 w-8 text-green-600" />
               <div className="text-2xl font-bold text-green-900">3.2</div>
-              <div className="text-sm text-green-700">
-                Dias Médios de Resposta
-              </div>
+              <div className="text-sm text-green-700">Dias Médios de Resposta</div>
             </div>
             <div className="rounded-lg bg-purple-50 p-4 text-center">
               <BarChart3 className="mx-auto mb-2 h-8 w-8 text-purple-600" />
               <div className="text-2xl font-bold text-purple-900">
-                {stats.total > 0
-                  ? Math.round((stats.invitationsSent / stats.total) * 100)
-                  : 0}
-                %
+                {stats.total > 0 ? Math.round((stats.invitationsSent / stats.total) * 100) : 0}%
               </div>
               <div className="text-sm text-purple-700">Convites Enviados</div>
             </div>

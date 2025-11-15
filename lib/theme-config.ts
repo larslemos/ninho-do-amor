@@ -24,8 +24,7 @@ export const weddingThemes: Record<WeddingTheme, ThemeConfig> = {
   'sky-beach': {
     name: 'sky-beach',
     displayName: 'Céu e Praia',
-    description:
-      'Inspirado nas cores do oceano e do céu, perfeito para casamentos na praia',
+    description: 'Inspirado nas cores do oceano e do céu, perfeito para casamentos na praia',
     fonts: {
       primary: 'Josefin Sans',
       secondary: 'Dancing Script',
@@ -44,8 +43,7 @@ export const weddingThemes: Record<WeddingTheme, ThemeConfig> = {
   'branco-dourado': {
     name: 'branco-dourado',
     displayName: 'Branco e Dourado',
-    description:
-      'Elegante combinação de branco e dourado para cerimônias clássicas',
+    description: 'Elegante combinação de branco e dourado para cerimônias clássicas',
     fonts: {
       primary: 'Poppins',
       secondary: 'Dancing Script',
@@ -106,16 +104,7 @@ export function applyWeddingTheme(theme: WeddingTheme, element?: HTMLElement) {
   style.setProperty('--wedding-decorative', config.colors.decorative);
 
   // Set font families
-  style.setProperty(
-    '--wedding-font-primary',
-    `'${config.fonts.primary}', sans-serif`
-  );
-  style.setProperty(
-    '--wedding-font-secondary',
-    `'${config.fonts.secondary}', cursive`
-  );
-  style.setProperty(
-    '--wedding-font-body',
-    `'${config.fonts.body}', sans-serif`
-  );
+  style.setProperty('--wedding-font-primary', `'${config.fonts.primary}', sans-serif`);
+  style.setProperty('--wedding-font-secondary', `'${config.fonts.secondary}', cursive`);
+  style.setProperty('--wedding-font-body', `'${config.fonts.body}', sans-serif`);
 }

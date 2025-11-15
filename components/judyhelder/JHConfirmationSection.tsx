@@ -65,9 +65,7 @@ export default function JHConfirmationSection({
 
     // Check if RSVP deadline has passed
     if (guest?.rsvp_deadline && new Date(guest.rsvp_deadline) < new Date()) {
-      setError(
-        'O prazo para confirmação de presença expirou. Entre em contato com os noivos.'
-      );
+      setError('O prazo para confirmação de presença expirou. Entre em contato com os noivos.');
       toast({
         title: 'Prazo Expirado',
         description: 'Entre em contato diretamente com os noivos.',
@@ -93,9 +91,7 @@ export default function JHConfirmationSection({
         toast({
           title: 'Confirmação Enviada',
           description: `Você ${
-            status === 'confirmed'
-              ? 'confirmou sua presença'
-              : 'indicou que não pode comparecer'
+            status === 'confirmed' ? 'confirmou sua presença' : 'indicou que não pode comparecer'
           } com sucesso!`,
         });
         await fetchGuestData();
@@ -104,11 +100,7 @@ export default function JHConfirmationSection({
       }
     } catch (err) {
       console.error('Erro ao confirmar presença:', err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Erro ao confirmar presença. Tente novamente.'
-      );
+      setError(err instanceof Error ? err.message : 'Erro ao confirmar presença. Tente novamente.');
       toast({
         title: 'Erro',
         description: 'Não foi possível confirmar. Tente novamente.',
@@ -119,9 +111,7 @@ export default function JHConfirmationSection({
     }
   };
 
-  const isRsvpExpired = guest?.rsvp_deadline
-    ? new Date(guest.rsvp_deadline) < new Date()
-    : false;
+  const isRsvpExpired = guest?.rsvp_deadline ? new Date(guest.rsvp_deadline) < new Date() : false;
 
   return (
     <div className="mx-auto mt-8 w-full max-w-3xl px-4" data-theme={theme}>
@@ -197,9 +187,7 @@ export default function JHConfirmationSection({
                     )}
                   </div>
                   <div className="text-center sm:text-left">
-                    <p className="wedding-text-secondary font-blancha text-sm">
-                      Status Atual
-                    </p>
+                    <p className="wedding-text-secondary font-blancha text-sm">Status Atual</p>
                     <p className="wedding-text-primary font-blancha text-lg font-bold md:text-xl">
                       {confirmation === 'confirmed'
                         ? 'Presença Confirmada ✨'
@@ -265,9 +253,7 @@ export default function JHConfirmationSection({
                         <OctagonX className="h-5 w-5 flex-shrink-0 md:h-6 md:w-6" />
                         <span
                           className={`font-blancha text-base font-bold md:text-lg ${
-                            confirmation === 'rejected'
-                              ? 'text-white'
-                              : 'wedding-text-primary'
+                            confirmation === 'rejected' ? 'text-white' : 'wedding-text-primary'
                           }`}
                         >
                           {confirmation === 'rejected'
@@ -295,8 +281,8 @@ export default function JHConfirmationSection({
                           href={`mailto:${weddingData?.bride?.toLowerCase()}.${weddingData?.groom?.toLowerCase()}@pingdigital.online`}
                           className="wedding-text-primary font-semibold underline transition-colors hover:text-amber-700"
                         >
-                          {weddingData?.bride?.toLowerCase()}.
-                          {weddingData?.groom?.toLowerCase()}@pingdigital.online
+                          {weddingData?.bride?.toLowerCase()}.{weddingData?.groom?.toLowerCase()}
+                          @pingdigital.online
                         </a>
                       </p>
                     </div>
@@ -316,8 +302,8 @@ export default function JHConfirmationSection({
                 Convite não encontrado
               </p>
               <p className="wedding-text-secondary mb-6 font-blancha text-sm leading-relaxed md:text-base">
-                Não conseguimos encontrar seu convite. Por favor, verifique o
-                link ou entre em contato com os noivos.
+                Não conseguimos encontrar seu convite. Por favor, verifique o link ou entre em
+                contato com os noivos.
               </p>
               <a
                 href={`mailto:${weddingData?.bride?.toLowerCase()}.${weddingData?.groom?.toLowerCase()}@pingdigital.online`}

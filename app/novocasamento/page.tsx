@@ -1,15 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Heart,
-  ArrowRight,
-  CheckCircle,
-  Users,
-  Calendar,
-  Palette,
-  Settings,
-} from 'lucide-react';
+import { Heart, ArrowRight, CheckCircle, Users, Calendar, Palette, Settings } from 'lucide-react';
 import CoupleRegistration from '@/components/onboarding/CoupleRegistration';
 import InvitationDesigner from '@/components/design/InvitationDesigner';
 import EventConfiguration from '@/components/wedding/EventConfiguration';
@@ -80,14 +72,10 @@ export default function NewWeddingPage() {
           <div className="text-center">
             <div className="mb-4 flex items-center justify-center gap-2">
               <Heart className="h-8 w-8 text-rose-600" />
-              <h1 className="text-3xl font-bold text-gray-900">
-                Novo Casamento
-              </h1>
+              <h1 className="text-3xl font-bold text-gray-900">Novo Casamento</h1>
               <Heart className="h-8 w-8 text-rose-600" />
             </div>
-            <p className="text-gray-600">
-              Configure o seu casamento em 4 passos simples
-            </p>
+            <p className="text-gray-600">Configure o seu casamento em 4 passos simples</p>
           </div>
         </div>
       </div>
@@ -138,9 +126,7 @@ export default function NewWeddingPage() {
                       >
                         {step.title}
                       </h3>
-                      <p className="mt-1 max-w-24 text-xs text-gray-500">
-                        {step.description}
-                      </p>
+                      <p className="mt-1 max-w-24 text-xs text-gray-500">{step.description}</p>
                     </div>
                   </div>
 
@@ -148,9 +134,7 @@ export default function NewWeddingPage() {
                   {index < steps.length - 1 && (
                     <div
                       className={`mx-4 h-1 flex-1 rounded-full transition-all duration-300 ${
-                        isStepCompleted(step.id)
-                          ? 'bg-green-500'
-                          : 'bg-gray-200'
+                        isStepCompleted(step.id) ? 'bg-green-500' : 'bg-gray-200'
                       }`}
                     />
                   )}
@@ -229,9 +213,7 @@ export default function NewWeddingPage() {
 
             <button
               onClick={() => handleStepComplete(currentStep)}
-              disabled={
-                currentStep === steps.length && isStepCompleted(currentStep)
-              }
+              disabled={currentStep === steps.length && isStepCompleted(currentStep)}
               className={`flex items-center gap-2 rounded-lg px-6 py-3 font-semibold transition-colors ${
                 currentStep === steps.length && isStepCompleted(currentStep)
                   ? 'bg-green-600 text-white'
@@ -254,8 +236,8 @@ export default function NewWeddingPage() {
               🎉 Parabéns! Configuração Completa
             </h2>
             <p className="mb-6 text-green-700">
-              O seu casamento foi configurado com sucesso. Agora pode começar a
-              gerir todos os aspectos do seu grande dia!
+              O seu casamento foi configurado com sucesso. Agora pode começar a gerir todos os
+              aspectos do seu grande dia!
             </p>
             <div className="flex justify-center gap-4">
               <button className="rounded-lg bg-green-600 px-8 py-3 font-semibold text-white transition-colors hover:bg-green-700">

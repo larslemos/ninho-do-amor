@@ -12,12 +12,9 @@ const ManualPage = () => {
     console.log('Confirmar presença clicked');
   };
 
-  const { elementRef: titleRef, isVisible: titleVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: contentRef, isVisible: contentVisible } =
-    useScrollAnimation(0.3);
-  const { elementRef: interactiveRef, isVisible: interactiveVisible } =
-    useScrollAnimation(0.3);
+  const { elementRef: titleRef, isVisible: titleVisible } = useScrollAnimation(0.3);
+  const { elementRef: contentRef, isVisible: contentVisible } = useScrollAnimation(0.3);
+  const { elementRef: interactiveRef, isVisible: interactiveVisible } = useScrollAnimation(0.3);
 
   return (
     <div className="relative flex min-h-screen flex-col items-center justify-center bg-background p-4 sm:p-6 lg:p-8">
@@ -76,12 +73,7 @@ const ManualPage = () => {
                   alt="Man in tuxedo"
                   className="h-full w-full rounded-lg object-contain shadow-sm"
                 />
-                <Image
-                  src={/iamges/bilstu.jpg}
-                  alt="Man in black suite"
-                  width={300}
-                  height={300}
-                />
+                <Image src={/iamges/bilstu.jpg} alt="Man in black suite" width={300} height={300} />
               </div>
             </div>
           </div>

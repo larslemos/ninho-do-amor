@@ -1,16 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  FileText,
-  Church,
-  PartyPopper,
-  Heart,
-} from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, FileText, Church, PartyPopper, Heart } from 'lucide-react';
 import type { WeddingEvent, EventType } from '@/types/mozambique-wedding';
 
 const eventTypes = [
@@ -78,22 +69,14 @@ export default function EventConfiguration() {
 
   const updateEvent = (type: EventType, field: string, value: any) => {
     setEvents((prev) =>
-      prev.map((event) =>
-        event.type === type ? { ...event, [field]: value } : event
-      )
+      prev.map((event) => (event.type === type ? { ...event, [field]: value } : event))
     );
   };
 
-  const updateEventLocation = (
-    type: EventType,
-    field: string,
-    value: string
-  ) => {
+  const updateEventLocation = (type: EventType, field: string, value: string) => {
     setEvents((prev) =>
       prev.map((event) =>
-        event.type === type
-          ? { ...event, location: { ...event.location, [field]: value } }
-          : event
+        event.type === type ? { ...event, location: { ...event.location, [field]: value } } : event
       )
     );
   };
@@ -112,12 +95,8 @@ export default function EventConfiguration() {
   return (
     <div className="mx-auto max-w-6xl p-6">
       <div className="mb-8 text-center">
-        <h1 className="mb-2 text-3xl font-bold text-gray-900">
-          Configuração do Casamento
-        </h1>
-        <p className="text-gray-600">
-          Configure os eventos e cerimónias do seu casamento
-        </p>
+        <h1 className="mb-2 text-3xl font-bold text-gray-900">Configuração do Casamento</h1>
+        <p className="text-gray-600">Configure os eventos e cerimónias do seu casamento</p>
       </div>
 
       {/* Event Selection Grid */}
@@ -143,18 +122,12 @@ export default function EventConfiguration() {
                 >
                   <Icon className="h-8 w-8 text-white" />
                 </div>
-                <h3 className="mb-2 font-bold text-gray-900">
-                  {eventType.name}
-                </h3>
-                <p className="mb-4 text-sm text-gray-600">
-                  {eventType.description}
-                </p>
+                <h3 className="mb-2 font-bold text-gray-900">{eventType.name}</h3>
+                <p className="mb-4 text-sm text-gray-600">{eventType.description}</p>
 
                 <div
                   className={`mx-auto h-6 w-6 rounded-full border-2 ${
-                    isEnabled
-                      ? 'border-rose-500 bg-rose-500'
-                      : 'border-gray-300'
+                    isEnabled ? 'border-rose-500 bg-rose-500' : 'border-gray-300'
                   }`}
                 >
                   {isEnabled && (
@@ -187,9 +160,7 @@ export default function EventConfiguration() {
               key={event.type}
               className="mb-6 rounded-xl border border-gray-200 bg-white shadow-lg"
             >
-              <div
-                className={`${eventConfig.color} rounded-t-xl p-6 text-white`}
-              >
+              <div className={`${eventConfig.color} rounded-t-xl p-6 text-white`}>
                 <div className="flex items-center gap-3">
                   <Icon className="h-6 w-6" />
                   <h2 className="text-xl font-bold">{eventConfig.name}</h2>
@@ -206,15 +177,11 @@ export default function EventConfiguration() {
                     </h3>
 
                     <div>
-                      <label className="mb-2 block text-sm font-medium text-gray-700">
-                        Data *
-                      </label>
+                      <label className="mb-2 block text-sm font-medium text-gray-700">Data *</label>
                       <input
                         type="date"
                         value={event.date}
-                        onChange={(e) =>
-                          updateEvent(event.type, 'date', e.target.value)
-                        }
+                        onChange={(e) => updateEvent(event.type, 'date', e.target.value)}
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                       />
                     </div>
@@ -227,9 +194,7 @@ export default function EventConfiguration() {
                         <input
                           type="time"
                           value={event.startTime}
-                          onChange={(e) =>
-                            updateEvent(event.type, 'startTime', e.target.value)
-                          }
+                          onChange={(e) => updateEvent(event.type, 'startTime', e.target.value)}
                           className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         />
                       </div>
@@ -240,9 +205,7 @@ export default function EventConfiguration() {
                         <input
                           type="time"
                           value={event.endTime || ''}
-                          onChange={(e) =>
-                            updateEvent(event.type, 'endTime', e.target.value)
-                          }
+                          onChange={(e) => updateEvent(event.type, 'endTime', e.target.value)}
                           className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         />
                       </div>
@@ -270,13 +233,7 @@ export default function EventConfiguration() {
                       <input
                         type="text"
                         value={event.location.name}
-                        onChange={(e) =>
-                          updateEventLocation(
-                            event.type,
-                            'name',
-                            e.target.value
-                          )
-                        }
+                        onChange={(e) => updateEventLocation(event.type, 'name', e.target.value)}
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         placeholder={
                           event.type === 'cerimonia-civil'
@@ -295,13 +252,7 @@ export default function EventConfiguration() {
                       <input
                         type="text"
                         value={event.location.address}
-                        onChange={(e) =>
-                          updateEventLocation(
-                            event.type,
-                            'address',
-                            e.target.value
-                          )
-                        }
+                        onChange={(e) => updateEventLocation(event.type, 'address', e.target.value)}
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         placeholder="Ex: Av. Julius Nyerere, 1234, Maputo"
                       />
@@ -315,11 +266,7 @@ export default function EventConfiguration() {
                         type="url"
                         value={event.location.googleMapsUrl || ''}
                         onChange={(e) =>
-                          updateEventLocation(
-                            event.type,
-                            'googleMapsUrl',
-                            e.target.value
-                          )
+                          updateEventLocation(event.type, 'googleMapsUrl', e.target.value)
                         }
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         placeholder="https://maps.google.com/..."
@@ -331,9 +278,7 @@ export default function EventConfiguration() {
                 {/* Event-specific fields */}
                 {event.type === 'cerimonia-civil' && (
                   <div className="mt-6 border-t border-gray-200 pt-6">
-                    <h3 className="mb-4 font-semibold text-gray-900">
-                      Testemunhas
-                    </h3>
+                    <h3 className="mb-4 font-semibold text-gray-900">Testemunhas</h3>
                     <div className="grid gap-4 md:grid-cols-2">
                       <div>
                         <label className="mb-2 block text-sm font-medium text-gray-700">
@@ -343,9 +288,7 @@ export default function EventConfiguration() {
                           type="text"
                           value={event.witnesses?.[0] || ''}
                           onChange={(e) => {
-                            const newWitnesses = [
-                              ...(event.witnesses || ['', '']),
-                            ];
+                            const newWitnesses = [...(event.witnesses || ['', ''])];
                             newWitnesses[0] = e.target.value;
                             updateEvent(event.type, 'witnesses', newWitnesses);
                           }}
@@ -361,9 +304,7 @@ export default function EventConfiguration() {
                           type="text"
                           value={event.witnesses?.[1] || ''}
                           onChange={(e) => {
-                            const newWitnesses = [
-                              ...(event.witnesses || ['', '']),
-                            ];
+                            const newWitnesses = [...(event.witnesses || ['', ''])];
                             newWitnesses[1] = e.target.value;
                             updateEvent(event.type, 'witnesses', newWitnesses);
                           }}
@@ -384,9 +325,7 @@ export default function EventConfiguration() {
                       <input
                         type="text"
                         value={event.officiant || ''}
-                        onChange={(e) =>
-                          updateEvent(event.type, 'officiant', e.target.value)
-                        }
+                        onChange={(e) => updateEvent(event.type, 'officiant', e.target.value)}
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         placeholder="Nome do oficiante"
                       />
@@ -405,11 +344,7 @@ export default function EventConfiguration() {
                         type="number"
                         value={event.capacity || ''}
                         onChange={(e) =>
-                          updateEvent(
-                            event.type,
-                            'capacity',
-                            parseInt(e.target.value) || 0
-                          )
+                          updateEvent(event.type, 'capacity', parseInt(e.target.value) || 0)
                         }
                         className="w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-rose-500 focus:ring-2 focus:ring-rose-500"
                         placeholder="Ex: 150"
@@ -426,21 +361,15 @@ export default function EventConfiguration() {
       {/* Summary and Actions */}
       {events.filter((e) => e.enabled).length > 0 && (
         <div className="rounded-xl bg-gradient-to-r from-rose-100 to-pink-100 p-6">
-          <h3 className="mb-4 text-lg font-bold text-gray-900">
-            📋 Resumo dos Eventos
-          </h3>
+          <h3 className="mb-4 text-lg font-bold text-gray-900">📋 Resumo dos Eventos</h3>
           <div className="mb-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {events
               .filter((e) => e.enabled)
               .map((event) => {
-                const eventConfig = eventTypes.find(
-                  (et) => et.type === event.type
-                )!;
+                const eventConfig = eventTypes.find((et) => et.type === event.type)!;
                 return (
                   <div key={event.type} className="rounded-lg bg-white p-4">
-                    <h4 className="mb-2 font-semibold text-gray-900">
-                      {eventConfig.name}
-                    </h4>
+                    <h4 className="mb-2 font-semibold text-gray-900">{eventConfig.name}</h4>
                     <div className="space-y-1 text-sm text-gray-600">
                       <div>
                         📅{' '}
@@ -449,9 +378,7 @@ export default function EventConfiguration() {
                           : 'Data não definida'}
                       </div>
                       <div>🕐 {event.startTime || 'Hora não definida'}</div>
-                      <div>
-                        📍 {event.location.name || 'Local não definido'}
-                      </div>
+                      <div>📍 {event.location.name || 'Local não definido'}</div>
                     </div>
                   </div>
                 );

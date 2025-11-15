@@ -77,9 +77,7 @@ export default function ConfirmationSection({
         toast({
           title: 'Confirmação enviada',
           description: `Você ${
-            status === 'confirmed'
-              ? 'confirmou sua presença'
-              : 'indicou que não pode comparecer'
+            status === 'confirmed' ? 'confirmou sua presença' : 'indicou que não pode comparecer'
           } com sucesso!`,
         });
         await fetchGuestData();
@@ -88,19 +86,13 @@ export default function ConfirmationSection({
       }
     } catch (err) {
       console.error('Erro ao confirmar presença:', err);
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Erro ao confirmar presença. Tente novamente.'
-      );
+      setError(err instanceof Error ? err.message : 'Erro ao confirmar presença. Tente novamente.');
     } finally {
       setLoading(false);
     }
   };
 
-  const isRsvpExpired = guest?.rsvp_deadline
-    ? new Date(guest.rsvp_deadline) < new Date()
-    : false;
+  const isRsvpExpired = guest?.rsvp_deadline ? new Date(guest.rsvp_deadline) < new Date() : false;
 
   return (
     <div className="confirmation-section place-card font-poppins relative mx-auto mt-4 w-full max-w-md rounded-xl p-6 text-center shadow-lg sm:mt-6">
@@ -134,9 +126,7 @@ export default function ConfirmationSection({
           <div className="place-card-enhanced rounded-lg p-6 shadow-inner">
             <div className="flex items-center justify-center duration-300 animate-in slide-in-from-right">
               <div className="beach-spinner"></div>
-              <p className="font-poppins text-sm text-sky-600">
-                Verificando convite...
-              </p>
+              <p className="font-poppins text-sm text-sky-600">Verificando convite...</p>
             </div>
           </div>
         ) : guest ? (
@@ -266,9 +256,7 @@ export default function ConfirmationSection({
             {isRsvpExpired && (
               <div className="mt-6 rounded-lg border border-amber-200 bg-gradient-to-br from-amber-50 to-orange-50 p-4 shadow-inner duration-300 animate-in slide-in-from-right">
                 <p className="font-poppins text-sm leading-relaxed text-amber-800">
-                  <span className="font-semibold">
-                    📅 Prazo para RSVP expirado
-                  </span>
+                  <span className="font-semibold">📅 Prazo para RSVP expirado</span>
                   <br />
                   Entre em contato diretamente:{' '}
                   <a
